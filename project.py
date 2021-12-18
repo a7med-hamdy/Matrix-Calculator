@@ -150,9 +150,10 @@ def solver():
    varss=obj.parsingVar(es+"\n")
    if(len(pres.get().strip())!=0):
       rou=pres.get().strip() 
-      
+   c=obj.validations(es+"\n")
+   print(c)   
    obj.parsingCoff(varss,es+"\n")
-   tkinter.messagebox.showinfo( "Hello Python",rou)
+   tkinter.messagebox.showinfo( "Hello Python",varss)
 
 
 B = tkinter.Button(window, text ="solve", command = solver)

@@ -7,7 +7,9 @@ class getLists:
     spcI=[]
     eqI=[]
     operations=["+","-","."]
+    print(lenth)
     while i < lenth:
+
       if  (string[i] == "\n"):
          spcI.append(i)
       elif(string[i] == "="):
@@ -27,7 +29,7 @@ class getLists:
            if(eqI[i]-spcI[i-1]<=1 or spcI[i]-eqI[i]==1):
             return False
 
-          
+    i=i+1      
     return len(eqI)    
  
    
@@ -64,9 +66,12 @@ class getLists:
           if(z==0 or (not(string[z-1].isnumeric())) and not(string[z+1].isnumeric())):
               return "Error . entered wrong"
        elif(not(i.isnumeric())):
+       
           return "not a right sign"
     print(var)     
     return var
+
+
 
   ### coeffficent matrix
   def parsingCoff(self,var,string):
