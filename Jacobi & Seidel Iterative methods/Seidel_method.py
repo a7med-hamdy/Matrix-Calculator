@@ -69,7 +69,7 @@ class SeidelSolver:
 
             #compare with given error criteria
             for k in range(len(error)):
-                if error[k] <= self.errorStop:
+                if error[k] < self.errorStop:
                     errorSatisCount =errorSatisCount + 1
     
             #increment counter

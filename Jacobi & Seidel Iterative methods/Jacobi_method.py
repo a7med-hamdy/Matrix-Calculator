@@ -69,7 +69,7 @@ class jacobiSolver:
 
             #compare with given error criteria
             for k in range(len(error)):
-                if error[k] <= self.errorStop:
+                if error[k] < self.errorStop:
                     errorSatisCount =errorSatisCount + 1
             i = i+1
             if i <= self.iterMax:
