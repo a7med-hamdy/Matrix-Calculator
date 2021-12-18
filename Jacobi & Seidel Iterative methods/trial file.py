@@ -1,9 +1,9 @@
 import Jacobi_method
 import Seidel_method
 coeffarray = [
-[12, 3, 5,3],
-[1, 5, 3,9],
-[3, 7, 13,9]] 
+[0, 3, 5,3],
+[1, 0, 3,9],
+[3, 7, 0,9]] 
 numofvar = 3
 iterMax = 100
 initalguess = [1,1,1]
