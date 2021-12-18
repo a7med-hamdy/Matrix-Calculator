@@ -54,7 +54,7 @@ class SeidelSolver:
         errorSatisCount = 0
         #get the value of the inital guess
         guess = self.initalGuess
-        while i < self.iterMax:
+        while i < self.iterMax+1000:
             #store the value of the previous guess
             prevGuess = guess
             #calculate the new guess using the old one
@@ -71,12 +71,20 @@ class SeidelSolver:
             for k in range(len(error)):
                 if error[k] <= self.errorStop:
                     errorSatisCount =errorSatisCount + 1
+    
+            #increment counter
+            i = i+1
+            if i <= self.iterMax:
+                print(guess, error, errorSatisCount,i)
             
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error)+1:
                 break
-            i = i+1
-            print(guess, error, errorSatisCount,i)
+        #if check for more iterations if the value converges or diverges
+        if(i == self.iterMax+1000):
+            print("will Converge")
+        else:
+            print("Will Diverge")
         return guess
 

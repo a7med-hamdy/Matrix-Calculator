@@ -71,12 +71,17 @@ class jacobiSolver:
             for k in range(len(error)):
                 if error[k] <= self.errorStop:
                     errorSatisCount =errorSatisCount + 1
-            
+            i = i+1
+            if i <= self.iterMax:
+                print(guess, error, errorSatisCount,i)
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error)+1:
                 break
-            i = i+1
-            print(guess, error, errorSatisCount,i)
+        #if check for more iterations if the value converges or diverges
+        if(i == self.iterMax+1000):
+            print("will Converge")
+        else:
+            print("Will Diverge")
         return guess
 
