@@ -148,8 +148,16 @@ def solver():
    es=txt.get("1.0","end-1c")
    es = es.replace(" ", "")
    obj=parserr.getLists()
+
+   #roundoff
    if(len(pres.get().strip())!=0):
       rou=pres.get().strip()
+   #iterations
+   if(len(txt1.get().strip())!=0):
+      iterations = txt1.get().strip()
+   #errors
+   if(len(txt2.get().strip())!=0):
+      errors = txt2.get().strip()
    varss=obj.parsingVar(es+"\n")
    c=obj.validations(es+"\n") 
    if(c==False or isinstance(varss, str)):
