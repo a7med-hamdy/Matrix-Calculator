@@ -145,11 +145,11 @@ def solver():
    solve=1
    deco=1
    es=txt.get("1.0","end-1c")
-   es=es.strip()
+   es = es.replace(" ", "")
    obj=parserr.getLists()
    varss=obj.parsingVar(es+"\n")
    if(len(pres.get().strip())!=0):
-      rou=pres.get().strip() 
+      rou=pres.get().strip()
    c=obj.validations(es+"\n")
    print(c)   
    obj.parsingCoff(varss,es+"\n")
