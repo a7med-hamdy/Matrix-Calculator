@@ -165,6 +165,12 @@ def solver():
    k=int(systems.get()[0])
    if(k==4 or k==5):
       inital=[ 0 for i in range(noVar) ]
+      if(k == 4):
+         iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
+         return iterativeSolver.Solve()
+      else:
+         iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
+         return iterativeSolver.Solve()
       
          
 
