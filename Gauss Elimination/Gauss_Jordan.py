@@ -1,16 +1,19 @@
 import Pivoting
+import time as t
 #Gauss-Jordan:
 #   Forward Elimination
 #   Backward Elimination
 
 class Gauss_Jordan():
-
+    #constructor
     def init(self, n, A, B):
         self.n = n
         self.A = A
         self.B = B
 
+    #solving function
     def solve(n, A, B):
+        begin_time = t.time() #measure the execution time
         iterations = 0 #number of iterations counter
         #Forward Elimination
         factor = 0
@@ -36,14 +39,17 @@ class Gauss_Jordan():
                     A[j][k] = A[j][k] - factor * A[i][k]
                 B[j] = B[j] - factor * B[i]
         print(A, B)
+        #substitution
         X = [0] * n
         for i in range(n):
             iterations += 1
             X[i] = B[i] / A[i][i]
+        print("---> %s seconds <---" % (t.time() - begin_time))
         print('X= ', X)
         print('number of iterations = ', iterations)
         return X
 
+#debugging
 Gauss_Jordan.solve(3, [[2,1,4],
                        [1,2,3],
                        [4,-1,2]], [1,1.5,2])

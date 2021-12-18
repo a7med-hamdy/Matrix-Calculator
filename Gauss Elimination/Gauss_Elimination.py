@@ -1,4 +1,5 @@
 import Pivoting
+import time as t
 #Gauss Elimination:
 #   Forward Elimination
 #   Backward Substitution
@@ -12,6 +13,7 @@ class Gauss_Elimination():
 
     #solving function
     def solve(n, A, B):
+        begin_time = t.time() #measure the execution time
         iterations = 0 #number of iterations counter
         #Forward Elimination
         factor = 0
@@ -36,10 +38,12 @@ class Gauss_Elimination():
                 iterations += 1
                 sum = sum + A[i][j] * X[j]
             X[i] = (B[i] - sum) / A[i][i]
+        print("---> %s seconds <---" % (t.time() - begin_time))
         print('X = ', X)
         print('number of iterations = ', iterations)
         return X
 
+#debugging
 Gauss_Elimination.solve(3, [[2,1,4],
                             [1,2,3],
                             [4,-1,2]], [1,1.5,2])
