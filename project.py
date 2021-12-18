@@ -144,14 +144,14 @@ def solver():
    errors=10**-6
    solve=1
    deco=1
-   #es=txt.get("1.0","end-1c")
-   #es=es.strip()
-   #obj=parserr.getLists()
-   #obj.parsing(es+"\n")
+   es=txt.get("1.0","end-1c")
+   es=es.strip()
+   obj=parserr.getLists()
+   varss=obj.parsingVar(es+"\n")
    if(len(pres.get().strip())!=0):
       rou=pres.get().strip() 
       
-   print(rou)
+   obj.parsingCoff(varss,es+"\n")
    tkinter.messagebox.showinfo( "Hello Python",rou)
 
 
