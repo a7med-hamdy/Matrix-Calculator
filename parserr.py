@@ -6,11 +6,14 @@ class getLists:
     i=0
     spcI=[]
     eqI=[]
+    operations=["+","-","."]
     while i < lenth:
       if  (string[i] == "\n"):
-         spcT.append(i)
+         spcI.append(i)
       elif(string[i] == "="):
         eqI.append(i)
+      if(i>0 and ( string[i-1] in operations and string[i] in  operations)):
+        return False
     if(len(spcI)!=len(eqI)):
       return False
     else:
@@ -42,7 +45,7 @@ class getLists:
        
        elif((i in operations) and flage):
           flage=False
-          if(len(queue)):  
+          if(len(queue)>0 and len(queue)<3):  
              x=""
              while(len(queue)>0):
                 x=x+queue.pop(0)
@@ -61,7 +64,6 @@ class getLists:
           if(z==0 or (not(string[z-1].isnumeric())) and not(string[z+1].isnumeric())):
               return "Error . entered wrong"
        elif(not(i.isnumeric())):
-          print(i,"here2")
           return "not a right sign"
     print(var)     
     return var
@@ -82,8 +84,19 @@ class getLists:
       
        i=string[z]
        
-       if((i.isnumeric() or i=="-") and not(flage)):
-           queue1.append(i)
+       if((i.isnumeric() or i=="-" or i==".") and not(flage)):
+           if(len(queue1) and i=="-" and queue1[0]=="-"):
+             y=""
+             if(len(queue1)):
+              while(len(queue1)>0):
+                y=y+queue1.pop(0)
+             if(bf==0):     
+              value[row]=value[row]-float(y)  
+             else:
+              value[row]=value[row]+float(y)           
+             queue1.append(i)
+           else:
+             queue1.append(i)
            
        elif(i.isalpha()):
            queue2.append(i)

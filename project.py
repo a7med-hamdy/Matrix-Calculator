@@ -160,5 +160,5 @@ B.pack()
 B.place(x=5,y=210,width=250)
 
 ## main loop for the program
-window.mainloop
+window.mainloop()
 
