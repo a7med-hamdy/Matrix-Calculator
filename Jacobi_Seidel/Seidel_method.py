@@ -76,6 +76,7 @@ class SeidelSolver:
     def Solve(self):
         i = 0 
         errorSatisCount = 0
+        crit = ""
         #get the value of the inital guess
         guess = self.initalGuess
         while i < self.iterMax+1000:
@@ -107,8 +108,8 @@ class SeidelSolver:
                 break
         #if check for more iterations if the value converges or diverges
         if(i == self.iterMax+1000):
-            print("will Diverge")
+            crit = "will Diverge"
         else:
-            print("Will Converge")
-        return guess
+            crit = "Will Converge"
+        return guess.tolist(),crit
 

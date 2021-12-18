@@ -80,6 +80,7 @@ class jacobiSolver:
     def Solve(self):
         i = 0 
         errorSatisCount = 0
+        crit = ""
         #get the value of the inital guess
         guess = self.initalGuess
         while i < self.iterMax:
@@ -108,8 +109,8 @@ class jacobiSolver:
                 break
         #if check for more iterations if the value converges or diverges
         if(i == self.iterMax+1000):
-            print("will Converge")
+            crit ="will Converge"
         else:
-            print("Will Diverge")
-        return guess
+            crit = "Will Diverge"
+        return guess.tolist(),crit
 
