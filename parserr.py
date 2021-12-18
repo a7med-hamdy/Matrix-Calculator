@@ -7,7 +7,7 @@ class getLists:
     spcI=[]
     eqI=[]
     operations=["+","-","."]
-    print(lenth)
+ 
     while i < lenth:
 
       if  (string[i] == "\n"):
@@ -16,6 +16,7 @@ class getLists:
         eqI.append(i)
       if(i>0 and ( string[i-1] in operations and string[i] in  operations)):
         return False
+      i=i+1   
     if(len(spcI)!=len(eqI)):
       return False
     else:
@@ -29,7 +30,7 @@ class getLists:
            if(eqI[i]-spcI[i-1]<=1 or spcI[i]-eqI[i]==1):
             return False
 
-    i=i+1      
+          
     return len(eqI)    
  
    
