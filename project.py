@@ -1,11 +1,13 @@
 ### this is the imports
 import tkinter
+from tkinter.constants import X
 import tkinter.messagebox
 from tkinter import ttk
 import numpy as np
 import parserr
-from Jacobi_Seidel import Jacobi_method
-from Jacobi_Seidel import Seidel_method
+from Jacobi_Seidel.IterativeSolver import iterSolver
+
+
 ###window functions
 #setting the window
 #the size of the window
@@ -142,18 +144,30 @@ def solver():
    rou=5
    iterations=500
    errors=10**-6
-   solve=1
-   deco=1
+   cont =True
    es=txt.get("1.0","end-1c")
    es = es.replace(" ", "")
    obj=parserr.getLists()
-   varss=obj.parsingVar(es+"\n")
    if(len(pres.get().strip())!=0):
       rou=pres.get().strip()
-   c=obj.validations(es+"\n")
-   print(c)   
-   obj.parsingCoff(varss,es+"\n")
-   tkinter.messagebox.showinfo( "Hello Python",varss)
+   varss=obj.parsingVar(es+"\n")
+   c=obj.validations(es+"\n") 
+   if(c==False or isinstance(varss, str)):
+      screen.config(text="error")
+      tkinter.messagebox.showinfo( "error message","Error")
+      return None
+   noVar=len(varss)
+   if(noVar>c ):
+      screen.config(text="Infinte number of solutions")
+      return None
+   cofs,valuse=obj.parsingCoff(varss,es+"\n")
+   tkinter.messagebox.showinfo( "order of variables",varss)
+   k=int(systems.get()[0])
+   if(k==4 or k==5):
+      inital=[ 0 for i in range(noVar) ]
+      
+         
+
 
 
 B = tkinter.Button(window, text ="solve", command = solver)
