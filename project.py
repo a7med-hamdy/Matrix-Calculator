@@ -5,13 +5,6 @@ from tkinter import ttk
 import numpy as np
 import parserr
 
-###defult values
-rounding=5
-iterations=500
-errors=10**-6
-solve=1
-deco=1
-
 
 ###window functions
 #setting the window
@@ -43,13 +36,13 @@ txt.place(x = 5,y = 45)
 #setting label
 #packing label
 #placing label
-lsI=tkinter.Label(window,text="presion",font=('Arial Bold',14))
-lsI.pack()
-lsI.place(x=5,y=160)
+pre=tkinter.Label(window,text="presion",font=('Arial Bold',14))
+pre.pack()
+pre.place(x=5,y=160)
 
 ##text area where presion is going to enter
-txt1=tkinter.Entry(window,width=50)
-txt1.place(x =5 , y = 185,width=150,height=20)
+pres=tkinter.Entry(window,width=50)
+pres.place(x =5 , y = 185,width=150,height=20)
 
 
 ###Dropbox for choosing the methode
@@ -121,19 +114,6 @@ lsS2.place(x=300,y=290)
 txt2=tkinter.Entry(window,width=50)
 txt2.place(x = 300,y = 320,width=150,height=20)
 
-###########Buttons and thier functions ##################
-def solver():
-   es=txt.get("1.0","end-1c")
-   es=es.strip()
-   obj=parserr.getLists()
-   obj.parsing(es+"\n")
-   print(solve)
-   tkinter.messagebox.showinfo( "Hello Python",)
-
-
-B = tkinter.Button(window, text ="solve", command = solver)
-B.pack()
-B.place(x=5,y=210,width=250)
 
 ############### answer screenn #####################
 ###answer
@@ -154,6 +134,30 @@ tm.place(x=350,y=380)
 con=tkinter.Label(window,text="convergance:",font=('Arial Bold',15))
 con.pack()
 con.place(x=350,y=450)
+
+###########Buttons and thier functions ##################
+
+def solver():
+   ###defult values
+   rou=5
+   iterations=500
+   errors=10**-6
+   solve=1
+   deco=1
+   #es=txt.get("1.0","end-1c")
+   #es=es.strip()
+   #obj=parserr.getLists()
+   #obj.parsing(es+"\n")
+   if(len(pres.get().strip())!=0):
+      rou=pres.get().strip() 
+      
+   print(rou)
+   tkinter.messagebox.showinfo( "Hello Python",rou)
+
+
+B = tkinter.Button(window, text ="solve", command = solver)
+B.pack()
+B.place(x=5,y=210,width=250)
 
 ## main loop for the program
 window.mainloop
