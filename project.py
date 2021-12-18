@@ -4,8 +4,8 @@ import tkinter.messagebox
 from tkinter import ttk
 import numpy as np
 import parserr
-
-
+from Jacobi_Seidel import Jacobi_method
+from Jacobi_Seidel import Seidel_method
 ###window functions
 #setting the window
 #the size of the window
