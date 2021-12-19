@@ -4,13 +4,12 @@ from timeit import default_timer as timer
 import sigfig
 class SeidelSolver:
 
-    def __init__(self, coArray, iterMax, initalGuess, errorStop,significantFigs,method):
+    def __init__(self, coArray, iterMax, initalGuess, errorStop,significantFigs):
         self.coArray = coArray
         self.iterMax = iterMax
         self.initalGuess = initalGuess
         self.errorStop = errorStop
         self.significantFigs =  significantFigs
-        self.method == method
     #calculate new array of guesses from the previous guesses
     #
     # parameters :
@@ -22,32 +21,8 @@ class SeidelSolver:
     #
     # arr : newGuess array
     # 
-    def __getGuessesJacobi(self,prevGuess):
-        arr = []
-        #loop in the coefficent array
-        for i in range(len(self.coArray)):
-            #get the last value (b)
-            #if a diagonal element is zero pivot elements
-            if self.coArray[i][i] == 0:
-                self.__pivoting(i)
 
-            last = self.coArray[i][len(self.coArray[i])-1]
-            x = last
-            #loop in each equation
-            for j in range(len(self.coArray[i])-1):
-                #skip a loop if the value is the coefficent of the variable being guessed
-                if i == j:
-                    continue
-                else:
-                    #calculate the new guess
-                    x = x - (self.coArray[i][j] * prevGuess[j])
-            x = x/self.coArray[i][i]
-            #push the guess in its place 
-            arr.append(x)
-
-        return arr
-
-    def __getGuessesSeidel(self,prevGuess):
+    def __getGuesses(self,prevGuess):
         arr = []
         #loop in the coefficent array
         for i in range(len(self.coArray)):
@@ -66,9 +41,10 @@ class SeidelSolver:
                     #calculate the new guess
                     prevGuess[i] = prevGuess[i] - (self.coArray[i][j] * prevGuess[j])
             prevGuess[i] = prevGuess[i]/self.coArray[i][i]
+            print(prevGuess)
             #push the guess in its place 
             arr.append(prevGuess[i])
-
+        
         return arr
 
    #Partial pivoting function
@@ -108,7 +84,7 @@ class SeidelSolver:
         #get the value of the inital guess
         guess = self.initalGuess
         time = 0
-        while i < self.iterMax+1000:
+        while i < self.iterMax:
             begin_time = timer()
             #store the value of the previous guess
             prevGuess = guess

@@ -91,7 +91,7 @@ initials.place(x = 300, y = 170,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS1=tkinter.Label(window,text="number of iteration:(defuly=500)",font=('Arial Bold',15))
+lsS1=tkinter.Label(window,text="number of iteration:(defult=500)",font=('Arial Bold',15))
 lsS1.pack()
 lsS1.place(x=300,y=210)
 
@@ -125,7 +125,7 @@ ans.place(x=5,y=290)
 
 screen=tkinter.Label(window, bg="white",text=" ",anchor='nw',font=('Arial Bold',14))
 screen.pack()
-screen.place(x=5,y=320,width=250,height=280)
+screen.place(x=5,y=320,width=290,height=280)
 
 ### time
 tm=tkinter.Label(window,text="Time:",font=('Arial Bold',15))
@@ -201,12 +201,12 @@ def solver():
           
       if(k == 4):
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
-         guess,crit,time = iterativeSolver.Solveit()
-         print(guess,crit,time) 
+         ans = iterativeSolver.Solveit()
+    
       else:
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
-         guess,crit,time = iterativeSolver.Solveit()
-         print(guess,crit,time)
+         ans = iterativeSolver.Solveit()
+     
    elif(k==1): 
      gas=GaussE.GaussE()
      ans=gas.solve(noVar,cofs,valuse,rou)
@@ -217,7 +217,10 @@ def solver():
 
       return None     
    if(isinstance(ans, str)):
-      screen.config(text=ans)
+      if(len(ans)>27):
+         screen.config(text=ans[0:24]+"\n"+ans[24:])
+      else:
+         screen.config(text=ans)  
       tm.config(text="Time:")
       con.config(text="convergance:")
    else:
@@ -236,6 +239,25 @@ def solver():
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
 B.place(x=5,y=210,width=210)
+###################### check button ###################
+### this button is for check the order of 
+def getVars():
+   es=txt.get("1.0","end-1c")
+   es = es.replace(" ", "")
+   obj=parserr.getLists()
+   varss=obj.parsingVar(es+"\n")
+   c=obj.validations(es+"\n") 
+   if(c==False or isinstance(varss, str)):
+      print(c)
+      tkinter.messagebox.showinfo( "error message","Error")
+   else:   
+      tkinter.messagebox.showinfo( "vars order",varss)
+
+
+
+check = tkinter.Button(window, text ="variables order", command = getVars)
+check.pack()
+check.place(x=630,y=210,width=150)
 
 ## main loop for the program
 window.mainloop()

@@ -1,4 +1,4 @@
-import Pivoting
+from ForwardE import Forward_Elimination
 from sigfig import round
 from timeit import default_timer as timer
 #Gauss Elimination:
@@ -16,22 +16,12 @@ class GaussE():
     def solve(self,n, A, B, precision = 5):
         begin_time = timer() #measure the execution time
         iterations = 0 #number of iterations counter
+        
         #Forward Elimination
-        factor = 0
-        for i in range(n-1):
-            iterations += 1
-            A, B = Pivoting.pivoting(n, i, A, B) #search for pivoting in each iteration
-            for j in range(i+1, n):
-                iterations += 1
-                #if dividing by zero occurs that means -> infinite solutions (variable eliminated)
-                try:
-                    factor = round(A[j][i] / A[i][i], sigfigs = precision)
-                except:
-                    return "The system has infinite number of solutions"
-                for k in range(i, n):
-                    iterations += 1
-                    A[j][k] = round(A[j][k] - factor * A[i][k], sigfigs = precision)
-                B[j] = round(B[j] - factor * B[i], sigfigs = precision)
+        A, B, iterations = Forward_Elimination(n, A, B, precision, iterations)
+        
+        if(iterations == 0): #if dividing by zero occurs that means -> infinite solutions (variable eliminated) 
+            return "The system has infinite number of solutions"
         print(A, B)
         #Check if the system has no unique solution
         if(A[-1][-1] == 0):    
@@ -40,6 +30,7 @@ class GaussE():
             else:
                 return "The system has no solution"
         X = [0] * n
+
         #Backward Substitution
         X[-1] = round(B[-1] / A[-1][-1], sigfigs = precision)
         for i in range(n-2, -1, -1):
@@ -57,10 +48,10 @@ class GaussE():
     #End solve
 
 #debugging
-#print(GaussE.solve(3, [[2,1,4],
-                       #[1,2,3],
-                       #[4,-1,2]], [1,1.5,2], 3)) #unique solution
-#print('------------------------------------------------------------')
-#print(GaussE.solve(3, [[2,1,4],
-                       #[4,2,8],
-                       #[1,0.5,2]], [1,2,0.5], 3)) #infinite solutions
+# print(GaussE().solve(3, [[2,1,4],
+#                          [1,2,3],
+#                          [4,-1,2]], [1,1.5,2], 3)) #unique solution
+# print('------------------------------------------------------------')
+# print(GaussE().solve(3, [[2,1,4],
+#                          [4,2,8],
+#                          [1,0.5,2]], [1,2,0.5], 3)) #infinite solutions

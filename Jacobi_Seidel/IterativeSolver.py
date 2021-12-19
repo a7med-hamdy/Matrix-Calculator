@@ -1,5 +1,6 @@
 import numpy as np
 from timeit import default_timer as timer
+import sigfig 
 class iterSolver:
 
     def __init__(self, coArray,  arrayB,iterMax, initalGuess, errorStop,significantFigs,method):
@@ -53,8 +54,8 @@ class iterSolver:
         for i in range(len(self.coArray)):
             #get the last value (b)
             #if a diagonal element is zero pivot elements
-            if self.coArray[i][i] == 0:
-                self.__pivoting(i)
+           # if self.coArray[i][i] == 0:
+               # self.__pivoting(i)
             last = self.coArray[i][len(self.coArray[i])-1]
             prevGuess[i] = last
             #loop in each equation
@@ -107,6 +108,7 @@ class iterSolver:
         crit = ""
         #get the value of the inital guess
         guess = self.initalGuess
+        guessLast = guess
         time = 0
         while i < self.iterMax+1000:
             begin_time = timer()
@@ -121,16 +123,16 @@ class iterSolver:
             guess = np.array(guess)
             #round the result
             #calculate the error
-            error = abs(np.array(guess) - np.array(prevGuess)/np.array(guess))
+            error = (abs(np.array(guess) - np.array(prevGuess)/np.array(guess)))
 
 
 
             #round errors
-            guess  = guess.round(self.significantFigs+1)
-            error = error.round(self.significantFigs+1)
+        
+            for j in range(0,len(guess)):
+                guess[j]  = sigfig.round(guess[j],sigfigs = self.significantFigs)
+                error[j] = sigfig.round(error[j],sigfigs = self.significantFigs)
     
-            error = error.tolist()
-
 
             #compare with given error criteria
             for k in range(len(error)):
@@ -143,9 +145,11 @@ class iterSolver:
             #print Iterations
             if i <= self.iterMax:
                 print(guess, error, errorSatisCount,i)
+                print()
 
             #calculate time
             if i == self.iterMax:
+                guessLast = guess
                 time = timer() - begin_time
 
             # if all values satisfy the criteria
@@ -155,24 +159,21 @@ class iterSolver:
                 break
         #if check for more iterations if the value converges or diverges
         if (i > self.iterMax):
+            if(i == self.iterMax+1000):
+                crit = "will Diverge"
+                
+            else:
+                crit = "Will Converge"
             i = self.iterMax
 
-        if(i == self.iterMax+1000):
-            crit = "will Diverge"
-            i = self.iterMax
-        
-        else:
-            crit = "Will Converge"
 
         if (np.inf in error) or (np.inf in guess):                
                 time = timer() - begin_time
                 crit = "Diverged"
-                print([prevGuess,crit,time,i])
-                return [prevGuess,crit,time,i]
+                return [guessLast.tolist(),time,i,crit]
 
-
-        print([guess.tolist(),crit,time,i])
-        return [guess.tolist(),crit,time,i]
+        print([guessLast.tolist(),time,i,crit])
+        return [guessLast.tolist(),time,i,crit]
 
 
     def Solveit(self):
@@ -181,6 +182,6 @@ class iterSolver:
             self.coArray[i].append(self.arrayB[i])
             i += 1
         
-            return self.Solve()
+        return self.Solve()
 
         
