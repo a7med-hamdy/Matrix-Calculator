@@ -5,8 +5,14 @@ from timeit import default_timer as timer
 #   Forward Elimination
 #   Backward Elimination
 
-class Gauss_Jordan():
-
+class GaussJ():
+    #@param n: the size of the coefficients matrix (square)
+    #@param A: the coefficients matrix
+    #@param B: the constants vector
+    #@param precision: the required precision
+    #return if(unique solution) -> [ X[]:solution, iteraions, Time ]
+    #       if(no solution) -> "The system has no solution"
+    #       if(infinite sol.) -> "The system has infinite number of solutions"
     def solve(n, A, B, precision = 5):
         begin_time = timer() #measure the execution time
         iterations = 0 #number of iterations counter
@@ -49,17 +55,17 @@ class Gauss_Jordan():
             iterations += 1
             X[i] = round(B[i] / A[i][i], sigfigs = precision)
         time = round(timer() - begin_time, sigfigs = precision)
-        print('X= ', X)
-        print("-> %s seconds <-" % time)
-        print('number of iterations = ', iterations)
-        return X, iterations, time
+        print('X = ', X)
+        print("Time = %.10g seconds" % time)
+        print('Number of iterations = ', iterations)
+        return [X, iterations, time]
     #End solve
 
 #debugging
-print(Gauss_Jordan.solve(3, [[2,1,4],
-                             [1,2,3],
-                             [4,-1,2]], [1,1.5,2], 5)) #unique solution
+print(GaussJ.solve(3, [[2,1,4],
+                       [1,2,3],
+                       [4,-1,2]], [1,1.5,2], 5)) #unique solution
 print('-----------------------------------------------------------')
-print(Gauss_Jordan.solve(3, [[1,1,1],
-                             [0,1,-3],
-                             [2,1,5]], [2,1,0], 3)) #no solution
+print(GaussJ.solve(3, [[1,1,1],
+                       [0,1,-3],
+                       [2,1,5]], [2,1,0], 3)) #no solution
