@@ -125,7 +125,7 @@ ans.place(x=5,y=290)
 
 screen=tkinter.Label(window, bg="white",text=" ",anchor='nw',font=('Arial Bold',14))
 screen.pack()
-screen.place(x=5,y=320,width=250,height=280)
+screen.place(x=5,y=320,width=290,height=280)
 
 ### time
 tm=tkinter.Label(window,text="Time:",font=('Arial Bold',15))
@@ -217,7 +217,10 @@ def solver():
 
       return None     
    if(isinstance(ans, str)):
-      screen.config(text=ans)
+      if(len(ans)>27):
+         screen.config(text=ans[0:24]+"\n"+ans[24:])
+      else:
+         screen.config(text=ans)  
       tm.config(text="Time:")
       con.config(text="convergance:")
    else:
