@@ -123,9 +123,9 @@ ans=tkinter.Label(window,text="Answer",font=('Arial Bold',15))
 ans.pack()
 ans.place(x=5,y=290)
 
-screen=tkinter.Label(window, bg="white",text=" ",anchor='nw',font=('Arial Bold',15))
+screen=tkinter.Label(window, bg="white",text=" ",anchor='nw',font=('Arial Bold',14))
 screen.pack()
-screen.place(x=5,y=320,width=250,height=270)
+screen.place(x=5,y=320,width=250,height=280)
 
 ### time
 tm=tkinter.Label(window,text="Time:",font=('Arial Bold',15))
@@ -164,6 +164,7 @@ def solver():
    varss=obj.parsingVar(es+"\n")
    c=obj.validations(es+"\n") 
    if(c==False or isinstance(varss, str)):
+      print(c)
       screen.config(text="error")
       tkinter.messagebox.showinfo( "error message","Error")
       return None
@@ -200,11 +201,11 @@ def solver():
           
       if(k == 4):
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
-         guess,crit,time = iterativeSolver.Solve()
+         guess,crit,time = iterativeSolver.Solveit()
          print(guess,crit,time) 
       else:
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
-         guess,crit,time = iterativeSolver.Solve()
+         guess,crit,time = iterativeSolver.Solveit()
          print(guess,crit,time)
    elif(k==1): 
      gas=GaussE.GaussE()
@@ -215,8 +216,22 @@ def solver():
    else:
 
       return None     
+   if(isinstance(ans, str)):
+      screen.config(text=ans)
+      tm.config(text="Time:")
+      con.config(text="convergance:")
+   else:
+      tm.config(text="Time:"+str(ans[1])+"sec")
+      con.config(text="convergance:"+str(ans[2]))
+      answer="   "
+   
+      for k in range(noVar):
+         answer=answer+""+str(varss[k])+" = "+str(ans[0][k])+"\n"
 
-
+      screen.config(text=answer)   
+      if(len(ans)==4):
+         answer=answer+ans[3]
+         screen.config(text=answer)  
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
