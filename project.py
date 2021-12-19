@@ -137,7 +137,7 @@ con=tkinter.Label(window,text="convergance:",font=('Arial Bold',15))
 con.pack()
 con.place(x=350,y=450)
 
-###########Buttons and thier functions ##################
+###########Button and thier function ##################
 #########function for main logic of button
 def solver():
    ###defult values
@@ -213,7 +213,7 @@ def solver():
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
-B.place(x=5,y=210,width=250)
+B.place(x=5,y=210,width=210)
 
 ## main loop for the program
 window.mainloop()
