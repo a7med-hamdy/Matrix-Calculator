@@ -37,7 +37,7 @@ txt.place(x = 5,y = 45)
 #setting label
 #packing label
 #placing label
-pre=tkinter.Label(window,text="presion",font=('Arial Bold',14))
+pre=tkinter.Label(window,text="precision",font=('Arial Bold',14))
 pre.pack()
 pre.place(x=5,y=160)
 
@@ -136,7 +136,7 @@ con=tkinter.Label(window,text="convergance:",font=('Arial Bold',15))
 con.pack()
 con.place(x=350,y=450)
 
-###########Buttons and thier functions ##################
+###########Button and thier function ##################
 #########function for main logic of button
 def solver():
    ###defult values
@@ -204,16 +204,21 @@ def solver():
       else:
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
-   if(k==1 or k==2): 
-      return None  
+   elif(k==1): 
+     gas=GaussE()
+     ans=gas.solve(noVar,cofs,valuse,rou)
+   elif(k==2):
+     gas=GaussJ()
+     ans=gas.solve(noVar,cofs,valuse,rou)
    else:
+
       return None     
 
 
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
-B.place(x=5,y=210,width=250)
+B.place(x=5,y=210,width=210)
 
 ## main loop for the program
 window.mainloop()
