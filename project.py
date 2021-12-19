@@ -75,7 +75,7 @@ systems1.current(0)
 #setting label
 #packing label
 #placing label
-lsI=tkinter.Label(window,text="Initials",font=('Arial Bold',16))
+lsI=tkinter.Label(window,text="Initials:(defult=zeroes)",font=('Arial Bold',16))
 lsI.pack()
 lsI.place(x=300,y=140)
 
@@ -91,7 +91,7 @@ initials.place(x = 300, y = 170,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS1=tkinter.Label(window,text="number of iteration",font=('Arial Bold',15))
+lsS1=tkinter.Label(window,text="number of iteration:(defuly=500)",font=('Arial Bold',15))
 lsS1.pack()
 lsS1.place(x=300,y=210)
 
@@ -106,7 +106,7 @@ txt1.place(x = 300, y = 240,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS2=tkinter.Label(window,text="Error",font=('Arial Bold',15))
+lsS2=tkinter.Label(window,text="Error:(defult=10^-6)",font=('Arial Bold',15))
 lsS2.pack()
 lsS2.place(x=300,y=290)
 
@@ -123,7 +123,7 @@ ans=tkinter.Label(window,text="Answer",font=('Arial Bold',15))
 ans.pack()
 ans.place(x=5,y=290)
 
-screen=tkinter.Label(window, bg="white",text="Answer\nanswer",anchor='nw',font=('Arial Bold',15))
+screen=tkinter.Label(window, bg="white",text=" ",anchor='nw',font=('Arial Bold',15))
 screen.pack()
 screen.place(x=5,y=320,width=250,height=270)
 
@@ -138,26 +138,29 @@ con.pack()
 con.place(x=350,y=450)
 
 ###########Buttons and thier functions ##################
-
+#########function for main logic of button
 def solver():
    ###defult values
    rou=5
    iterations=500
    errors=10**-6
-   cont =True
+   ans=[]
    es=txt.get("1.0","end-1c")
    es = es.replace(" ", "")
    obj=parserr.getLists()
 
    #roundoff
-   if(len(pres.get().strip())!=0):
-      rou=pres.get().strip()
+   if(len(pres.get().replace(" ", ""))!=0):
+      rou=int(pres.get().replace(" ", ""))
+
    #iterations
-   if(len(txt1.get().strip())!=0):
-      iterations = txt1.get().strip()
+   if(len(txt1.get().replace(" ", ""))!=0):
+      iterations = int(txt1.get().replace(" ", ""))
+
    #errors
-   if(len(txt2.get().strip())!=0):
-      errors = txt2.get().strip()
+   if(len(txt2.get().replace(" ", ""))!=0):
+      errors = float(txt2.get().replace(" ", ""))
+
    varss=obj.parsingVar(es+"\n")
    c=obj.validations(es+"\n") 
    if(c==False or isinstance(varss, str)):
@@ -165,22 +168,47 @@ def solver():
       tkinter.messagebox.showinfo( "error message","Error")
       return None
    noVar=len(varss)
+
    if(noVar>c ):
       screen.config(text="Infinte number of solutions")
       return None
+
    cofs,valuse=obj.parsingCoff(varss,es+"\n")
    tkinter.messagebox.showinfo( "order of variables",varss)
    k=int(systems.get()[0])
+
    if(k==4 or k==5):
       inital=[ 0 for i in range(noVar) ]
+
+      if(len(initials.get().replace(" ", ""))!=0):
+         temp=initials.get().replace(" ", "")
+         queue=[]
+         nex=0
+         for p in temp:
+            if(p==","):
+              z="" 
+              while(len(queue)>0):
+                z=z+queue.pop(0)
+              inital[nex]=float(z)
+              nex+=1
+            else:
+              queue.append(p)
+         z="" 
+         while(len(queue)>0):
+            z=z+queue.pop(0)
+         inital[nex]=float(z)
+          
       if(k == 4):
          iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
-         return iterativeSolver.Solve()
+         guess,crit = iterativeSolver.Solve()
+         print(guess,crit) 
       else:
          iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
-      
-         
+   if(k==1 or k==2): 
+      return None  
+   else:
+      return None     
 
 
 
