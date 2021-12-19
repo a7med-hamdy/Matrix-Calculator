@@ -201,12 +201,12 @@ def solver():
           
       if(k == 4):
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
-         guess,crit,time = iterativeSolver.Solveit()
-         print(guess,crit,time) 
+         ans = iterativeSolver.Solveit()
+    
       else:
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
-         guess,crit,time = iterativeSolver.Solveit()
-         print(guess,crit,time)
+         ans = iterativeSolver.Solveit()
+     
    elif(k==1): 
      gas=GaussE.GaussE()
      ans=gas.solve(noVar,cofs,valuse,rou)
