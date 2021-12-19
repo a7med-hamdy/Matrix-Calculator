@@ -7,6 +7,7 @@ import numpy as np
 from Gauss import GaussE,GaussJ
 import parserr
 from Jacobi_Seidel import IterativeSolver
+import LU_decomposer
 
 ###window functions
 #setting the window
@@ -158,9 +159,23 @@ def solver():
       iterations = int(txt1.get().replace(" ", ""))
 
    #errors
-   if(len(txt2.get().replace(" ", ""))!=0):
-      errors = float(txt2.get().replace(" ", ""))
-
+   err=txt2.get().replace(" ", "")
+   if(len(err)!=0):
+      if("^" in err):
+         num=""
+         power=""
+         found=False
+         for i in err:
+            if(i=="^"):
+               found=True
+            elif(found):
+               power=power+i
+            else:
+               num=num+i
+         errors=float(num)**float(power)         
+      else:   
+         errors = float(err)
+   print(errors)
    varss=obj.parsingVar(es+"\n")
    c=obj.validations(es+"\n") 
    if(c==False or isinstance(varss, str)):
@@ -170,8 +185,8 @@ def solver():
       return None
    noVar=len(varss)
 
-   if(noVar>c ):
-      screen.config(text="Infinte number of solutions")
+   if(noVar!=c ):
+      screen.config(text="not square")
       return None
 
    cofs,valuse=obj.parsingCoff(varss,es+"\n")
@@ -180,9 +195,9 @@ def solver():
 
    if(k==4 or k==5):
       inital=[ 0 for i in range(noVar) ]
-
-      if(len(initials.get().replace(" ", ""))!=0):
-         temp=initials.get().replace(" ", "")
+      ini=initials.get().replace(" ", "")
+      if(len(ini)!=0 and len(ini)==noVar):
+         temp=ini
          queue=[]
          nex=0
          for p in temp:

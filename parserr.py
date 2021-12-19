@@ -61,7 +61,7 @@ class getLists:
                 var.append(x)   
           else:
              return "Wrong formate"
-       elif(flage==True):
+       elif(flage==True and i.isnumeric()):
           queue.append(i)
        elif(i in operations):
           if(i=="-" and (z==0 or string[z-1]=="=" or string[z-1]=="\n")):
@@ -74,7 +74,8 @@ class getLists:
        elif(not(i.isnumeric())):
        
           return "not a right sign"
-    print(var)     
+       if(len(queue)>2):
+         return "weird variable"
     return var
 
 
