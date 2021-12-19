@@ -1,14 +1,15 @@
 #Partial pivoting function
-##@param n: the equations number
+##@param n: the size of the coefficients matrix (square)
 ##@param p: the index of the pivot
 ##@param a: the coefficients matrix
-##@param b: the constants matrix
+##@param b: the constants vector
 #@return a, b
 def pivoting(n, p, a, b):
-    pivot = a[p][p]
+    #pivot = a[p][p]
     #if non-zero pivot exists, then return
     # if(pivot != 0):
     #     return a, b
+
     #finding the index of the maximum value below the pivot
     max_index = p
     for i in range(p+1, n):
