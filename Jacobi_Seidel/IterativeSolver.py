@@ -156,17 +156,21 @@ class iterSolver:
         #if check for more iterations if the value converges or diverges
         if (i > self.iterMax):
             i = self.iterMax
+
         if(i == self.iterMax+1000):
             crit = "will Diverge"
             i = self.iterMax
+        
         else:
             crit = "Will Converge"
 
-            if (np.inf in error) or (np.inf in guess):                
+        if (np.inf in error) or (np.inf in guess):                
                 time = timer() - begin_time
                 crit = "Diverged"
                 print([prevGuess,crit,time,i])
                 return [prevGuess,crit,time,i]
+
+
         print([guess.tolist(),crit,time,i])
         return [guess.tolist(),crit,time,i]
 
