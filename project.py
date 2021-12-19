@@ -4,6 +4,7 @@ from tkinter.constants import X
 import tkinter.messagebox
 from tkinter import ttk
 import numpy as np
+from Gauss import GaussE,GaussJ
 import parserr
 from Jacobi_Seidel import IterativeSolver
 
@@ -205,10 +206,10 @@ def solver():
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
    elif(k==1): 
-     gas=GaussE,GaussE()
+     gas=GaussE.GaussE()
      ans=gas.solve(noVar,cofs,valuse,rou)
    elif(k==2):
-     gas=GaussJ,GaussJ()
+     gas=GaussJ.GaussJ()
      ans=gas.solve(noVar,cofs,valuse,rou)
    else:
 
