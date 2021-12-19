@@ -13,7 +13,7 @@ class GaussE():
     #return if(unique solution) -> [ X[]:solution, iteraions, Time ]
     #       if(no solution) -> "The system has no solution"
     #       if(infinite sol.) -> "The system has infinite number of solutions"       
-    def solve(n, A, B, precision = 5):
+    def solve(self,n, A, B, precision = 5):
         begin_time = timer() #measure the execution time
         iterations = 0 #number of iterations counter
         #Forward Elimination

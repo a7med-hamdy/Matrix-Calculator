@@ -1,4 +1,5 @@
 import numpy as np
+from timeit import default_timer as timer
 class SeidelSolver:
 
     def __init__(self, coArray, iterMax, initalGuess, errorStop,significantFigs):
@@ -80,6 +81,7 @@ class SeidelSolver:
         #get the value of the inital guess
         guess = self.initalGuess
         while i < self.iterMax+1000:
+            begin_time = timer()
             #store the value of the previous guess
             prevGuess = guess
             #calculate the new guess using the old one
@@ -101,15 +103,17 @@ class SeidelSolver:
             i = i+1
             if i <= self.iterMax:
                 print(guess, error, errorSatisCount,i)
-            
+            if i == self.iterMax:
+                begin_time - timer()
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error)+1:
+                begin_time - timer()
                 break
         #if check for more iterations if the value converges or diverges
         if(i == self.iterMax+1000):
             crit = "will Diverge"
         else:
             crit = "Will Converge"
-        return guess.tolist(),crit
+        return guess.tolist(),crit,begin_time
 

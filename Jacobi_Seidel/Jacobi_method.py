@@ -1,4 +1,5 @@
 import numpy as np
+from timeit import default_timer as timer
 class jacobiSolver:
 
     def __init__(self, coArray,  iterMax, initalGuess, errorStop,significantFigs):
@@ -84,6 +85,7 @@ class jacobiSolver:
         #get the value of the inital guess
         guess = self.initalGuess
         while i < self.iterMax:
+            begin_time = timer()
             #store the value of the previous guess
             prevGuess = guess
             #calculate the new guess using the old one
@@ -103,14 +105,17 @@ class jacobiSolver:
             i = i+1
             if i <= self.iterMax:
                 print(guess, error, errorSatisCount,i)
+            if i == self.iterMax:
+                begin_time - timer()
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error)+1:
+                begin_time - timer() 
                 break
         #if check for more iterations if the value converges or diverges
         if(i == self.iterMax+1000):
             crit ="will Converge"
         else:
             crit = "Will Diverge"
-        return guess.tolist(),crit
+        return guess.tolist(),crit,begin_time
 

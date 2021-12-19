@@ -16,7 +16,6 @@ class iterSolver:
         i = 0
         coeffArray = self.coArray
         while i < len(coeffArray):
-            print("hello")
             coeffArray[i].append(self.arrayB[i])
             i += 1
         
