@@ -200,7 +200,8 @@ def solver():
           
       if(k == 4):
          iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
-         return iterativeSolver.Solve()
+         guess,crit = iterativeSolver.Solve()
+         print(guess,crit) 
       else:
          iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()

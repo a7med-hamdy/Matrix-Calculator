@@ -1,8 +1,10 @@
+from Jacobi_Seidel.IterativeSolver import iterSolver
 import Jacobi_method
 import Seidel_method
+import IterativeSolver
 coeffarray = [
 [0, 3, 5,3],
-[1, 0, 3,9],
+[1, 0, 3],
 [3, 7, 0,9]] 
 numofvar = 3
 iterMax = 100
@@ -17,3 +19,6 @@ seidSolver = Seidel_method.SeidelSolver(coeffarray,iterMax,initalguess,errorStop
 print('Seidel answer\n')
 
 seidSolver.Solve()
+print("=========================================\n")
+itersolve = iterSolver(coeffarray,[3,9,9],iterMax,initalguess,errorStop,5)
+

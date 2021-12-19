@@ -1,6 +1,5 @@
 from Jacobi_Seidel.Jacobi_method import jacobiSolver
 from Jacobi_Seidel.Seidel_method import SeidelSolver
-import Jacobi_method,Seidel_method
 
 class iterSolver:
 
