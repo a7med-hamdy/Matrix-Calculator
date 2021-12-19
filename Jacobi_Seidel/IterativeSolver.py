@@ -114,13 +114,13 @@ class iterSolver:
             begin_time = timer()
             #store the value of the previous guess
             prevGuess = guess
+            errorSatisCount = 0
             #calculate the new guess 
             if self.method == 4:
                 guess = self.__getGuessesSeidel(prevGuess)
             elif self.method == 5:
                 guess = self.__getGuessesJacobi(prevGuess)
 
-            guess = np.array(guess)
             #round the result
             #calculate the error
             error = (abs(np.array(guess) - np.array(prevGuess)/np.array(guess)))
@@ -154,8 +154,9 @@ class iterSolver:
 
             # if all values satisfy the criteria
             # stop iterating
-            if errorSatisCount == len(error)+1:
+            if errorSatisCount == len(error):
                 time = timer() - begin_time
+                crit = "Converged!"
                 break
         #if check for more iterations if the value converges or diverges
         if (i > self.iterMax):
@@ -166,14 +167,13 @@ class iterSolver:
                 crit = "Will Converge"
             i = self.iterMax
 
-
         if (np.inf in error) or (np.inf in guess):                
                 time = timer() - begin_time
                 crit = "Diverged"
                 return [guessLast.tolist(),time,i,crit]
 
-        print([guessLast.tolist(),time,i,crit])
-        return [guessLast.tolist(),time,i,crit]
+        print([guessLast,time,i,crit])
+        return [guessLast,time,i,crit]
 
 
     def Solveit(self):
