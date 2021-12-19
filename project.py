@@ -6,6 +6,7 @@ from tkinter import ttk
 import numpy as np
 import parserr
 from Jacobi_Seidel.IterativeSolver import iterSolver
+from Gauss import GaussE,GaussJ
 
 
 ###window functions
@@ -38,7 +39,7 @@ txt.place(x = 5,y = 45)
 #setting label
 #packing label
 #placing label
-pre=tkinter.Label(window,text="presion",font=('Arial Bold',14))
+pre=tkinter.Label(window,text="precision",font=('Arial Bold',14))
 pre.pack()
 pre.place(x=5,y=160)
 
@@ -205,9 +206,14 @@ def solver():
       else:
          iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
-   if(k==1 or k==2): 
-      return None  
+   elif(k==1): 
+     gas=GaussE()
+     ans=gas.solve(noVar,cofs,valuse,rou)
+   elif(k==2):
+     gas=GaussJ()
+     ans=gas.solve(noVar,cofs,valuse,rou)
    else:
+
       return None     
 
 
