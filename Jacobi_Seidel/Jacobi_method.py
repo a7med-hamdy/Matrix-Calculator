@@ -84,6 +84,7 @@ class jacobiSolver:
         crit = ""
         #get the value of the inital guess
         guess = self.initalGuess
+        time = 0
         while i < self.iterMax:
             begin_time = timer()
             #store the value of the previous guess
@@ -92,11 +93,24 @@ class jacobiSolver:
             guess = self.__getGuesses(prevGuess)
             guess = np.array(guess)
             #round the result
-            guess  = guess.round(self.significantFigs)
             #calculate the error
             error = abs(np.array(guess) - np.array(prevGuess)/np.array(guess))
+            #check for divergence to avoid wasting runtime
+            if np.inf in error:                
+                time = timer() - begin_time
+                crit = "Diverged"
+                return guess.tolist(),crit,time
+            elif np.inf in guess:
+                time = timer() - begin_time
+                crit = "Diverged"
+                return guess.tolist(),crit,time
+
+
             error = error.round(self.significantFigs+1)
+            guess  = guess.round(self.significantFigs)
             error = error.tolist()
+
+
 
             #compare with given error criteria
             for k in range(len(error)):
@@ -106,16 +120,16 @@ class jacobiSolver:
             if i <= self.iterMax:
                 print(guess, error, errorSatisCount,i)
             if i == self.iterMax:
-                begin_time - timer()
+                time = timer() - begin_time
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error)+1:
-                begin_time - timer() 
+                time = timer() - begin_time
                 break
         #if check for more iterations if the value converges or diverges
         if(i == self.iterMax+1000):
-            crit ="will Converge"
+            crit ="will Diverge"
         else:
-            crit = "Will Diverge"
-        return guess.tolist(),crit,begin_time
+            crit = "Will Converge"
+        return guess.tolist(),crit,time
 

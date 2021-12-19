@@ -1,8 +1,9 @@
-
 import Jacobi_method
 import Seidel_method
 import IterativeSolver
-coeffarray = [[1.0, 23.0, 2.0], [1.0, 12.0, 1.0], [13.0, 1.0, 2.0]]
+coeffarray = [[1.0, 23.0, 2.0],
+ [1.0, 12.0, 1.0],
+  [13.0, 1.0, 2.0]]
 numofvar = 3
 iterMax = 100
 initalguess = [1,1,1]

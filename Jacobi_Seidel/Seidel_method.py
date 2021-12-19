@@ -1,14 +1,16 @@
 import numpy as np
 from timeit import default_timer as timer
+
+import sigfig
 class SeidelSolver:
 
-    def __init__(self, coArray, iterMax, initalGuess, errorStop,significantFigs):
+    def __init__(self, coArray, iterMax, initalGuess, errorStop,significantFigs,method):
         self.coArray = coArray
         self.iterMax = iterMax
         self.initalGuess = initalGuess
         self.errorStop = errorStop
         self.significantFigs =  significantFigs
-        
+        self.method == method
     #calculate new array of guesses from the previous guesses
     #
     # parameters :
@@ -20,7 +22,32 @@ class SeidelSolver:
     #
     # arr : newGuess array
     # 
-    def __getGuesses(self,prevGuess):
+    def __getGuessesJacobi(self,prevGuess):
+        arr = []
+        #loop in the coefficent array
+        for i in range(len(self.coArray)):
+            #get the last value (b)
+            #if a diagonal element is zero pivot elements
+            if self.coArray[i][i] == 0:
+                self.__pivoting(i)
+
+            last = self.coArray[i][len(self.coArray[i])-1]
+            x = last
+            #loop in each equation
+            for j in range(len(self.coArray[i])-1):
+                #skip a loop if the value is the coefficent of the variable being guessed
+                if i == j:
+                    continue
+                else:
+                    #calculate the new guess
+                    x = x - (self.coArray[i][j] * prevGuess[j])
+            x = x/self.coArray[i][i]
+            #push the guess in its place 
+            arr.append(x)
+
+        return arr
+
+    def __getGuessesSeidel(self,prevGuess):
         arr = []
         #loop in the coefficent array
         for i in range(len(self.coArray)):
@@ -80,6 +107,7 @@ class SeidelSolver:
         crit = ""
         #get the value of the inital guess
         guess = self.initalGuess
+        time = 0
         while i < self.iterMax+1000:
             begin_time = timer()
             #store the value of the previous guess
@@ -91,8 +119,23 @@ class SeidelSolver:
             guess  = guess.round(self.significantFigs)
             #calculate the error
             error = abs(np.array(guess) - np.array(prevGuess)/np.array(guess))
+
+            #check for divergence to avoid wasting runtime
+            if np.inf in error:                
+                time = timer() - begin_time
+                crit = "Diverged"
+                return guess.tolist(),crit,time
+            elif np.inf in guess:
+                time = timer() - begin_time
+                crit = "Diverged"
+                return guess.tolist(),crit,time
+
+            #round errors
+            guess  = guess.round(self.significantFigs)
             error = error.round(self.significantFigs+1)
+    
             error = error.tolist()
+
 
             #compare with given error criteria
             for k in range(len(error)):
@@ -101,19 +144,24 @@ class SeidelSolver:
     
             #increment counter
             i = i+1
+
+            #print Iterations
             if i <= self.iterMax:
                 print(guess, error, errorSatisCount,i)
+
+            #calculate time
             if i == self.iterMax:
-                begin_time - timer()
+                time = timer() - begin_time
+
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error)+1:
-                begin_time - timer()
+                time = timer() - begin_time
                 break
         #if check for more iterations if the value converges or diverges
         if(i == self.iterMax+1000):
             crit = "will Diverge"
         else:
             crit = "Will Converge"
-        return guess.tolist(),crit,begin_time
+        return guess.tolist(),crit,time
 

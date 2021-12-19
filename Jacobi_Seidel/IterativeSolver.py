@@ -1,6 +1,5 @@
-from Jacobi_Seidel import Jacobi_method 
-from Jacobi_Seidel import Seidel_method
-
+import numpy as np
+from timeit import default_timer as timer
 class iterSolver:
 
     def __init__(self, coArray,  arrayB,iterMax, initalGuess, errorStop,significantFigs,method):
@@ -11,18 +10,172 @@ class iterSolver:
         self.errorStop = errorStop
         self.significantFigs = significantFigs
         self.method = method
+  
+    #calculate new array of guesses from the previous guesses
+    #
+    # parameters :
+    # 
+    # prevGuess : previous guess array
+    # 
+    # 
+    # returns :
+    #
+    # arr : newGuess array
+    # 
+    def __getGuessesJacobi(self,prevGuess):
+        arr = []
+        #loop in the coefficent array
+        for i in range(len(self.coArray)):
+            #get the last value (b)
+            #if a diagonal element is zero pivot elements
+            if self.coArray[i][i] == 0:
+                self.__pivoting(i)
+
+            last = self.coArray[i][len(self.coArray[i])-1]
+            x = last
+            #loop in each equation
+            for j in range(len(self.coArray[i])-1):
+                #skip a loop if the value is the coefficent of the variable being guessed
+                if i == j:
+                    continue
+                else:
+                    #calculate the new guess
+                    x = x - (self.coArray[i][j] * prevGuess[j])
+            x = x/self.coArray[i][i]
+            #push the guess in its place 
+            arr.append(x)
+
+        return arr
+
+    def __getGuessesSeidel(self,prevGuess):
+        arr = []
+        #loop in the coefficent array
+        for i in range(len(self.coArray)):
+            #get the last value (b)
+            #if a diagonal element is zero pivot elements
+            if self.coArray[i][i] == 0:
+                self.__pivoting(i)
+            last = self.coArray[i][len(self.coArray[i])-1]
+            prevGuess[i] = last
+            #loop in each equation
+            for j in range(len(self.coArray[i])-1):
+                #skip a loop if the value is the coefficent of the variable being guessed
+                if i == j:
+                    continue
+                else:
+                    #calculate the new guess
+                    prevGuess[i] = prevGuess[i] - (self.coArray[i][j] * prevGuess[j])
+            prevGuess[i] = prevGuess[i]/self.coArray[i][i]
+            #push the guess in its place 
+            arr.append(prevGuess[i])
+
+        return arr
+
+   #Partial pivoting function
+##@param p: the index of the pivot
+##@param a: the coefficients matrix
+##@param b: the constants matrix
+#@return a, b
+    def __pivoting(self,p):
+    #finding the index of the maximum value below the pivot
+        n=len(self.coArray)
+        max_index = p
+        for i in range(p+1, n):
+            if self.coArray[max_index][p] < self.coArray[i][p]:
+                max_index = i
+    #swap the two rows in A & B matrices
+        temp = 0
+    #A - the coefficients matrix
+        for i in range(0, n):
+            temp = self.coArray[p][i]
+            self.coArray[p][i] = self.coArray[max_index][i]
+            self.coArray[max_index][i] = temp
     
+    #End pivoting
+
+
+    #Solves systems of linear equations using Jacobi/Seidel Iterations method
+    # 
+    # 
+    # returns :
+    #
+    # guess : array of guesses of last iteration
+    # 
     def Solve(self):
+        i = 0 
+        errorSatisCount = 0
+        crit = ""
+        #get the value of the inital guess
+        guess = self.initalGuess
+        time = 0
+        while i < self.iterMax+1000:
+            begin_time = timer()
+            #store the value of the previous guess
+            prevGuess = guess
+            #calculate the new guess 
+            if self.method == 4:
+                guess = self.__getGuessesSeidel(prevGuess)
+            elif self.method == 5:
+                guess = self.__getGuessesJacobi(prevGuess)
+
+            guess = np.array(guess)
+            #round the result
+            #calculate the error
+            error = abs(np.array(guess) - np.array(prevGuess)/np.array(guess))
+
+            #check for divergence to avoid wasting runtime
+            if (np.inf in error) or (np.inf in guess):                
+                time = timer() - begin_time
+                crit = "Diverged"
+                print([prevGuess,crit,time,i])
+                return [prevGuess,crit,time,i]
+
+            #round errors
+            guess  = guess.round(self.significantFigs+1)
+            error = error.round(self.significantFigs+1)
+    
+            error = error.tolist()
+
+
+            #compare with given error criteria
+            for k in range(len(error)):
+                if error[k] < self.errorStop:
+                    errorSatisCount =errorSatisCount + 1
+    
+            #increment counter
+            i = i+1
+
+            #print Iterations
+            if i <= self.iterMax:
+                print(guess, error, errorSatisCount,i)
+
+            #calculate time
+            if i == self.iterMax:
+                time = timer() - begin_time
+
+            # if all values satisfy the criteria
+            # stop iterating
+            if errorSatisCount == len(error)+1:
+                time = timer() - begin_time
+                break
+        #if check for more iterations if the value converges or diverges
+        if (i > self.iterMax):
+            i = self.iterMax
+        if(i == self.iterMax+1000):
+            crit = "will Diverge"
+            i = self.iterMax
+        else:
+            crit = "Will Converge"
+        print([guess.tolist(),crit,time,i])
+        return [guess.tolist(),crit,time,i]
+
+
+    def Solveit(self):
         i = 0
-        coeffArray = self.coArray
-        while i < len(coeffArray):
-            coeffArray[i].append(self.arrayB[i])
+        while i < len(self.coArray):
+            self.coArray[i].append(self.arrayB[i])
             i += 1
         
-        if self.method == 4:    
-            SeidSolver = Seidel_method.SeidelSolver(coeffArray,self.iterMax,self.initalGuess,self.errorStop,self.significantFigs)
-            return SeidSolver.Solve()
-        if self.method ==5:
-            JacSolver = Jacobi_method.jacobiSolver(coeffArray,self.iterMax,self.initalGuess,self.errorStop,self.significantFigs)
-            return JacSolver.Solve()
+            return self.Solve()
+
         
