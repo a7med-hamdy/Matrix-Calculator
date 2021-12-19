@@ -4,7 +4,7 @@ import Seidel_method
 import IterativeSolver
 coeffarray = [
 [0, 3, 5,3],
-[1, 0, 3,9],
+[1, 0, 3],
 [3, 7, 0,9]] 
 numofvar = 3
 iterMax = 100

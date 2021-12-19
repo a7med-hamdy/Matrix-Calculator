@@ -1,19 +1,14 @@
 import Pivoting
-import time as t
+from sigfig import round
+from timeit import default_timer as timer
 #Gauss Elimination:
 #   Forward Elimination
 #   Backward Substitution
 
 class Gauss_Elimination():
-    #constructor
-    def init(self, n, A, B):
-        self.n = n
-        self.A = A
-        self.B = B
 
-    #solving function
-    def solve(n, A, B):
-        begin_time = t.time() #measure the execution time
+    def solve(n, A, B, precision = 5):
+        begin_time = timer() #measure the execution time
         iterations = 0 #number of iterations counter
         #Forward Elimination
         factor = 0
@@ -22,28 +17,43 @@ class Gauss_Elimination():
             A, B = Pivoting.pivoting(n, i, A, B) #search for pivoting in each iteration
             for j in range(i+1, n):
                 iterations += 1
-                factor = A[j][i] / A[i][i]
+                #if dividing by zero occurs that means -> infinite solutions (variable eliminated)
+                try:
+                    factor = round(A[j][i] / A[i][i], sigfigs = precision)
+                except:
+                    return "The system has infinite number of solutions"
                 for k in range(i, n):
                     iterations += 1
-                    A[j][k] = A[j][k] - factor * A[i][k]
-                B[j] = B[j] - factor * B[i]
+                    A[j][k] = round(A[j][k] - factor * A[i][k], sigfigs = precision)
+                B[j] = round(B[j] - factor * B[i], sigfigs = precision)
         print(A, B)
+        #Check if the system has no unique solution
+        if(A[-1][-1] == 0):    
+            if( B[-1] == 0 ):
+                return "The system has infinite number of solutions"
+            else:
+                return "The system has no solution"
         X = [0] * n
         #Backward Substitution
-        X[-1] = B[-1] / A[-1][-1]
+        X[-1] = round(B[-1] / A[-1][-1], sigfigs = precision)
         for i in range(n-2, -1, -1):
             iterations += 1
             sum = 0
             for j in range(i+1, n):
                 iterations += 1
-                sum = sum + A[i][j] * X[j]
-            X[i] = (B[i] - sum) / A[i][i]
-        print("---> %s seconds <---" % (t.time() - begin_time))
-        print('X = ', X)
+                sum = round(sum + A[i][j] * X[j], sigfigs = precision)
+            X[i] = round((B[i] - sum) / A[i][i], sigfigs = precision)
+        time = timer() - begin_time
+        print('X= ', X)
+        print("-> %s seconds <-" % time)
         print('number of iterations = ', iterations)
-        return X
+        return X, iterations, time
 
 #debugging
-Gauss_Elimination.solve(3, [[2,1,4],
-                            [1,2,3],
-                            [4,-1,2]], [1,1.5,2])
+print(Gauss_Elimination.solve(3, [[2,1,4],
+                                  [1,2,3],
+                                  [4,-1,2]], [1,1.5,2], 3)) #unique solution
+print('------------------------------------------------------------')
+print(Gauss_Elimination.solve(3, [[2,1,4],
+                                  [4,2,8],
+                                  [1,0.5,2]], [1,2,0.5], 3)) #infinite solutions
