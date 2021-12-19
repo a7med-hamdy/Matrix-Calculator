@@ -170,7 +170,7 @@ class iterSolver:
         if (np.inf in error) or (np.inf in guess):                
                 time = timer() - begin_time
                 crit = "Diverged"
-                return [guessLast.tolist(),time,i,crit]
+                return [guessLast,time,i,crit]
 
         print([guessLast,time,i,crit])
         return [guessLast,time,i,crit]
