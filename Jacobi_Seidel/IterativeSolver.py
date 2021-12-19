@@ -108,8 +108,9 @@ class iterSolver:
         crit = ""
         #get the value of the inital guess
         guess = self.initalGuess
+        guessLast = guess
         time = 0
-        while i < self.iterMax:
+        while i < self.iterMax+1000:
             begin_time = timer()
             #store the value of the previous guess
             prevGuess = guess
@@ -127,12 +128,11 @@ class iterSolver:
 
 
             #round errors
-            #for j in range(0,len(guess)):
-               # guess[j]  = sigfig.round(guess[j],sigfigs = self.significantFigs)
-                #error[j] = sigfig.round(error[j],sigfigs = self.significantFigs)
+        
+            for j in range(0,len(guess)):
+                guess[j]  = sigfig.round(guess[j],sigfigs = self.significantFigs)
+                error[j] = sigfig.round(error[j],sigfigs = self.significantFigs)
     
-            error = error.tolist()
-
 
             #compare with given error criteria
             for k in range(len(error)):
@@ -149,6 +149,7 @@ class iterSolver:
 
             #calculate time
             if i == self.iterMax:
+                guessLast = guess
                 time = timer() - begin_time
 
             # if all values satisfy the criteria
@@ -169,10 +170,10 @@ class iterSolver:
         if (np.inf in error) or (np.inf in guess):                
                 time = timer() - begin_time
                 crit = "Diverged"
-                return [guess.tolist(),time,i,crit]
+                return [guessLast.tolist(),time,i,crit]
 
-        print([guess.tolist(),time,i,crit])
-        return [guess.tolist(),time,i,crit]
+        print([guessLast.tolist(),time,i,crit])
+        return [guessLast.tolist(),time,i,crit]
 
 
     def Solveit(self):
@@ -181,6 +182,6 @@ class iterSolver:
             self.coArray[i].append(self.arrayB[i])
             i += 1
         
-            return self.Solve()
+        return self.Solve()
 
         
