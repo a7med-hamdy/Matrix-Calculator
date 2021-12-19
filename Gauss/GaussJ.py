@@ -58,7 +58,7 @@ class GaussJ():
         print('X = ', X)
         print("Time = %.10g seconds" % time)
         print('Number of iterations = ', iterations)
-        return [X, iterations, time]
+        return [X, time ,iterations]
     #End solve
 
 #debugging
