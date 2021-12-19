@@ -91,7 +91,7 @@ initials.place(x = 300, y = 170,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS1=tkinter.Label(window,text="number of iteration:(defuly=500)",font=('Arial Bold',15))
+lsS1=tkinter.Label(window,text="number of iteration:(defult=500)",font=('Arial Bold',15))
 lsS1.pack()
 lsS1.place(x=300,y=210)
 
@@ -236,6 +236,25 @@ def solver():
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
 B.place(x=5,y=210,width=210)
+###################### check button ###################
+### this button is for check the order of 
+def getVars():
+   es=txt.get("1.0","end-1c")
+   es = es.replace(" ", "")
+   obj=parserr.getLists()
+   varss=obj.parsingVar(es+"\n")
+   c=obj.validations(es+"\n") 
+   if(c==False or isinstance(varss, str)):
+      print(c)
+      tkinter.messagebox.showinfo( "error message","Error")
+   else:   
+      tkinter.messagebox.showinfo( "vars order",varss)
+
+
+
+check = tkinter.Button(window, text ="variables order", command = getVars)
+check.pack()
+check.place(x=630,y=210,width=150)
 
 ## main loop for the program
 window.mainloop()
