@@ -1,5 +1,5 @@
-from Jacobi_Seidel.Jacobi_method import jacobiSolver
-from Jacobi_Seidel.Seidel_method import SeidelSolver
+from Jacobi_Seidel import Jacobi_method 
+from Jacobi_Seidel import Seidel_method
 
 class iterSolver:
 
@@ -16,12 +16,14 @@ class iterSolver:
         i = 0
         coeffArray = self.coArray
         while i < len(coeffArray):
+            print("hello")
             coeffArray[i].append(self.arrayB[i])
+            i += 1
         
         if self.method == 4:    
-            SeidSolver = SeidelSolver(coeffArray,self.iterMax,self.initalGuess,self.errorStop,self.significantFigs)
+            SeidSolver = Seidel_method.SeidelSolver(coeffArray,self.iterMax,self.initalGuess,self.errorStop,self.significantFigs)
             return SeidSolver.Solve()
         if self.method ==5:
-            JacSolver = jacobiSolver(coeffArray,self.iterMax,self.initalGuess,self.errorStop,self.significantFigs)
+            JacSolver = Jacobi_method.jacobiSolver(coeffArray,self.iterMax,self.initalGuess,self.errorStop,self.significantFigs)
             return JacSolver.Solve()
         

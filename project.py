@@ -5,9 +5,7 @@ import tkinter.messagebox
 from tkinter import ttk
 import numpy as np
 import parserr
-from Jacobi_Seidel.IterativeSolver import iterSolver
-from Gauss import GaussE,GaussJ
-
+from Jacobi_Seidel import IterativeSolver
 
 ###window functions
 #setting the window
@@ -200,11 +198,11 @@ def solver():
          inital[nex]=float(z)
           
       if(k == 4):
-         iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
+         iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
          guess,crit = iterativeSolver.Solve()
          print(guess,crit) 
       else:
-         iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
+         iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
    elif(k==1): 
      gas=GaussE,GaussE()
