@@ -7,6 +7,7 @@ import numpy as np
 from Gauss import GaussE,GaussJ
 import parserr
 from Jacobi_Seidel import IterativeSolver
+import LU_decomposer
 
 ###window functions
 #setting the window
@@ -170,8 +171,8 @@ def solver():
       return None
    noVar=len(varss)
 
-   if(noVar>c ):
-      screen.config(text="Infinte number of solutions")
+   if(noVar!=c ):
+      screen.config(text="not square")
       return None
 
    cofs,valuse=obj.parsingCoff(varss,es+"\n")
