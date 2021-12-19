@@ -1,6 +1,9 @@
 class getLists:
   
   ## function to validate some inputs
+  # @ parameter string : the systems of equatians  
+  # returns numebr of systems
+
   def validations(self,string):
     lenth=len(string)
     i=0
@@ -34,7 +37,9 @@ class getLists:
     return len(eqI)    
  
    
-  ###function to get variables  
+  ###function to get variables
+  # # @ parameter string : the systems of equatians  
+  # returns array of variable 
   def parsingVar(self,string):
     queue = []
     var=[]
@@ -75,6 +80,10 @@ class getLists:
 
 
   ### coeffficent matrix
+  # @ parameter string : the systems of equatians  
+  # @ PARAMTER  VARABLIES ARRAY
+  # returns 2darray of coffiecent and 1d values array
+  
   def parsingCoff(self,var,string):
     queue1 = []
     queue2 = []
