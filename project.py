@@ -5,8 +5,7 @@ import tkinter.messagebox
 from tkinter import ttk
 import numpy as np
 import parserr
-from Jacobi_Seidel.IterativeSolver import iterSolver
-
+from Jacobi_Seidel import IterativeSolver
 
 ###window functions
 #setting the window
@@ -199,11 +198,11 @@ def solver():
          inital[nex]=float(z)
           
       if(k == 4):
-         iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
+         iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
          guess,crit = iterativeSolver.Solve()
          print(guess,crit) 
       else:
-         iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
+         iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
    if(k==1 or k==2): 
       return None  
