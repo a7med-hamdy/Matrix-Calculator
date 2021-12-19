@@ -123,12 +123,7 @@ class iterSolver:
             #calculate the error
             error = abs(np.array(guess) - np.array(prevGuess)/np.array(guess))
 
-            #check for divergence to avoid wasting runtime
-            if (np.inf in error) or (np.inf in guess):                
-                time = timer() - begin_time
-                crit = "Diverged"
-                print([prevGuess,crit,time,i])
-                return [prevGuess,crit,time,i]
+
 
             #round errors
             guess  = guess.round(self.significantFigs+1)
@@ -166,6 +161,12 @@ class iterSolver:
             i = self.iterMax
         else:
             crit = "Will Converge"
+
+            if (np.inf in error) or (np.inf in guess):                
+                time = timer() - begin_time
+                crit = "Diverged"
+                print([prevGuess,crit,time,i])
+                return [prevGuess,crit,time,i]
         print([guess.tolist(),crit,time,i])
         return [guess.tolist(),crit,time,i]
 
