@@ -62,10 +62,10 @@ class GaussJ():
     #End solve
 
 #debugging
-print(GaussJ.solve(3, [[2,1,4],
-                       [1,2,3],
-                       [4,-1,2]], [1,1.5,2], 5)) #unique solution
-print('-----------------------------------------------------------')
-print(GaussJ.solve(3, [[1,1,1],
-                       [0,1,-3],
-                       [2,1,5]], [2,1,0], 3)) #no solution
+#print(GaussJ.solve(3, [[2,1,4],
+                       #[1,2,3],
+                       #[4,-1,2]], [1,1.5,2], 5)) #unique solution
+#print('-----------------------------------------------------------')
+#print(GaussJ.solve(3, [[1,1,1],
+                       #[0,1,-3],
+                       #[2,1,5]], [2,1,0], 3)) #no solution

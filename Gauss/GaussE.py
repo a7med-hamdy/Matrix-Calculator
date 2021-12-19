@@ -57,10 +57,10 @@ class GaussE():
     #End solve
 
 #debugging
-print(GaussE.solve(3, [[2,1,4],
-                       [1,2,3],
-                       [4,-1,2]], [1,1.5,2], 3)) #unique solution
-print('------------------------------------------------------------')
-print(GaussE.solve(3, [[2,1,4],
-                       [4,2,8],
-                       [1,0.5,2]], [1,2,0.5], 3)) #infinite solutions
+#print(GaussE.solve(3, [[2,1,4],
+                       #[1,2,3],
+                       #[4,-1,2]], [1,1.5,2], 3)) #unique solution
+#print('------------------------------------------------------------')
+#print(GaussE.solve(3, [[2,1,4],
+                       #[4,2,8],
+                       #[1,0.5,2]], [1,2,0.5], 3)) #infinite solutions

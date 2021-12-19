@@ -207,10 +207,10 @@ def solver():
          iterativeSolver = iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          return iterativeSolver.Solve()
    elif(k==1): 
-     gas=GaussE()
+     gas=GaussE,GaussE()
      ans=gas.solve(noVar,cofs,valuse,rou)
    elif(k==2):
-     gas=GaussJ()
+     gas=GaussJ,GaussJ()
      ans=gas.solve(noVar,cofs,valuse,rou)
    else:
 
