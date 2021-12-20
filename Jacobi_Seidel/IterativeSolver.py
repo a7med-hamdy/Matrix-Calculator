@@ -118,8 +118,6 @@ class iterSolver:
                     time = timer() - begin_time
                     crit = "Diverged!"
                     break
-                print(guess, error, errorSatisCount,i)
-                print()
 
             #calculate time
             if i == self.iterMax:
@@ -149,7 +147,6 @@ class iterSolver:
                 crit = "Diverged"
                 return [guessLast,time,i,crit]
 
-        print([guessLast,time,i,crit])
         return [guessLast,time,i,crit]
 
 
