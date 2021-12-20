@@ -16,18 +16,18 @@ class LU_decomposer:
     def decompose(self, type):
         iterations = 0
         start = time.perf_counter()
-        if(type == "dolittle"):
+        if(type == 1):
             lower,upper,identity = self.DollitleDecompose()
             self.vectorB = np.matmul(identity,self.vectorB)
             iterations += self.n**3/3
-        elif(type == "cholesky"):
+        elif(type == 3):
             a=np.array(self.matrix,float)
             if(not self.check_positive(a) or not self.check_symmetric(a)):
                 return "not valid cholesky"
             else:
                 lower, upper = self.CholeskyDecompose()
                 iterations += self.n**3/6
-        elif(type == "crout"):
+        elif(type == 2):
             lower,upper = self.CroutDecompose()
             iterations += self.n**3/3
         else:
@@ -178,11 +178,3 @@ class LU_decomposer:
         return x
 
 
-
-def main():
-    # x = LU_decomposer(np.array([[25,5,1],[64,8,1],[144,12,1]], np.float64),5,[106.8,177.2,279.2])
-    # x = LU_decomposer(np.array([[6,15,55],[15,55,225],[55,225,979]], np.float64),20,[76,295,1259])
-    x = LU_decomposer(np.array([[1,2],[2,4]], np.float64),20,[4,8])
-    x.decompose("dolittle")
-if __name__ == "__main__":
-    main()
