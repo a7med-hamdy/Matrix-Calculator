@@ -10,7 +10,7 @@ class getLists:
     spcI=[]
     eqI=[]
     operations=["+","-","."]
- 
+
     while i < lenth:
 
       if  (string[i] == "\n"):
@@ -32,7 +32,7 @@ class getLists:
         else:
            if(eqI[i]-spcI[i-1]<=1 or spcI[i]-eqI[i]==1):
             return False
-
+   
           
     return len(eqI)    
  
@@ -61,7 +61,7 @@ class getLists:
                 var.append(x)   
           else:
              return "Wrong formate"
-       elif(flage==True):
+       elif(flage==True and i.isnumeric()):
           queue.append(i)
        elif(i in operations):
           if(i=="-" and (z==0 or string[z-1]=="=" or string[z-1]=="\n")):
@@ -74,7 +74,8 @@ class getLists:
        elif(not(i.isnumeric())):
        
           return "not a right sign"
-    print(var)     
+       if(len(queue)>2):
+         return "weird variable"
     return var
 
 
@@ -161,7 +162,5 @@ class getLists:
            bf=0
        if(i=="="):
            bf=1
-    
-    print(cofs)
-    print(value)
+
     return cofs,value

@@ -7,6 +7,7 @@ import numpy as np
 from Gauss import GaussE,GaussJ
 import parserr
 from Jacobi_Seidel import IterativeSolver
+import LU_decomposer
 
 ###window functions
 #setting the window
@@ -67,7 +68,7 @@ systems.current(0)
 #setting initial value
 systems1=ttk.Combobox(window,font=('Arial Bold',14))
 systems1.place(x=300,y=85)
-systems1['values']=("1.Downlittle Form","2.Crout Form","3.Cholesky Form")
+systems1['values']=("1.Dolittle Form","2.Crout Form","3.Cholesky Form")
 systems1.current(0)
 
 
@@ -140,6 +141,7 @@ con.place(x=350,y=450)
 ###########Button and thier function ##################
 #########function for main logic of button
 def solver():
+  try: 
    ###defult values
    rou=5
    iterations=500
@@ -158,31 +160,47 @@ def solver():
       iterations = int(txt1.get().replace(" ", ""))
 
    #errors
-   if(len(txt2.get().replace(" ", ""))!=0):
-      errors = float(txt2.get().replace(" ", ""))
+   err=txt2.get().replace(" ", "")
+   if(len(err)!=0):
+      if("^" in err):
+         num=""
+         power=""
+         found=False
+         for i in err:
+            if(i=="^"):
+               found=True
+            elif(found):
+               power=power+i
+            else:
+               num=num+i
+         errors=float(num)**float(power)         
+      else:   
+         errors = float(err)
 
    varss=obj.parsingVar(es+"\n")
    c=obj.validations(es+"\n") 
    if(c==False or isinstance(varss, str)):
-      print(c)
-      screen.config(text="error")
-      tkinter.messagebox.showinfo( "error message","Error")
+ 
+      screen.config(text="error in systems")
+      tkinter.messagebox.showinfo( "error message","Error enter\nright system")
       return None
    noVar=len(varss)
 
-   if(noVar>c ):
-      screen.config(text="Infinte number of solutions")
+   if(noVar!=c ):
+      screen.config(text="not square matrix")
       return None
-
+   if(noVar>5 ):
+      screen.config(text="more then5 variables")
+      return None
    cofs,valuse=obj.parsingCoff(varss,es+"\n")
    tkinter.messagebox.showinfo( "order of variables",varss)
    k=int(systems.get()[0])
 
    if(k==4 or k==5):
       inital=[ 0 for i in range(noVar) ]
-
-      if(len(initials.get().replace(" ", ""))!=0):
-         temp=initials.get().replace(" ", "")
+      ini=initials.get().replace(" ", "")
+      if(len(ini)!=0 and len(ini)==noVar):
+         temp=ini
          queue=[]
          nex=0
          for p in temp:
@@ -214,7 +232,7 @@ def solver():
      gas=GaussJ.GaussJ()
      ans=gas.solve(noVar,cofs,valuse,rou)
    else:
-
+   
       return None     
    if(isinstance(ans, str)):
       if(len(ans)>27):
@@ -224,7 +242,7 @@ def solver():
       tm.config(text="Time:")
       con.config(text="convergance:")
    else:
-      tm.config(text="Time:"+str(ans[1])+"sec")
+      tm.config(text="Time:"+str( round(ans[1],8) )+" sec")
       con.config(text="convergance:"+str(ans[2]))
       answer="   "
    
@@ -234,7 +252,9 @@ def solver():
       screen.config(text=answer)   
       if(len(ans)==4):
          answer=answer+ans[3]
-         screen.config(text=answer)  
+         screen.config(text=answer) 
+  except:  
+      tkinter.messagebox.showinfo( "some Error","error in input")
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
