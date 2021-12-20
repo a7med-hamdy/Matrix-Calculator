@@ -1,6 +1,7 @@
 import numpy as np
 from timeit import default_timer as timer
-import sigfig 
+import sigfig
+import copy
 class iterSolver:
 
     def __init__(self, coArray,  arrayB,iterMax, initalGuess, errorStop,significantFigs,method):
@@ -51,13 +52,14 @@ class iterSolver:
     def __getGuessesSeidel(self,prevGuess):
         arr = []
         #loop in the coefficent array
+        prev = copy.deepcopy(prevGuess)
         for i in range(len(self.coArray)):
             #get the last value (b)
             #if a diagonal element is zero pivot elements
            # if self.coArray[i][i] == 0:
                # self.__pivoting(i)
             last = self.coArray[i][len(self.coArray[i])-1]
-            prevGuess[i] = last
+            prev[i] = last
             #loop in each equation
             for j in range(len(self.coArray[i])-1):
                 #skip a loop if the value is the coefficent of the variable being guessed
@@ -65,10 +67,10 @@ class iterSolver:
                     continue
                 else:
                     #calculate the new guess
-                    prevGuess[i] = prevGuess[i] - (self.coArray[i][j] * prevGuess[j])
-            prevGuess[i] = prevGuess[i]/self.coArray[i][i]
+                    prev[i] = prev[i] - (self.coArray[i][j] * prev[j])
+            prev[i] = prev[i]/self.coArray[i][i]
             #push the guess in its place 
-            arr.append(prevGuess[i])
+            arr.append(prev[i])
 
         return arr
 
@@ -113,7 +115,7 @@ class iterSolver:
         while i < self.iterMax+1000:
             begin_time = timer()
             #store the value of the previous guess
-            prevGuess = guess
+            prevGuess = copy.deepcopy(guess)
             errorSatisCount = 0
             #calculate the new guess 
             if self.method == 4:
@@ -121,43 +123,46 @@ class iterSolver:
             elif self.method == 5:
                 guess = self.__getGuessesJacobi(prevGuess)
 
-            #round the result
             #calculate the error
-            error = (abs(np.array(guess) - np.array(prevGuess)/np.array(guess)))
+            error = (abs(np.array(guess) - np.array(prevGuess)))
 
-
-
-            #round errors
-        
-            for j in range(0,len(guess)):
-                guess[j]  = sigfig.round(guess[j],sigfigs = self.significantFigs)
-                error[j] = sigfig.round(error[j],sigfigs = self.significantFigs)
-    
+            error = error.tolist()
 
             #compare with given error criteria
             for k in range(len(error)):
                 if error[k] < self.errorStop:
-                    errorSatisCount =errorSatisCount + 1
+                    errorSatisCount = errorSatisCount + 1
     
             #increment counter
             i = i+1
 
-            #print Iterations
+            #round guess and check for divergence
             if i <= self.iterMax:
+                try:
+                    #round guess
+                    for j in range(0,len(guess)):
+                        guess[j]  = sigfig.round(guess[j],sigfigs = self.significantFigs)
+                except ValueError:
+                    guessLast = copy.deepcopy(guess)
+                    time = timer() - begin_time
+                    crit = "Diverged!"
+                    break
                 print(guess, error, errorSatisCount,i)
                 print()
 
             #calculate time
             if i == self.iterMax:
-                guessLast = guess
+                guessLast = copy.deepcopy(guess)
                 time = timer() - begin_time
 
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error):
+                guessLast = copy.deepcopy(guess)
                 time = timer() - begin_time
                 crit = "Converged!"
                 break
+        
         #if check for more iterations if the value converges or diverges
         if (i > self.iterMax):
             if(i == self.iterMax+1000):
@@ -167,6 +172,7 @@ class iterSolver:
                 crit = "Will Converge"
             i = self.iterMax
 
+        #check for divergence
         if (np.inf in error) or (np.inf in guess):                
                 time = timer() - begin_time
                 crit = "Diverged"
