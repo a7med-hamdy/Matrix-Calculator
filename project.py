@@ -176,6 +176,11 @@ def solver():
          errors=float(num)**float(power)         
       else:   
          errors = float(err)
+
+   #checkword
+   if(es[-1]=="\n" ):
+     es=es[0:-1]
+
    # varaible
    varss=obj.parsingVar(es+"\n")
    # validity
