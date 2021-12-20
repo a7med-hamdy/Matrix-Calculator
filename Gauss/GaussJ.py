@@ -39,7 +39,7 @@ class GaussJ():
                     iterations += 1
                     A[j][k] = round(A[j][k] - factor * A[i][k], sigfigs = precision)
                 B[j] = round(B[j] - factor * B[i], sigfigs = precision)
-        print(A, B)
+      
         #substitution
         X = [0] * n
         for i in range(n):
