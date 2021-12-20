@@ -46,9 +46,9 @@ class GaussJ():
             iterations += 1
             X[i] = round(B[i] / A[i][i], sigfigs = precision)
         time = round(timer() - begin_time, sigfigs = precision)
-        print('X = ', X)
-        print("Time = %.10g seconds" % time)
-        print('Number of iterations = ', iterations)
+        #print('X = ', X)
+       # print("Time = %.10g seconds" % time)
+        #print('Number of iterations = ', iterations)
         return [X, time ,iterations]
     #End solve
 

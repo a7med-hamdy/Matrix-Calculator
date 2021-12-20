@@ -41,9 +41,9 @@ class GaussE():
                 sum = round(sum + A[i][j] * X[j], sigfigs = precision)
             X[i] = round((B[i] - sum) / A[i][i], sigfigs = precision)
         time = timer() - begin_time
-        print('X = ', X)
-        print("Time = %.10s seconds" % time)
-        print('Number of iterations = ', iterations)
+        #print('X = ', X)
+        #print("Time = %.10s seconds" % time)
+        #print('Number of iterations = ', iterations)
         return [X, time ,iterations ]
     #End solve
 

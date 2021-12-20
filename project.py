@@ -68,7 +68,7 @@ systems.current(0)
 #setting initial value
 systems1=ttk.Combobox(window,font=('Arial Bold',14))
 systems1.place(x=300,y=85)
-systems1['values']=("1.Dolittle Form","2.Crout Form","3.Cholesky Form")
+systems1['values']=("1.Doolittle Form","2.Crout Form","3.Cholesky Form")
 systems1.current(0)
 
 
@@ -199,13 +199,15 @@ def solver():
    if(k==4 or k==5):
       inital=[ 0 for i in range(noVar) ]
       ini=initials.get().replace(" ", "")
-      if(len(ini)!=0 and len(ini)==noVar):
+      if(len(ini)!=0):
          temp=ini
          queue=[]
          nex=0
+         fasla=0
          for p in temp:
             if(p==","):
-              z="" 
+              z=""
+              fasla+=1 
               while(len(queue)>0):
                 z=z+queue.pop(0)
               inital[nex]=float(z)
@@ -216,12 +218,17 @@ def solver():
          while(len(queue)>0):
             z=z+queue.pop(0)
          inital[nex]=float(z)
-          
+         if(noVar-1!=fasla):
+            tkinter.messagebox.showinfo( "enter eight number of variable","intials not\n equal variable")
+            return None
+        
       if(k == 4):
+   
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
          ans = iterativeSolver.Solveit()
     
       else:
+   
          iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
          ans = iterativeSolver.Solveit()
      
@@ -232,8 +239,10 @@ def solver():
      gas=GaussJ.GaussJ()
      ans=gas.solve(noVar,cofs,valuse,rou)
    else:
-   
-      return None     
+     LU=LU_decomposer.LU_decomposer(np.array(cofs,float),rou,valuse) 
+     wy=int(systems1.get()[0])
+     ans=LU.decompose(wy)
+         
    if(isinstance(ans, str)):
       if(len(ans)>27):
          screen.config(text=ans[0:24]+"\n"+ans[24:])
@@ -243,7 +252,7 @@ def solver():
       con.config(text="convergance:")
    else:
       tm.config(text="Time:"+str( round(ans[1],8) )+" sec")
-      con.config(text="convergance:"+str(ans[2]))
+      con.config(text="convergance:"+str(int(ans[2])))
       answer="   "
    
       for k in range(noVar):
@@ -260,7 +269,7 @@ B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
 B.place(x=5,y=210,width=210)
 ###################### check button ###################
-### this button is for check the order of 
+### this button is for check the order of variable to enter the inintails 
 def getVars():
    es=txt.get("1.0","end-1c")
    es = es.replace(" ", "")
