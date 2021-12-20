@@ -29,10 +29,6 @@ class iterSolver:
         #loop in the coefficent array
         for i in range(len(self.coArray)):
             #get the last value (b)
-            #if a diagonal element is zero pivot elements
-            if self.coArray[i][i] == 0:
-                self.__pivoting(i)
-
             last = self.coArray[i][len(self.coArray[i])-1]
             x = last
             #loop in each equation
@@ -55,9 +51,6 @@ class iterSolver:
         prev = copy.deepcopy(prevGuess)
         for i in range(len(self.coArray)):
             #get the last value (b)
-            #if a diagonal element is zero pivot elements
-           # if self.coArray[i][i] == 0:
-               # self.__pivoting(i)
             last = self.coArray[i][len(self.coArray[i])-1]
             prev[i] = last
             #loop in each equation
@@ -73,28 +66,6 @@ class iterSolver:
             arr.append(prev[i])
 
         return arr
-
-   #Partial pivoting function
-##@param p: the index of the pivot
-##@param a: the coefficients matrix
-##@param b: the constants matrix
-#@return a, b
-    def __pivoting(self,p):
-    #finding the index of the maximum value below the pivot
-        n=len(self.coArray)
-        max_index = p
-        for i in range(p+1, n):
-            if self.coArray[max_index][p] < self.coArray[i][p]:
-                max_index = i
-    #swap the two rows in A & B matrices
-        temp = 0
-    #A - the coefficients matrix
-        for i in range(0, n):
-            temp = self.coArray[p][i]
-            self.coArray[p][i] = self.coArray[max_index][i]
-            self.coArray[max_index][i] = temp
-    
-    #End pivoting
 
 
     #Solves systems of linear equations using Jacobi/Seidel Iterations method
