@@ -233,17 +233,10 @@ def solver():
          if(noVar-1!=fasla):
             tkinter.messagebox.showinfo( "enter the right number of variable","intials not\n equal variable")
             return None
-      #Gauss seidal
-      if(k == 4):
-   
-         iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,4)
-         ans = iterativeSolver.Solveit()
-      #Jacobi iterations
-      else:
-   
-         iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,5)
-         ans = iterativeSolver.Solveit()
-   #gauss elemination
+      #Gauss seidal  #Jacobi iteration
+      iterativeSolver = IterativeSolver.iterSolver(cofs,valuse,iterations,inital,errors,rou,k)
+      ans = iterativeSolver.Solveit()
+    
    elif(k==1): 
      gas=GaussE.GaussE()
      ans=gas.solve(noVar,cofs,valuse,rou)
