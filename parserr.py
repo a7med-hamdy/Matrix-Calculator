@@ -10,7 +10,7 @@ class getLists:
     spcI=[]
     eqI=[]
     operations=["+","-","."]
- 
+
     while i < lenth:
 
       if  (string[i] == "\n"):
@@ -32,7 +32,7 @@ class getLists:
         else:
            if(eqI[i]-spcI[i-1]<=1 or spcI[i]-eqI[i]==1):
             return False
-
+   
           
     return len(eqI)    
  
@@ -162,7 +162,5 @@ class getLists:
            bf=0
        if(i=="="):
            bf=1
-    
-    print(cofs)
-    print(value)
+
     return cofs,value
