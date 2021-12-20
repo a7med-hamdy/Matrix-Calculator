@@ -4,7 +4,7 @@ from timeit import default_timer as timer
 #Gauss-Jordan:
 #   Forward Elimination
 #   Backward Elimination
-
+epsilon = 10**-2
 class GaussJ():
     #@param n: the size of the coefficients matrix (square)
     #@param A: the coefficients matrix
@@ -23,8 +23,8 @@ class GaussJ():
         if(iterations == 0): #if dividing by zero occurs that means -> infinite solutions (variable eliminated) 
             return "The system has infinite number of solutions"
         #Check if the system has no unique solution
-        if(A[-1][-1] == 0):    
-            if( B[-1] == 0 ):
+        if(abs(A[-1][-1]) < epsilon):    
+            if( abs(B[-1]) < epsilon ):
                 return "The system has infinite number of solutions"
             else:
                 return "The system has no solution"
