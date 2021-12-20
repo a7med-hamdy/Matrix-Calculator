@@ -202,8 +202,9 @@ def solver():
 
    # the number of choosen system
    k=int(systems.get()[0])
-   # the choosen system
 
+   # the choosen system
+   #gauss seidal and jacopi iteration
    if(k==4 or k==5):
       #intinal values
       inital=[ 0 for i in range(noVar) ] #inital for iteraitve method
