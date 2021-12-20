@@ -240,7 +240,7 @@ def solver():
    elif(k==1): 
      gas=GaussE.GaussE()
      ans=gas.solve(noVar,cofs,valuse,rou)
-   #gauss jacobi
+   #gauss Jordan
    elif(k==2):
      gas=GaussJ.GaussJ()
      ans=gas.solve(noVar,cofs,valuse,rou)
