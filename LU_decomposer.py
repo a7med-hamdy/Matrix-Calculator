@@ -71,47 +71,44 @@ class LU_decomposer:
         return (L,L.T)        
 
     def CroutDecompose(self):
+        #intialize lower and upper matrices
         Lower = []
         Upper = []
         sum = 0
-        #do not decompose if matrix is not square
         coeffArray = self.matrix.tolist()
         for i in range(len(coeffArray)):
             Lower.append([0 for i in range(len(coeffArray))])
             Upper.append([0 for i in range(len(coeffArray))])
-            if len(coeffArray[i]) != len(coeffArray):
-                return "Error, not a square matrix"
-        
-        n = len(coeffArray)
-
         for j in range(len(coeffArray)):
-            Upper[j][j] = 1             
+            Upper[j][j] = 1  
+            # form the lower matrix           
             for i in range(j, len(coeffArray)):  
                 sum = coeffArray[i][j]
                 for k in range(j):
-                    sum -= Lower[i][k]*Upper[k][j]
+                    sum = (sum-round(Lower[i][k]*Upper[k][j], self.precision), self.precision)
                 Lower[i][j] = sum
+            # form the upper matrix
             for i in range(j+1, len(coeffArray)):
-                sumU = float(coeffArray[j][i])
+                sumU = round(float(coeffArray[j][i]), self.precision)
                 for k in range(j):
-                    sumU -= Lower[j][k]*Upper[k][i]
-
-                Upper[j][i] = sumU/Lower[j][j]
-
-        array = np.dot(Lower,Upper)
+                    sumU = round(sumU - round(Lower[j][k]*Upper[k][i], self.precision), self.precision)
+                Upper[j][i] = round(sumU/Lower[j][j], self.precision)
         return np.array(Lower,np.float64),np.array(Upper,np.float64)
 
-    
+
     def DollitleDecompose(self):
-        scaling  = []
-        identity = np.identity(self.n)
+        scaling  = [] # the list will hold teh largest element in each row for scaling
+        identity = np.identity(self.n) #the identity matrix to swap teh rows in case of pivoting
+        # append the elements in the scaling array
         for i in range(self.n):
             scaling.append(abs(self.matrix[i,0]))
             for j in range(1,self.n):
                 if(abs(self.matrix[i,j]) > scaling[i]):
                     scaling[i] = abs(self.matrix[i,j])
+        #intialize the lower array
         lower = np.zeros((self.n,self.n), np.float64)
         for k in range(0,self.n-1):
+            # preform the pivoting
             lower,self.matrix,identity = self.pivot(scaling,k,identity,self.matrix, lower)
             for i in range(k+1,self.n):
                 factor = round(self.matrix[i,k]/self.matrix[k,k], self.precision)
@@ -120,21 +117,23 @@ class LU_decomposer:
                     self.matrix[i,j] = round(self.matrix[i,j]-round(factor*self.matrix[k,j], self.precision), self.precision)
         np.fill_diagonal(lower,1)
         return lower,self.matrix,identity
-
+    #a function that preforms pivoting
     def pivot(self,scaling,k,identity,upper,lower):
         pos = k
         biggest = (abs(upper[k][k]) / scaling[k], self.precision)
         for i in range(k+1,self.n):
+            # if there is a larger element make it the largest one and save the index
             temp =  (abs(upper[i][k]) / scaling[i], self.precision)
             if(temp > biggest):
                 biggest = temp
                 pos = i
+        # if the largest element changed swap
         if(pos != k): 
             upper[[pos,k]] = upper[[k,pos]]
             identity[[pos,k]] = identity[[k,pos]]
             lower[[pos,k]] = lower[[k,pos]]
         return lower,upper,identity
-
+    #helper method to check for infinite or no solutions
     def solutionsChecker(self, matrix, vector):
         z = np.all(matrix == 0, axis = 1)
         z = z.tolist()
