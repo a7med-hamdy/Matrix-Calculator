@@ -22,7 +22,7 @@ window.title("Solving system of linear equation")
 #setting label
 #packing label
 #placing label
-ls=tkinter.Label(window,text="Enter the equations:(max number of variablies 5)",font=('Arial Bold',20))
+ls=tkinter.Label(window,text="Enter the equations:(max number of variables is 5)",font=('Arial Bold',20))
 ls.pack()
 ls.place(x=0,y=0)
 
@@ -56,7 +56,7 @@ pres.place(x =5 , y = 185,width=150,height=20)
 v = tkinter.StringVar()
 systems=ttk.Combobox(window,textvariable=v,font=('Arial Bold',14), state = "readonly")
 systems.place(x=300,y=50)
-systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidil","5.Jacobi Iteration")
+systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidel","5.Jacobi Iteration")
 systems.current(0)
 
 
@@ -76,7 +76,7 @@ systems1.current(0)
 #setting label
 #packing label
 #placing label
-lsI=tkinter.Label(window,text="Initials:(defult=zeroes)",font=('Arial Bold',16))
+lsI=tkinter.Label(window,text="Initials:(default=zeroes)",font=('Arial Bold',16))
 lsI.pack()
 lsI.place(x=300,y=140)
 
@@ -92,7 +92,7 @@ initials.place(x = 300, y = 170,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS1=tkinter.Label(window,text="number of iteration:(defult=500)",font=('Arial Bold',15))
+lsS1=tkinter.Label(window,text="number of iteration:(default=500)",font=('Arial Bold',15))
 lsS1.pack()
 lsS1.place(x=300,y=210)
 
@@ -107,7 +107,7 @@ txt1.place(x = 300, y = 240,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS2=tkinter.Label(window,text="Error:(defult=10^-6)",font=('Arial Bold',15))
+lsS2=tkinter.Label(window,text="Error:(default=10^-6)",font=('Arial Bold',15))
 lsS2.pack()
 lsS2.place(x=300,y=290)
 
@@ -194,7 +194,7 @@ def solver():
       return None
    # check that varablies is less than 5
    if(noVar>5 ):
-      screen.config(text="more then5 variables")
+      screen.config(text="more than 5 variables")
       return None
    # A (coefficient)  and B (value)
    cofs,valuse=obj.parsingCoff(varss,es+"\n")
@@ -231,7 +231,7 @@ def solver():
             z=z+queue.pop(0)
          inital[nex]=float(z)
          if(noVar-1!=fasla):
-            tkinter.messagebox.showinfo( "enter eight number of variable","intials not\n equal variable")
+            tkinter.messagebox.showinfo( "enter the right number of variable","intials not\n equal variable")
             return None
       #Gauss seidal
       if(k == 4):
@@ -300,7 +300,7 @@ def getVars():
 
 
 
-check = tkinter.Button(window, text ="variables order", command = getVars)
+check = tkinter.Button(window, text ="Show variables order", command = getVars)
 check.pack()
 check.place(x=630,y=210,width=150)
 
