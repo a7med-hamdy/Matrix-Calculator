@@ -12,7 +12,7 @@ class LU_decomposer:
         self.n = x.shape[0]
         self.precision = tol
         self.vectorB = b
-
+    #driver method that prefrom the decomposition based upon the type of operation
     def decompose(self, type):
         iterations = 0
         start = time.perf_counter()
@@ -58,6 +58,7 @@ class LU_decomposer:
         L=np.zeros_like(a, float)
         for j in range(self.n):
             for i in range(j,self.n):
+                #if the element is diagonal
                 if(i==j):
                     summ=0
                     for l in range(j):
@@ -69,7 +70,7 @@ class LU_decomposer:
                         summ=round(summ+L[i,l]*L[j,l], self.precision) 
                     L[i,j]=round(round(a[i,j]-summ, self.precision)/L[j,j], self.precision)            
         return (L,L.T)        
-
+    ## crout decompostoin function
     def CroutDecompose(self):
         #intialize lower and upper matrices
         Lower = []
@@ -140,9 +141,9 @@ class LU_decomposer:
         for i in z:
             if(z[i] == True):
                 if(vector[i] == 0):
-                    return 0
+                    return 0 #for infinite solutions
                 else:
-                    return 1
+                    return 1  # for no solutions
         return 2
     def subistitute(self,upper,lower):
         #forward subistitution
