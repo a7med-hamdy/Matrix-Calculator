@@ -171,7 +171,7 @@ class iterSolver:
                 time = timer() - begin_time
                 crit = "Diverged"
                 return [guessLast,time,i,crit]
-
+        time = sigfig.round(time,self.significantFigs)
         print([guessLast,time,i,crit])
         return [guessLast,time,i,crit]
 
