@@ -54,7 +54,7 @@ pres.place(x =5 , y = 185,width=150,height=20)
 #setting values
 #setting initial value
 v = tkinter.StringVar()
-systems=ttk.Combobox(window,textvariable=v,font=('Arial Bold',14))
+systems=ttk.Combobox(window,textvariable=v,font=('Arial Bold',14), state = "readonly")
 systems.place(x=300,y=50)
 systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidil","5.Jacobi Iteration")
 systems.current(0)
@@ -66,7 +66,7 @@ systems.current(0)
 #placing Dropbox
 #setting values
 #setting initial value
-systems1=ttk.Combobox(window,font=('Arial Bold',14))
+systems1=ttk.Combobox(window,font=('Arial Bold',14), state = "readonly")
 systems1.place(x=300,y=85)
 systems1['values']=("1.Doolittle Form","2.Crout Form","3.Cholesky Form")
 systems1.current(0)
