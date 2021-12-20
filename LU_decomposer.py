@@ -29,11 +29,13 @@ class LU_decomposer:
                 iterations += self.n**3/6
         elif(type == 2):
             lower,upper = self.CroutDecompose()
+            print(lower)
             iterations += self.n**3/3
         else:
             return "invalid decomposition type"
         x = self.subistitute(upper,lower)
         iterations += self.n*(self.n-1)/2+self.n-1+self.n**3/3
+        print(x)
         end = time.perf_counter()
         if(isinstance(x, str)):
             return x
@@ -73,27 +75,32 @@ class LU_decomposer:
     ## crout decompostoin function
     def CroutDecompose(self):
         #intialize lower and upper matrices
+        print("1")
         Lower = []
         Upper = []
         sum = 0
         coeffArray = self.matrix.tolist()
+        print("2")
         for i in range(len(coeffArray)):
             Lower.append([0 for i in range(len(coeffArray))])
             Upper.append([0 for i in range(len(coeffArray))])
         for j in range(len(coeffArray)):
+            print("3")
             Upper[j][j] = 1  
             # form the lower matrix           
             for i in range(j, len(coeffArray)):  
                 sum = coeffArray[i][j]
                 for k in range(j):
-                    sum = (sum-round(Lower[i][k]*Upper[k][j], self.precision), self.precision)
+                    sum = round(sum-round(Lower[i][k]*Upper[k][j], self.precision), self.precision)
                 Lower[i][j] = sum
+            print(Lower)
             # form the upper matrix
             for i in range(j+1, len(coeffArray)):
                 sumU = round(float(coeffArray[j][i]), self.precision)
                 for k in range(j):
                     sumU = round(sumU - round(Lower[j][k]*Upper[k][i], self.precision), self.precision)
                 Upper[j][i] = round(sumU/Lower[j][j], self.precision)
+        print("5")
         return np.array(Lower,np.float64),np.array(Upper,np.float64)
 
 
@@ -121,10 +128,10 @@ class LU_decomposer:
     #a function that preforms pivoting
     def pivot(self,scaling,k,identity,upper,lower):
         pos = k
-        biggest = (abs(upper[k][k]) / scaling[k], self.precision)
+        biggest = round(abs(upper[k][k]) / scaling[k], self.precision)
         for i in range(k+1,self.n):
             # if there is a larger element make it the largest one and save the index
-            temp =  (abs(upper[i][k]) / scaling[i], self.precision)
+            temp =  round(abs(upper[i][k]) / scaling[i], self.precision)
             if(temp > biggest):
                 biggest = temp
                 pos = i
