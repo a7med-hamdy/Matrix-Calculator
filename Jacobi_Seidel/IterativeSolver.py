@@ -89,11 +89,16 @@ class iterSolver:
             prevGuess = copy.deepcopy(guess)
             errorSatisCount = 0
             #calculate the new guess 
-            if self.method == 4:
-                guess = self.__getGuessesSeidel(prevGuess)
-            elif self.method == 5:
-                guess = self.__getGuessesJacobi(prevGuess)
-
+            try:
+                if self.method == 4:
+                    guess = self.__getGuessesSeidel(prevGuess)
+                elif self.method == 5:
+                    guess = self.__getGuessesJacobi(prevGuess)
+            except:
+                guessLast = copy.deepcopy(guess)
+                time = timer() - begin_time
+                crit = "Division by zero!"
+                return crit
             #calculate the error
             error = (abs(np.array(guess) - np.array(prevGuess)))
 

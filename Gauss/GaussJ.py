@@ -39,16 +39,16 @@ class GaussJ():
                     iterations += 1
                     A[j][k] = round(A[j][k] - factor * A[i][k], sigfigs = precision)
                 B[j] = round(B[j] - factor * B[i], sigfigs = precision)
-        print(A, B)
+      
         #substitution
         X = [0] * n
         for i in range(n):
             iterations += 1
             X[i] = round(B[i] / A[i][i], sigfigs = precision)
         time = round(timer() - begin_time, sigfigs = precision)
-        print('X = ', X)
-        print("Time = %.10g seconds" % time)
-        print('Number of iterations = ', iterations)
+        #print('X = ', X)
+       # print("Time = %.10g seconds" % time)
+        #print('Number of iterations = ', iterations)
         return [X, time ,iterations]
     #End solve
 

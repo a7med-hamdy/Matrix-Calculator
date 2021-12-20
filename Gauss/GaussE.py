@@ -22,7 +22,7 @@ class GaussE():
         
         if(iterations == 0): #if dividing by zero occurs that means -> infinite solutions (variable eliminated) 
             return "The system has infinite number of solutions"
-        print(A, B)
+      
         #Check if the system has no unique solution
         if(A[-1][-1] == 0):    
             if( B[-1] == 0 ):
@@ -41,9 +41,9 @@ class GaussE():
                 sum = round(sum + A[i][j] * X[j], sigfigs = precision)
             X[i] = round((B[i] - sum) / A[i][i], sigfigs = precision)
         time = timer() - begin_time
-        print('X = ', X)
-        print("Time = %.10s seconds" % time)
-        print('Number of iterations = ', iterations)
+        #print('X = ', X)
+        #print("Time = %.10s seconds" % time)
+        #print('Number of iterations = ', iterations)
         return [X, time ,iterations ]
     #End solve
 
