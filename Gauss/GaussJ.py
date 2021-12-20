@@ -20,7 +20,7 @@ class GaussJ():
         #Forward Elimination
         A, B, iterations = Forward_Elimination(n, A, B, precision, iterations)
         
-        if(iterations == 0): #if dividing by zero occurs that means -> infinite solutions (variable eliminated) 
+        if(iterations == -1): #if dividing by zero occurs that means -> infinite solutions (variable eliminated) 
             return "The system has infinite number of solutions"
         #Check if the system has no unique solution
         if(abs(A[-1][-1]) < epsilon):    

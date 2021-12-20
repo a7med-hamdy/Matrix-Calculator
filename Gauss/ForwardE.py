@@ -12,7 +12,7 @@ def Forward_Elimination(n, A, B, precision, iterations):
             try:
                 factor = round(A[j][i] / A[i][i], sigfigs = precision)
             except:
-                return A, B, 0 #zeroing the iterations as an evidence
+                return A, B, -1 #send -1 iterations as an evidence
             for k in range(i, n):
                 iterations += 1
                 A[j][k] = round(A[j][k] - factor * A[i][k], sigfigs = precision)
