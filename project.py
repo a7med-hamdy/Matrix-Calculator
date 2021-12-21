@@ -153,6 +153,9 @@ def solver():
 
 
    #checkword
+   while es[0]=="\n" :
+     es=es[1:]
+
    while es[-1]=="\n" :
      es=es[0:-1]
 
