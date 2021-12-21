@@ -1,10 +1,11 @@
 from ForwardE import Forward_Elimination
+from Scaling import scaling
 from sigfig import round
 from timeit import default_timer as timer
 #Gauss Elimination:
 #   Forward Elimination
 #   Backward Substitution
-epsilon = 10**-2
+epsilon = 10**-5
 class GaussE():
     #@param n: the size of the coefficients matrix (square)
     #@param A: the coefficients matrix
@@ -16,7 +17,8 @@ class GaussE():
     def solve(self,n, A, B, precision = 5):
         begin_time = timer() #measure the execution time
         iterations = 0 #number of iterations counter
-        
+        #Scaling
+        A, B = scaling(n, A, B, precision)
         #Forward Elimination
         A, B, iterations = Forward_Elimination(n, A, B, precision, iterations)
         

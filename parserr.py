@@ -101,7 +101,7 @@ class getLists:
        i=string[z]
        
        if((i.isnumeric() or i=="-" or i==".") and not(flage)):
-           if(len(queue1)>1 and i=="-"):
+           if(len(queue1)>0 and i=="-"):
         
              y=""
              if(len(queue1)):
