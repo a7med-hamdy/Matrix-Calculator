@@ -101,7 +101,8 @@ class getLists:
        i=string[z]
        
        if((i.isnumeric() or i=="-" or i==".") and not(flage)):
-           if(len(queue1) and i=="-" and queue1[0]=="-"):
+           if(len(queue1)>1 and i=="-"):
+        
              y=""
              if(len(queue1)):
               while(len(queue1)>0):
@@ -162,5 +163,8 @@ class getLists:
            bf=0
        if(i=="="):
            bf=1
+       
+          
+
 
     return cofs,value
