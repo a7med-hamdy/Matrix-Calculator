@@ -1,4 +1,5 @@
 from ForwardE import Forward_Elimination
+from Scaling import scaling
 from sigfig import round
 from timeit import default_timer as timer
 #Gauss Elimination:
@@ -16,7 +17,8 @@ class GaussE():
     def solve(self,n, A, B, precision = 5):
         begin_time = timer() #measure the execution time
         iterations = 0 #number of iterations counter
-        
+        #Scaling
+        A, B = scaling(n, A, B, precision)
         #Forward Elimination
         A, B, iterations = Forward_Elimination(n, A, B, precision, iterations)
         
