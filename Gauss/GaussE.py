@@ -5,7 +5,7 @@ from timeit import default_timer as timer
 #Gauss Elimination:
 #   Forward Elimination
 #   Backward Substitution
-epsilon = 10**-2
+epsilon = 10**-5
 class GaussE():
     #@param n: the size of the coefficients matrix (square)
     #@param A: the coefficients matrix
