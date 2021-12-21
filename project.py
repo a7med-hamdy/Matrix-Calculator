@@ -151,6 +151,9 @@ def solver():
    es = es.replace(" ", "")
    obj=parserr.getLists()
 
+    #roundoff
+   if(len(pres.get().replace(" ", ""))!=0):
+     rou=int(pres.get().replace(" ", ""))
 
    #checkword
    while es[0]=="\n" :
@@ -192,11 +195,8 @@ def solver():
       #intinal values
       inital=[ 0 for i in range(noVar) ] #inital for iteraitve method
       ini=initials.get().replace(" ", "")
-       #roundoff
-      if(len(pres.get().replace(" ", ""))!=0):
-         rou=int(pres.get().replace(" ", ""))
 
-   #iterations
+      #iterations
       if(len(txt1.get().replace(" ", ""))!=0):
          iterations = int(txt1.get().replace(" ", ""))
 
