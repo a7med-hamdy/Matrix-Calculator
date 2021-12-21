@@ -151,34 +151,15 @@ def solver():
    es = es.replace(" ", "")
    obj=parserr.getLists()
 
-   #roundoff
+    #roundoff
    if(len(pres.get().replace(" ", ""))!=0):
-      rou=int(pres.get().replace(" ", ""))
-
-   #iterations
-   if(len(txt1.get().replace(" ", ""))!=0):
-      iterations = int(txt1.get().replace(" ", ""))
-
-   #errors
-   err=txt2.get().replace(" ", "")
-   if(len(err)!=0):
-      if("^" in err):
-         num=""
-         power=""
-         found=False
-         for i in err:
-            if(i=="^"):
-               found=True
-            elif(found):
-               power=power+i
-            else:
-               num=num+i
-         errors=float(num)**float(power)         
-      else:   
-         errors = float(err)
+     rou=int(pres.get().replace(" ", ""))
 
    #checkword
-   if(es[-1]=="\n" ):
+   while es[0]=="\n" :
+     es=es[1:]
+
+   while es[-1]=="\n" :
      es=es[0:-1]
 
    # varaible
@@ -215,6 +196,28 @@ def solver():
       inital=[ 0 for i in range(noVar) ] #inital for iteraitve method
       ini=initials.get().replace(" ", "")
 
+      #iterations
+      if(len(txt1.get().replace(" ", ""))!=0):
+         iterations = int(txt1.get().replace(" ", ""))
+
+   #errors
+      err=txt2.get().replace(" ", "")
+      if(len(err)!=0):
+         if("^" in err):
+            num=""
+            power=""
+            found=False
+            for i in err:
+               if(i=="^"):
+                  found=True
+               elif(found):
+                  power=power+i
+               else:
+                  num=num+i
+            errors=float(num)**float(power)         
+         else:   
+            errors = float(err)
+            
       #check if the user enter inintals and enter it right
       if(len(ini)!=0):
          temp=ini
@@ -278,6 +281,7 @@ def solver():
          screen.config(text=answer) 
   except:  
       tkinter.messagebox.showinfo( "some Error","error in input")
+      screen.config(text="error in input") 
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()

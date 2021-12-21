@@ -83,6 +83,7 @@ class iterSolver:
         guess = self.initalGuess
         guessLast = guess
         time = 0
+        #################################loopbody start#############################################
         while i < self.iterMax+1000:
             begin_time = timer()
             #store the value of the previous guess
@@ -132,11 +133,15 @@ class iterSolver:
             # if all values satisfy the criteria
             # stop iterating
             if errorSatisCount == len(error):
-                guessLast = copy.deepcopy(guess)
                 time = timer() - begin_time
                 crit = "Converged!"
                 break
-        
+
+        ################################loop body end#######################################
+        #round last guess
+        for j in range(0,len(guessLast)):
+            guessLast[j]  = sigfig.round(guessLast[j],sigfigs = self.significantFigs)
+
         #if check for more iterations if the value converges or diverges
         if (i > self.iterMax):
             if(i == self.iterMax+1000):
@@ -148,11 +153,13 @@ class iterSolver:
 
         #check for divergence
         if (np.inf in error) or (np.inf in guess):                
-                time = timer() - begin_time
                 crit = "Diverged"
                 return [guessLast,time,i,crit]
 
         return [guessLast,time,i,crit]
+
+
+
 
 
     def Solveit(self):
