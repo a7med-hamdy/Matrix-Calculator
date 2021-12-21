@@ -278,6 +278,7 @@ def solver():
          screen.config(text=answer) 
   except:  
       tkinter.messagebox.showinfo( "some Error","error in input")
+      screen.config(text="error in input") 
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
