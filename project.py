@@ -94,16 +94,16 @@ initials.place(x = 300, y = 170,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS1=tkinter.Label(window,text="number of iteration:(default=500)",font=('Arial Bold',15))
+lsS1=tkinter.Label(window,text="number of iteration:(default=500)\n(50 for nonlinear)",font=('Arial Bold',15))
 lsS1.pack()
-lsS1.place(x=300,y=210)
+lsS1.place(x=300,y=200)
 
 
 ###text area where the number of iteration for iteration methode will be used
 #setting textarea
 #placing textarea
 txt1=tkinter.Entry(window,width=50)
-txt1.place(x = 300, y = 240,width=150,height=20)
+txt1.place(x = 300, y = 260,width=150,height=20)
 
 ###fourth label for error
 #setting label
@@ -119,6 +119,35 @@ lsS2.place(x=300,y=290)
 txt2=tkinter.Entry(window,width=50)
 txt2.place(x = 300,y = 320,width=150,height=20)
 
+
+############## for non linear ######################
+###fifth label for first interval
+#setting label
+#packing label
+#placing label
+lsS2=tkinter.Label(window,text="Interval a",font=('Arial Bold',15))
+lsS2.pack()
+lsS2.place(x=550,y=30)
+
+###text area for first interavl
+#setting textarea
+#placing textarea
+txt2=tkinter.Entry(window,width=50)
+txt2.place(x = 550,y = 55,width=100,height=20)
+
+###sixth label for second interval
+#setting label
+#packing label
+#placing label
+lsS2=tkinter.Label(window,text="Interval b",font=('Arial Bold',15))
+lsS2.pack()
+lsS2.place(x=550,y=75)
+
+###text area for second interavl
+#setting textarea
+#placing textarea
+txt2=tkinter.Entry(window,width=50)
+txt2.place(x = 550,y = 100,width=100,height=20)
 
 ############### answer screenn #####################
 ###answer
@@ -288,12 +317,13 @@ def solver():
          screen.config(text=answer) 
   else:
    #roundoff
+   rou=-1
    if(len(pres.get().replace(" ", ""))!=0):
      rou=int(pres.get().replace(" ", ""))
    print(es)  
    var=obj.parsingNonlinear(es)
    print(var)
-
+   
  except:
       traceback.print_exc() 
       tkinter.messagebox.showinfo( "some Error","error in input")
@@ -320,7 +350,7 @@ def getVars():
 
 check = tkinter.Button(window, text ="Show variables order", command = getVars)
 check.pack()
-check.place(x=630,y=210,width=150)
+check.place(x=540,y=145,width=150)
 
 ## main loop for the program
 window.mainloop()
