@@ -1,4 +1,4 @@
-class getLists:
+class pars:
   
   ## function to validate some inputs
   # @ parameter string : the systems of equatians  
@@ -168,3 +168,104 @@ class getLists:
 
 
     return cofs,value
+
+
+
+
+
+
+  ###helping funtion for parsing
+  # @ parameter string : the non linaer equation equatians in array
+  #@ parameter i : the index wants to br checks
+  # returns true of false
+  def _checkB(self,string,i):
+    fs=i-1
+    sc=i+1
+    print(string[i])
+    operations=["+","-","."]
+    while string[fs]!=")" and  string[fs]!="=":
+      print("das",string[fs],fs)
+      if string[fs]=="(" or  string[fs]=="^":
+        return False
+      else:
+        fs-=1
+
+    while sc<len(string) and (string[sc]!="E" and string[sc]!="s" and string[sc]!="E") :
+      print("sas",string[sc],sc)
+      if string[sc]==")":
+        return False
+      else:
+        sc+=1
+     
+    return True
+
+
+
+  ### coeffficent matrix
+  # @ parameter string : the non linaer equation equatians  
+  # returns string of equation to be simpfiy
+  
+  def parsingNonlinear(self,string):
+    last=[]
+
+   #parsing the sign for simpfiy
+    for i in range(len(string)):
+   
+      if string[i]=="e":
+        last.append("E")
+      elif string[i]=="p":
+        last.append("^")
+      elif string[i]=="x" and i>0 and  string[i-1]=="e":
+        pass
+      else:
+        last.append(string[i])
+
+
+    #dealing with the eqaution before and after the equal sign  
+    found=False   
+    x=0
+    z=-1
+    i=0
+    while i <len(last):
+    
+      if last[i]=="=" and last[-1]!="=":
+        x=i
+        found=True
+      if last[i]=="0":
+        z=i
+      if found:
+
+        if (last[i]=="c" or last[i]=="s" or last[i]=="E") and  not(last[i-1].isnumeric()):
+  
+          if last[i-1]=="+":
+            last[i-1]="-"
+          elif last[i-1]=="=":
+            last.insert(i,"-")
+            i+=1
+
+          elif last[i-1]=="-":
+            last[i-1]="+"
+          
+        elif ((last[i].isnumeric() and  not(last[i-1].isnumeric())) or  (last[i]=="x"and  not(last[i-1].isnumeric()))) and self._checkB(last,i) :
+          print(last[i],i)
+          if last[i-1]=="+":
+            last[i-1]="-"
+          elif last[i-1]=="=":
+            last.insert(i,"-")
+            i+=1
+          elif last[i-1]=="-":
+            last[i-1]="+"
+     
+      i+=1
+
+
+
+    if found:
+      last.pop(x)
+         
+      x= "".join(last)
+
+      return x.replace(" ", "")
+    else:
+      return False  
+    
