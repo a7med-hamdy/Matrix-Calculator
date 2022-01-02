@@ -9,12 +9,13 @@ import parserr
 from Jacobi_Seidel import IterativeSolver
 import LU_decomposer
 
+import traceback
 ###window functions
 #setting the window
 #the size of the window
 #the tile of the window
 window=tkinter.Tk()
-window.geometry('800x600')
+window.geometry('1400x600')
 window.title("Solving system of linear equation")
 
 
@@ -56,7 +57,8 @@ pres.place(x =5 , y = 185,width=150,height=20)
 v = tkinter.StringVar()
 systems=ttk.Combobox(window,textvariable=v,font=('Arial Bold',14), state = "readonly")
 systems.place(x=300,y=50)
-systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidel","5.Jacobi Iteration")
+systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidel","5.Jacobi Iteration",
+                     "6.Bisection","7.False-Position","8.Fixed point","9.Newton-Raphson","10.Secant Method.")
 systems.current(0)
 
 
@@ -141,27 +143,32 @@ con.place(x=350,y=450)
 ###########Button and thier function ##################
 #########function for main logic of button
 def solver():
-  try: 
+ try:
+  
+  #reading input
+  es=txt.get("1.0","end-1c")
+  es = es.replace(" ", "")
+  obj=parserr.pars()
+
+   #checkword
+  while es[0]=="\n" :
+     es=es[1:]
+
+  while es[-1]=="\n" :
+     es=es[0:-1]
+     
+   #check HOWTO SOLVE LINAEAR  OR NON-LINEAR
+  checkFirst=int(systems.get()[0])  
+  if (checkFirst==1 or checkFirst==2 or checkFirst==3 or checkFirst==4 or checkFirst==5) and systems.get()[1]==".":
    ###defult values
    rou=5
    iterations=500
    errors=10**-6
    ans=[]
-   es=txt.get("1.0","end-1c")
-   es = es.replace(" ", "")
-   obj=parserr.getLists()
 
-    #roundoff
+   #roundoff
    if(len(pres.get().replace(" ", ""))!=0):
      rou=int(pres.get().replace(" ", ""))
-
-   #checkword
-   while es[0]=="\n" :
-     es=es[1:]
-
-   while es[-1]=="\n" :
-     es=es[0:-1]
-
    # varaible
    varss=obj.parsingVar(es+"\n")
    # validity
@@ -279,7 +286,16 @@ def solver():
       if(len(ans)==4):
          answer=answer+ans[3]
          screen.config(text=answer) 
-  except:  
+  else:
+   #roundoff
+   if(len(pres.get().replace(" ", ""))!=0):
+     rou=int(pres.get().replace(" ", ""))
+   print(es)  
+   var=obj.parsingNonlinear(es)
+   print(var)
+
+ except:
+      traceback.print_exc() 
       tkinter.messagebox.showinfo( "some Error","error in input")
       screen.config(text="error in input") 
 
