@@ -237,14 +237,16 @@ def plotnormal(intial,driv):
    y = Symbol('y',real = True,positive = True)
    function2 = lambdify(x,driv)
 
-   Xaxis = np.linspace(intial-2,intial+2,10*10)
+   Xaxis = np.linspace(intial-7,intial+7,10*10)
+   ylist=[]
+   for i in Xaxis:
+      ylist.append(function2(i))
+   yaxis = np.array(ylist)
    f=Figure(figsize=(20,20),dpi=100)
    a =f.add_subplot(1,1,1)
-   print("############################")
-   print( function2(Xaxis))
-   print("############################")
-   a.plot(Xaxis, Xaxis,'r')
-   a.plot(Xaxis, function2(Xaxis),'b')
+
+   a.plot(Xaxis, Xaxis,'g')
+   a.plot(Xaxis, yaxis,'b')
    canvas=FigureCanvasTkAgg(f,master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
 
@@ -448,6 +450,7 @@ def solver():
 
 
    var = parse_expr(var,transformations=transformations)
+   print(var)
    ans=[]
    if(checkFirst==6) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
