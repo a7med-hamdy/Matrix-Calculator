@@ -29,8 +29,6 @@ transformations = (standard_transformations +(implicit_multiplication_applicatio
 
 
 
-
-
 ###window functions
 #setting the window
 #the size of the window
@@ -393,9 +391,6 @@ def solver():
    
    var=obj.parsingNonlinear(es)
    
-
-
-  
 
    #taking error
    err=txt2.get().replace(" ", "")
