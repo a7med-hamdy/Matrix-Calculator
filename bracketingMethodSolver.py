@@ -7,23 +7,17 @@ class bracketingMethodSolver:
     params: lower bound / upper bound / tolerance(Es) / function / number of significant figures / no. of iterations
     returns: lower bound list / upper bound list / number of iterations / root(xr) / function used / time
     '''
-    def bisect(self,a,b,tol,functionString,n, max_iterations):
+    def bisect(self,lower,upper,tol,functionString,n, max_iterations):
         start = time.perf_counter()
         x = Symbol('x')
         f = functionString
         f = lambdify(x, f)
-        if f(a)*f(b) > 0:
+        if f(lower)*f(upper) > 0:
             return "the two roots are either positive or negative"
-        elif(f(a) == 0):
-            return f'the root is {a}'
-        elif(f(b) == 0):
-            return f'the root is {b}'
-        if f(a)>0:
-            upper=a
-            lower=b
-        else:
-            upper=b
-            lower=a
+        elif(f(lower) == 0):
+            return f'the root is {lower}'
+        elif(f(upper) == 0):
+            return f'the root is {upper}'
         xr = 0
         i = 0
         upper_List = []
@@ -33,9 +27,7 @@ class bracketingMethodSolver:
         while(i < max_iterations):
             xrnew = sigfig.round(sigfig.round((upper+lower),sigfigs = n)/2.0,sigfigs = n)
             i += 1
-            if(f(xrnew) == 0):
-                break
-            print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
+            # print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
             if(abs(xr-xrnew) < tol):
                 xr = xrnew
                 break
@@ -49,7 +41,7 @@ class bracketingMethodSolver:
                 break
             upper_List.append(upper)
             lower_List.append(lower)
-        print(f'xr = {xr} and no. of iterations = {i}')
+        # print(f'xr = {xr} and no. of iterations = {i}')
         end = time.perf_counter()
         return [lower_List,upper_List,i,xr,f,end - start]
     '''
