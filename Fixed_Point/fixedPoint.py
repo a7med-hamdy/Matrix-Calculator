@@ -1,9 +1,10 @@
 import math
-from numpy import positive
 from sympy import *
-from sympy.calculus.util import continuous_domain
+from timeit import default_timer as timer
+import sigfig
+import copy
 class fixedPoint:
-    def __init__(self,errorStop,iterMax,initialX,f,intervala,intervalb):
+    def __init__(self, errorStop, iterMax, initialX, f, intervala, intervalb,significantFigs):
         self.errorStop = errorStop
         self.iterMax = iterMax
         self.f = f
@@ -11,6 +12,7 @@ class fixedPoint:
         self.X = Symbol('y')
         self.intervala = intervala
         self.intervalb = intervalb
+        self.significantFigs = significantFigs
 
 
 
@@ -48,8 +50,7 @@ class fixedPoint:
                 
                 print(G_primeArray[i])
                 return Garray[i]
-        #print(solve(abs(funcDiff) < 1).as_set())
-        #return G 
+
 
     def Solve(self):
         Xi = self.initialX
@@ -63,8 +64,8 @@ class fixedPoint:
         Gx = lambdify(self.X,G)
         print(Gx(Xi))
         while i <= self.iterMax:
-            preXi = Xi
-            Xi = Gx(Xi)
+            preXi = copy.deepcopy(sigfig.round(Xi, sigfigs = self.significantFigs))
+            Xi = copy.deepcopy(sigfig.round(Gx(Xi), sigfigs = self.significantFigs))
             print(Xi)
             error = abs((Xi-preXi)/Xi)
 
@@ -78,6 +79,6 @@ class fixedPoint:
 x = Symbol('x',real = True,positive = True)
 f = x**3-x**2 - 2*x -3
 #print(f)
-fixed = fixedPoint(10**-4,100,0,f,1,4)
+fixed = fixedPoint(10**-8,100,0,f,1,4,5)
 
 fixed.Solve()
