@@ -9,9 +9,15 @@ class bracketingMethodSolver:
     '''
     def bisect(self,a,b,tol,functionString,n, max_iterations):
         start = time.perf_counter()
+        x = Symbol('x')
         f = sympify(functionString)
-        if f(a)*f(b) >= 0:
+        f = lambdify(x, f)
+        if f(a)*f(b) > 0:
             return "the two roots are either positive or negative"
+        elif(f(a) == 0):
+            return f'the root is {a}'
+        elif(f(b) == 0):
+            return f'the root is {b}'
         if f(a)>0:
             upper=a
             lower=b
@@ -50,7 +56,9 @@ class bracketingMethodSolver:
     '''
     def regula(self,a,b,tol,functionString,n, max_iterations):
         start = time.perf_counter()
+        x = Symbol('x')
         f = sympify(functionString)
+        f = lambdify(x, f)
         upper=0.0
         lower=0.0
         MR1=0.0
@@ -58,8 +66,12 @@ class bracketingMethodSolver:
         upper_List = []
         lower_List = []
         itr = 1
-        if f(a)*f(b) >= 0:
+        if f(a)*f(b) > 0:
             return "the two roots are either positive or negative"
+        elif(f(a) == 0):
+            return f'the root is {a}'
+        elif(f(b) == 0):
+            return f'the root is {b}'
         if f(a)>0:
             upper=a
             lower=b
