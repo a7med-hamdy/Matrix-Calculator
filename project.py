@@ -15,7 +15,7 @@ import LU_decomposer
 import bracketingMethodSolver
 import NewtonRaphson
 import Secant
-import fixedPoint
+from Fixed_Point import fixedPoint
 #####################
 from sympy import *
 from sympy.parsing.sympy_parser import implicit_multiplication_application, standard_transformations,convert_xor
@@ -438,7 +438,13 @@ def solver():
         
     
    elif(checkFirst==7):
-      ans=bracketingMethodSolver.regula(intial,intial2,tol,var,rou)
+      og=bracketingMethodSolver.bracketingMethodSolver()
+      ans=og.regula(intial,intial2,tol,var,rou,maxiter)
+      if(not(isinstance(ans, str))):
+         plotbisection(ans[0],ans[1],ans[2],intial,intial2,var)
+         screen.config(text="x = "+str(ans[3]))
+         tm.config(text="Time:"+str( round(ans[5],8) )+" sec")
+         con.config(text="convergance:"+str(ans[2]))
     
    elif(checkFirst==8):
 

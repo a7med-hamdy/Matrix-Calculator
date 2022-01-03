@@ -31,9 +31,9 @@ class bracketingMethodSolver:
         upper_List.append(upper)
         lower_List.append(lower)
         while(f(xr) != 0 and i < max_iterations):
-            xrnew = sigfig.round(sigfig.round((upper+lower),n)/2.0,n)
+            xrnew = sigfig.round(sigfig.round((upper+lower),sigfigs = n)/2.0,sigfigs = n)
             i += 1
-            print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
+            #print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
             if(abs(xr-xrnew) < tol):
                 xr = xrnew
                 break
@@ -47,7 +47,7 @@ class bracketingMethodSolver:
                 break
             upper_List.append(upper)
             lower_List.append(lower)
-        print(f'xr = {xr} and no. of iterations = {i}')
+        #print(f'xr = {xr} and no. of iterations = {i}')
         end = time.perf_counter()
         return [lower_List,upper_List,i,xr,f,end - start]
     '''
@@ -81,9 +81,9 @@ class bracketingMethodSolver:
         upper_List.append(upper)
         lower_List.append(lower)
         MR1=((lower*f(upper))-(f(lower)*upper))/(f(upper)-f(lower))
-        MR1 = sigfig.round(MR1, n)
+        MR1 = sigfig.round(MR1, sigfigs = n)
         FMR1 = f(MR1)
-        FMR1 = sigfig.round(FMR1,n)
+        FMR1 = sigfig.round(FMR1, sigfigs = n)
         if f(lower)*FMR1 < 0:
             upper=MR1
         elif f(upper)*FMR1 < 0:
@@ -92,9 +92,9 @@ class bracketingMethodSolver:
         while(True):
             itr=itr+1
             MR2=((lower*f(upper))-(f(lower)*upper))/(f(upper)-f(lower))
-            MR2 = sigfig.round(MR2, n)
+            MR2 = sigfig.round(MR2, sigfigs = n)
             FMR2 = f(MR2)
-            FMR2 = sigfig.round(FMR2, n)
+            FMR2 = sigfig.round(FMR2, sigfigs = n)
             if f(lower)*FMR2 < 0:
                 upper=MR2
             elif f(upper)*FMR2 < 0:
