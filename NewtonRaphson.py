@@ -14,6 +14,7 @@ class NewtonRaphson:
         self.initValue = initValue
         self.x = Symbol('x')
         self.fun = lambdify(self.x, fun)
+        self.f_prime = fun.diff(self.x)
         self.fun_prime = lambdify(self.x, fun.diff(self.x))
 
     """
@@ -30,12 +31,7 @@ class NewtonRaphson:
             return "The initial value caused division By Zero"
         #The iterations
         while(iterations <= self.max_iterations):
-            #no round
-            if(self.precision == 0):
-                Xnew = Xold - self.fun(Xold) / self.fun_prime(Xold)
-            #round
-            else:
-                Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), self.precision)
+            Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), sigfigs = self.precision)
             Ea = abs((Xnew - Xold) / Xnew) * 100
             print("X = ", Xnew, ", Ea = ", Ea, "%")
             Xold = Xnew
@@ -44,15 +40,15 @@ class NewtonRaphson:
             if(Ea < self.eps):
                 time = timer() - begin_time
                 criteria = "Converged"
-                return [Xnew, iterations, criteria, time]
+                return [Xnew, iterations, criteria, time, self.f_prime]
         #the method diverged
         time = timer() - begin_time
         criteria = "MAXIMUM ITERATIONS REACHED!!"
-        return [Xnew, iterations, criteria, time]
+        return [Xnew, iterations, criteria, time, self.f_prime]
 
 #debugging
 x=symbols('x')
 fx =  x**3 - 0.165*x**2 + 3.993*10**-4
 print(fx)
-newton = NewtonRaphson(10**-8, 8, 0, 0.05, fx)
+newton = NewtonRaphson(10**-8, 8, None, 0.05, fx)
 print(newton.solve())
