@@ -15,7 +15,7 @@ import LU_decomposer
 import bracketingMethodSolver
 import NewtonRaphson
 import Secant
-import fixedPoint
+from Fixed_Point import fixedPoint
 #####################
 from sympy import *
 from sympy.parsing.sympy_parser import implicit_multiplication_application, standard_transformations,convert_xor
