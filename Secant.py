@@ -14,6 +14,7 @@ class Secant:
         self.init_1 = init_1
         self.init_2 = init_2
         self.x = Symbol('x')
+        self.f_prime = fun.diff(self.x)
         self.fun = lambdify(self.x, fun)
 
     """
@@ -41,11 +42,11 @@ class Secant:
             if(Ea < self.eps):
                 time = timer() - begin_time
                 criteria = "Converged"
-                return [Xnew, iterations, criteria, time]
+                return [Xnew, iterations, criteria, time, self.f_prime]
         #the method diverged
         time = timer() - begin_time
         criteria = "MAXIMUM ITERATIONS REACHED!!"
-        return [Xnew, iterations, criteria, time]
+        return [Xnew, iterations, criteria, time, self.f_prime]
 
 #debugging
 # x=symbols('x')
