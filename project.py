@@ -198,6 +198,7 @@ zzz=[]
 pos=0
 ###########polting function ###########################
 def plotbisection(list1,list2,itr,intial,intial2,var):
+   print(f'itr : {itr}')
    global zzz
    global pos
    zzz=[]
@@ -221,7 +222,7 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
       a.axvline(x=list2[i-1])
       a.ticklabel_format(useOffset= False, style='plain')
       zzz.append(f)
-  
+   print(zzz)
    canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
  
@@ -408,7 +409,6 @@ def solver():
      rou=int(pres.get().replace(" ", ""))
    
    var=obj.parsingNonlinear(es)
-   
 
    #taking error
    err=txt2.get().replace(" ", "")
@@ -443,7 +443,6 @@ def solver():
 
 
    var = parse_expr(var,transformations=transformations)
-  
    ans=[]
    if(checkFirst==6) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
