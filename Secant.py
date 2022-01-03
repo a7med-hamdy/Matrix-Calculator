@@ -31,12 +31,7 @@ class Secant:
             return "The initial values caused division By Zero"
         #The iterations
         while(iterations <= self.max_iterations):
-            #no round
-            if(self.precision == 0):
-                Xnew = X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2))
-            #round
-            else:
-                Xnew = round(X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2)), self.precision)
+            Xnew = round(X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2)), sigfigs = self.precision)
             Ea = abs((Xnew - X2) / Xnew) * 100
             print("X = ", Xnew, ", Ea = ", Ea, "%")
             X1 = X2
