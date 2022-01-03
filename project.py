@@ -226,7 +226,7 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
    canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
  
-def plotnormal(var,intial,driv):
+def plotnormal(intial,driv):
    global zzz
    global pos
    zzz=[]
@@ -234,14 +234,19 @@ def plotnormal(var,intial,driv):
    for widget in frame.winfo_children():
     widget.destroy()
    x = Symbol('x')
-   function = lambdify(x, var)
-   function2 = lambdify(x, driv)
+   y = Symbol('y',real = True,positive = True)
+   function2 = lambdify(x,driv)
 
    Xaxis = np.linspace(intial-2,intial+2,10*10)
    f=Figure(figsize=(20,20),dpi=100)
    a =f.add_subplot(1,1,1)
-   a.plot(Xaxis, function(Xaxis),'r')
+   print("############################")
+   print( function2(Xaxis))
+   print("############################")
+   a.plot(Xaxis, Xaxis,'r')
    a.plot(Xaxis, function2(Xaxis),'b')
+   canvas=FigureCanvasTkAgg(f,master=frame)
+   canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
 
 ###########Button and thier function ##################
 #########function for main logic of button
@@ -467,8 +472,10 @@ def solver():
       og=fixedPoint.fixedPoint(tol,maxiter,intial,var,rou)
       ans=og.Solve()
       if(not(isinstance(ans, str))):
+         print("################################")
          print(ans[3])
-         plotnormal(var,intial,ans[3])
+         print("################################")
+         plotnormal(intial,ans[3])
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
          tm.config(text="Time:"+str( round(ans[4],8) )+" sec")
          con.config(text="convergance:"+str( ans[1] ))
