@@ -49,7 +49,7 @@ class bracketingMethodSolver:
             lower_List.append(lower)
         print(f'xr = {xr} and no. of iterations = {i}')
         end = time.perf_counter()
-        return list(lower_List,upper_List,i,xr,f,end - start)
+        return [lower_List,upper_List,i,xr,f,end - start]
     '''
     params: lower bound / upper bound / tolerance(Es) / function / number of significant figures / no. of iterations
     returns: lower bound list / upper bound list / number of iterations / root(xr) / function used / time
@@ -103,7 +103,7 @@ class bracketingMethodSolver:
             lower_List.append(lower)
             if(abs(MR2-MR1)<tol or itr > max_iterations):
                 end = time.perf_counter()
-                return list(lower_List,upper_List,itr,MR2,f, end - start)
+                return [lower_List,upper_List,itr,MR2,f, end - start]
             else:
                 MR1=MR2
 
