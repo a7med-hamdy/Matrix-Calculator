@@ -475,24 +475,24 @@ def solver():
       og=fixedPoint.fixedPoint(tol,maxiter,intial,var,rou)
       ans=og.Solve()
       if(not(isinstance(ans, str))):
-         print("################################")
-         print(ans[3])
-         print("################################")
          plotnormal(intial,ans[3])
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
          tm.config(text="Time:"+str( round(ans[4],8) )+" sec")
          con.config(text="convergance:"+str( ans[1] ))
 
-   elif(checkFirst==9):
+   elif(checkFirst==9)  and intial!=None:
 
       
       sol=NewtonRaphson.NewtonRaphson(tol,maxiter,rou,intial,var)
       ans=sol.solve()
 
    else:
-                  
-      sol=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
-      ans=sol.solve()
+      if  intial!=None and intial2!=None:            
+         sol=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
+         ans=sol.solve()
+      else:
+         ans="enter initals"
+
 
   if(isinstance(ans, str)):
       if(len(ans)>27):
