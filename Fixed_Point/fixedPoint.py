@@ -1,5 +1,6 @@
 import math
 from sympy import *
+from sympy.abc import x
 from timeit import default_timer as timer
 import sigfig
 import copy
@@ -26,7 +27,7 @@ class fixedPoint:
         self.iterMax = iterMax
         self.f = f
         self.initialX = initialX
-        self.X = Symbol('y')
+        self.X = Symbol("y",real = True,positive = True)
         #self.intervala = intervala
         #self.intervalb = intervalb
         self.significantFigs = significantFigs
@@ -41,26 +42,30 @@ class fixedPoint:
 
     """
     def Get_G(self):
-        y = Symbol('y',real = True,positive = True) #symbol to replace it with
-        x = Symbol('x',real = True,positive = True) #orignial symbol
+        #x = Symbol("x",real=True,postive =True)
+        y = Symbol("y",real = True,positive = True) #symbol to replace it with
+        X = Symbol("X",real = True,positive = True) #orignial symbol
         farray = [] #all iterations of F(x) 
         Garray = [] #all possible G(x)
         G_primeArray = [] # all possible G`(x)
-
+        for i in range(len(self.f.args)):
+            for j in range(len(self.f.args)):
+                    expres = self.f.args[j].replace(x,X)
+                    self.f = self.f.subs(self.f.args[j],expres)
         # get all possible solvings of F(x) by changing each symbol x with y in each
         # term except one term and storing these iterations in farray
         for i in range(len(self.f.args)):
             func = self.f
             for j in range(len(self.f.args)):
                 if(i != j):
-                    expres = func.args[j].replace(x,y)
+                    expres = func.args[j].replace(X,y)
                     func = func.subs(func.args[j],expres)
             farray.append(func)
         print(farray)
         # solve in x in terms of y in each of the iterations stored in farray
         # and store them in Garray and their derivatives in G_primeArray 
         for i in range(len(farray)):
-            g = solve(farray[i],symbols=[x],exclude=[y],domain= S.Reals)
+            g = solve(farray[i],symbols=[X],exclude=[y],domain= S.Reals)
             for j in range(len(g)):
                 if "I" not in str(g[j]):
                     g_prime = diff(g[j],y)
