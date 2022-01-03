@@ -33,7 +33,7 @@ class bracketingMethodSolver:
         while(f(xr) != 0 and i < max_iterations):
             xrnew = sigfig.round(sigfig.round((upper+lower),n)/2.0,n)
             i += 1
-            print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
+            #print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
             if(abs(xr-xrnew) < tol):
                 xr = xrnew
                 break
@@ -47,7 +47,7 @@ class bracketingMethodSolver:
                 break
             upper_List.append(upper)
             lower_List.append(lower)
-        print(f'xr = {xr} and no. of iterations = {i}')
+        #print(f'xr = {xr} and no. of iterations = {i}')
         end = time.perf_counter()
         return [lower_List,upper_List,i,xr,f,end - start]
     '''
