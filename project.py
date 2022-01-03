@@ -233,7 +233,7 @@ def plotnormal(intial,driv):
     widget.destroy()
    x = Symbol('x')
    y = Symbol('y',real = True,positive = True)
-   function2 = lambdify(x,driv)
+   function2 = lambdify(y,driv)
 
    Xaxis = np.linspace(intial-7,intial+7,10*10)
    ylist=[]
