@@ -17,12 +17,15 @@ import NewtonRaphson
 import Secant
 import fixedPoint
 #####################
+from sympy import *
+from sympy.parsing.sympy_parser import implicit_multiplication_application, standard_transformations,convert_xor
 from matplotlib.figure import Figure
 import numpy as np
 from sympy import *
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
+transformations = (standard_transformations +(implicit_multiplication_application,convert_xor))
 
 
 
@@ -195,7 +198,34 @@ frame.place(x=785,y=10,width=610,height=585)
 ############control variavles################
 zzz=[]
 pos=0
-
+###########polting function ###########################
+def plotbisection(list1,list2,itr,intial,intial2,var):
+   global zzz
+   global pos
+   zzz=[]
+   pos=0
+   for widget in frame.winfo_children():
+    widget.destroy()
+   x = Symbol('x')
+   function = lambdify(x, var)
+   Xaxis = np.linspace(intial-1,-intial2+1,10*10)
+   if intial>intial2:
+      Xaxis = np.linspace(intial2-1,-intial+1,10*10)
+      for i in range(1,itr+1):
+         f=Figure(figsize=(20,20),dpi=100)
+         a =f.add_subplot(1,1,1)
+         a.plot(Xaxis, function(Xaxis),'r')
+         a.axhline(color="black", linewidth=2)
+         a.axvline(color="black", linewidth=2)
+         a.grid()
+         a.axvline(x=list1[i-1])
+         a.axvline(x=list2[i-1])
+         a.ticklabel_format(useOffset= False, style='plain')
+         zzz.append(f)
+ 
+      canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
+      canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
+ 
 ###########Button and thier function ##################
 #########function for main logic of button
 def solver():
@@ -363,6 +393,10 @@ def solver():
    
    var=obj.parsingNonlinear(es)
    
+
+
+  
+
    #taking error
    err=txt2.get().replace(" ", "")
    if(len(err)!=0):
@@ -394,39 +428,19 @@ def solver():
    if(len(ini2.get().replace(" ", ""))!=0):
          intial2 = float(ini2.get().replace(" ", ""))
 
+
+   var = parse_expr(var,transformations=transformations)
+  
    ans=[]
    if(checkFirst==6):
       og=bracketingMethodSolver.bracketingMethodSolver()
-      print(var)
       ans=og.bisect(intial,intial2,tol,var,rou,maxiter)
       if(not(isinstance(ans, str))):
-         print("aaser")
-         print(ans)
-         
-         x = Symbol('x')
-         function = sympify(var)
-         function = lambdify(x, function)
-         Xaxis = np.linspace(intial-1,-intial2+1,10*10)
-         if intial>intial2:
-            Xaxis = np.linspace(intial2-1,-intial+1,10*10)
-
-         list1=ans[0]
-         list2=ans[1]
-         for i in range(1,ans[2]+1):
-            f=Figure(figsize=(20,20),dpi=100)
-            a =f.add_subplot(1,1,1)
-            a.plot(Xaxis, function(Xaxis),'r')
-            a.axhline(color="black", linewidth=2)
-            a.axvline(color="black", linewidth=2)
-            a.grid()
-            a.axvline(x=list1[i-1])
-            a.axvline(x=list2[i-1])
-            a.ticklabel_format(useOffset= False, style='plain')
-            zzz.append(f)
-
-         canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
-         canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
- 
+         plotbisection(ans[0],ans[1],ans[2],intial,intial2,var)
+         screen.config(text="x = "+str(ans[3]))
+         tm.config(text="Time:"+str( round(ans[5],8) )+" sec")
+         con.config(text="convergance:"+str(ans[2])) 
+        
     
    elif(checkFirst==7):
       ans=bracketingMethodSolver.regula(intial,intial2,tol,var,rou)
@@ -444,7 +458,7 @@ def solver():
 
    else:
                   
-      sol=Secant.Secant(0.00001,maxiter,rou,intial,intial2,var)
+      sol=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
       ans=sol.solve()
 
   if(isinstance(ans, str)):
@@ -453,7 +467,7 @@ def solver():
       else:
          screen.config(text=ans)  
       tm.config(text="Time:")
-      con.config(text="convergance:")
+      con.config(text="convergance:") 
  except:
       traceback.print_exc()
       tkinter.messagebox.showinfo( "some Error","error in input")
@@ -484,6 +498,7 @@ check.pack()
 check.place(x=540,y=145,width=150)
 
 ###########left and right incase of bisection################
+
 #########left###############
 def left():
  global pos
@@ -493,10 +508,12 @@ def left():
   pos-=1 
   canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
   canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
+ 
 
 left = tkinter.Button(window, text ="<", command = left)
 left.pack()
 left.place(x=530,y=530,width=35)
+
 #########right#############
 def right():
  global zzz
@@ -507,78 +524,11 @@ def right():
   pos+=1
   canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
   canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
+ 
 
 right = tkinter.Button(window, text =">", command = right)
 right.pack()
 right.place(x=580,y=530,width=35)
-
-
-##########################
-def make():
- def bisect(a,b,tol,f):
-    xr = 0
-    i = 0
-    a_list = []
-    b_list = []
-    a_list.append(a)
-    b_list.append(b)
-    while(f(xr) != 0):
-        xrnew = (a+b)/2.0
-        i += 1
-        print(f'lower limit : {a} | upper limit : {b} | root: {xrnew} | f(a) = {f(a)} | f(b) = {f(b)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
-        if(abs(xr-xrnew) < tol):
-            xr = xrnew
-            break
-        value = f(a)*f(xrnew)
-        xr = xrnew
-        if(value < 0):
-            b = xrnew
-        elif(value > 0):
-            a=xrnew
-        else:
-            break
-        a_list.append(a)
-        b_list.append(b)
-    print(f'xr = {xr} and no. of iterations = {i}')
-    return a_list,b_list,i
-
-
- x = Symbol('x')
-
- function = sympify("x^4-2*x^3-4*x^2+4*x+4")
-
- function = lambdify(x, function)
- list1,list2,n= bisect(-2,-1,10**-1,function)
- Xaxis = np.linspace(-2,-1,10*10)
- 
- 
-
-
- for i in range(1,n+1):
-   f=Figure(figsize=(20,20),dpi=100)
-   a =f.add_subplot(1,1,1)
-   a.plot(Xaxis, function(Xaxis),'r')
-   a.axhline(color="black", linewidth=2)
-   a.axvline(color="black", linewidth=2)
-   a.grid()
-   a.axvline(x=list1[i-1])
-   a.axvline(x=list2[i-1])
-   a.ticklabel_format(useOffset= False, style='plain')
-   zzz.append(f)
-
-
-
- 
- canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
-
-
- canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
- 
-
-
-chx = tkinter.Button(window, text ="Show graph", command = make)
-chx.pack()
-chx.place(x=550,y=570,width=150)
 
 ############################
 
