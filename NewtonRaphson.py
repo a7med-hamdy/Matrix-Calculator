@@ -47,8 +47,8 @@ class NewtonRaphson:
         return [Xnew, iterations, criteria, time, self.f_prime]
 
 #debugging
-x=symbols('x')
-fx =  x**3 - 0.165*x**2 + 3.993*10**-4
-print(fx)
-newton = NewtonRaphson(10**-8, 8, None, 0.05, fx)
-print(newton.solve())
+# x=symbols('x')
+# fx =  x**3 - 0.165*x**2 + 3.993*10**-4
+# print(fx)
+# newton = NewtonRaphson(10**-8, 8, None, 0.05, fx)
+# print(newton.solve())

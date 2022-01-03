@@ -48,8 +48,8 @@ class Secant:
         return [Xnew, iterations, criteria, time]
 
 #debugging
-x=symbols('x')
-fx = x**2 -2
-print(fx)
-secant = Secant(10**-20, 5, 0, 0.5, 1, fx)
-print(secant.solve())
+# x=symbols('x')
+# fx = x**2 -2
+# print(fx)
+# secant = Secant(10**-20, 5, 0, 0.5, 1, fx)
+# print(secant.solve())
