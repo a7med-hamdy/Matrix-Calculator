@@ -222,7 +222,8 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
       zzz.append(f)
    canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
- 
+
+##################################################################
 def plotnormal(intial,driv):
    global zzz
    global pos
@@ -241,12 +242,40 @@ def plotnormal(intial,driv):
    yaxis = np.array(ylist)
    f=Figure(figsize=(20,20),dpi=100)
    a =f.add_subplot(1,1,1)
-
+   a.axhline(color="black", linewidth=2)
+   a.axvline(color="black", linewidth=2)
+   a.grid()
    a.plot(Xaxis, Xaxis,'g')
    a.plot(Xaxis, yaxis,'b')
    canvas=FigureCanvasTkAgg(f,master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
 
+#####################################################################
+def plotmaker(intial,intial2,driv):
+   global zzz
+   global pos
+   zzz=[]
+   pos=0
+   for widget in frame.winfo_children():
+    widget.destroy()
+   x = Symbol('x')
+   function2 = lambdify(x,driv)
+
+   Xaxis = np.linspace(intial-5,intial2+5,10*10)
+   if intial>intial2:
+      Xaxis = np.linspace(intial2-5,intial+5,10*10)
+   ylist=[]
+   for i in Xaxis:
+      ylist.append(function2(i))
+   yaxis = np.array(ylist)
+   f=Figure(figsize=(20,20),dpi=100)
+   a =f.add_subplot(1,1,1)
+   a.axhline(color="black", linewidth=2)
+   a.axvline(color="black", linewidth=2)
+   a.grid()
+   a.plot(Xaxis, yaxis,'b')
+   canvas=FigureCanvasTkAgg(f,master=frame)
+   canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
 ###########Button and thier function ##################
 #########function for main logic of button
 def solver():
@@ -478,15 +507,21 @@ def solver():
          con.config(text="convergance:"+str( ans[1] ))
 
    elif(checkFirst==9)  and intial!=None:
-
-      
-      sol=NewtonRaphson.NewtonRaphson(tol,maxiter,rou,intial,var)
-      ans=sol.solve()
+      og=NewtonRaphson.NewtonRaphson(tol,maxiter,rou,intial,var)
+      ans=og.solve()
+      plotmaker(intial,intial,ans[4])
+      screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
+      tm.config(text="Time:"+str( round(ans[3],8) )+" sec")
+      con.config(text="convergance:"+str( ans[1] ))
 
    else:
       if  intial!=None and intial2!=None:            
-         sol=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
-         ans=sol.solve()
+         og=Secant.Secant(tol,maxiter,rou,intial,var)
+         ans=og.solve()
+         plotmaker(intial,intial,ans[4])
+         screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
+         tm.config(text="Time:"+str( round(ans[3],8) )+" sec")
+         con.config(text="convergance:"+str( ans[1] ))
       else:
          ans="enter initals"
 
