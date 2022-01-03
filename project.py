@@ -9,12 +9,13 @@ import parserr
 from Jacobi_Seidel import IterativeSolver
 import LU_decomposer
 
+import traceback
 ###window functions
 #setting the window
 #the size of the window
 #the tile of the window
 window=tkinter.Tk()
-window.geometry('800x600')
+window.geometry('1400x600')
 window.title("Solving system of linear equation")
 
 
@@ -56,7 +57,8 @@ pres.place(x =5 , y = 185,width=150,height=20)
 v = tkinter.StringVar()
 systems=ttk.Combobox(window,textvariable=v,font=('Arial Bold',14), state = "readonly")
 systems.place(x=300,y=50)
-systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidel","5.Jacobi Iteration")
+systems['values']=("1.Gauss Elimination","2.Gauss Jordan","3.LU Decomposition","4.Gauss Seidel","5.Jacobi Iteration",
+                     "6.Bisection","7.False-Position","8.Fixed point","9.Newton-Raphson","10.Secant Method.")
 systems.current(0)
 
 
@@ -92,16 +94,16 @@ initials.place(x = 300, y = 170,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS1=tkinter.Label(window,text="number of iteration:(default=500)",font=('Arial Bold',15))
+lsS1=tkinter.Label(window,text="number of iteration:(default=500)\n(50 for nonlinear)",font=('Arial Bold',15))
 lsS1.pack()
-lsS1.place(x=300,y=210)
+lsS1.place(x=300,y=200)
 
 
 ###text area where the number of iteration for iteration methode will be used
 #setting textarea
 #placing textarea
 txt1=tkinter.Entry(window,width=50)
-txt1.place(x = 300, y = 240,width=150,height=20)
+txt1.place(x = 300, y = 260,width=150,height=20)
 
 ###fourth label for error
 #setting label
@@ -117,6 +119,35 @@ lsS2.place(x=300,y=290)
 txt2=tkinter.Entry(window,width=50)
 txt2.place(x = 300,y = 320,width=150,height=20)
 
+
+############## for non linear ######################
+###fifth label for first interval
+#setting label
+#packing label
+#placing label
+lsS2=tkinter.Label(window,text="Interval a",font=('Arial Bold',15))
+lsS2.pack()
+lsS2.place(x=550,y=30)
+
+###text area for first interavl
+#setting textarea
+#placing textarea
+txt2=tkinter.Entry(window,width=50)
+txt2.place(x = 550,y = 55,width=100,height=20)
+
+###sixth label for second interval
+#setting label
+#packing label
+#placing label
+lsS2=tkinter.Label(window,text="Interval b",font=('Arial Bold',15))
+lsS2.pack()
+lsS2.place(x=550,y=75)
+
+###text area for second interavl
+#setting textarea
+#placing textarea
+txt2=tkinter.Entry(window,width=50)
+txt2.place(x = 550,y = 100,width=100,height=20)
 
 ############### answer screenn #####################
 ###answer
@@ -141,27 +172,32 @@ con.place(x=350,y=450)
 ###########Button and thier function ##################
 #########function for main logic of button
 def solver():
-  try: 
+ try:
+  
+  #reading input
+  es=txt.get("1.0","end-1c")
+  es = es.replace(" ", "")
+  obj=parserr.pars()
+
+   #checkword
+  while es[0]=="\n" :
+     es=es[1:]
+
+  while es[-1]=="\n" :
+     es=es[0:-1]
+     
+   #check HOWTO SOLVE LINAEAR  OR NON-LINEAR
+  checkFirst=int(systems.get()[0])  
+  if (checkFirst==1 or checkFirst==2 or checkFirst==3 or checkFirst==4 or checkFirst==5) and systems.get()[1]==".":
    ###defult values
    rou=5
    iterations=500
    errors=10**-6
    ans=[]
-   es=txt.get("1.0","end-1c")
-   es = es.replace(" ", "")
-   obj=parserr.getLists()
 
-    #roundoff
+   #roundoff
    if(len(pres.get().replace(" ", ""))!=0):
      rou=int(pres.get().replace(" ", ""))
-
-   #checkword
-   while es[0]=="\n" :
-     es=es[1:]
-
-   while es[-1]=="\n" :
-     es=es[0:-1]
-
    # varaible
    varss=obj.parsingVar(es+"\n")
    # validity
@@ -279,7 +315,17 @@ def solver():
       if(len(ans)==4):
          answer=answer+ans[3]
          screen.config(text=answer) 
-  except:  
+  else:
+   #roundoff
+   rou=-1
+   if(len(pres.get().replace(" ", ""))!=0):
+     rou=int(pres.get().replace(" ", ""))
+   print(es)  
+   var=obj.parsingNonlinear(es)
+   print(var)
+   
+ except:
+      traceback.print_exc() 
       tkinter.messagebox.showinfo( "some Error","error in input")
       screen.config(text="error in input") 
 
@@ -304,7 +350,7 @@ def getVars():
 
 check = tkinter.Button(window, text ="Show variables order", command = getVars)
 check.pack()
-check.place(x=630,y=210,width=150)
+check.place(x=540,y=145,width=150)
 
 ## main loop for the program
 window.mainloop()
