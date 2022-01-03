@@ -223,6 +223,30 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
    canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
  
+def plotnormal(intial,driv):
+   global zzz
+   global pos
+   zzz=[]
+   pos=0
+   for widget in frame.winfo_children():
+    widget.destroy()
+   x = Symbol('x')
+   y = Symbol('y',real = True,positive = True)
+   function2 = lambdify(x,driv)
+
+   Xaxis = np.linspace(intial-7,intial+7,10*10)
+   ylist=[]
+   for i in Xaxis:
+      ylist.append(function2(i))
+   yaxis = np.array(ylist)
+   f=Figure(figsize=(20,20),dpi=100)
+   a =f.add_subplot(1,1,1)
+
+   a.plot(Xaxis, Xaxis,'g')
+   a.plot(Xaxis, yaxis,'b')
+   canvas=FigureCanvasTkAgg(f,master=frame)
+   canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
+
 ###########Button and thier function ##################
 #########function for main logic of button
 def solver():
@@ -423,6 +447,7 @@ def solver():
 
 
    var = parse_expr(var,transformations=transformations)
+   print(var)
    ans=[]
    if(checkFirst==6) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
@@ -444,9 +469,16 @@ def solver():
          con.config(text="convergance:"+str(ans[2]))
          
    elif(checkFirst==8)  and intial!=None:
-
-      sol=fixedPoint.fixedPoint(tol,maxiter,intial,var,intial,intial2)
-      ans=sol.solve()
+      og=fixedPoint.fixedPoint(tol,maxiter,intial,var,rou)
+      ans=og.Solve()
+      if(not(isinstance(ans, str))):
+         print("################################")
+         print(ans[3])
+         print("################################")
+         plotnormal(intial,ans[3])
+         screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
+         tm.config(text="Time:"+str( round(ans[4],8) )+" sec")
+         con.config(text="convergance:"+str( ans[1] ))
 
    elif(checkFirst==9):
 
