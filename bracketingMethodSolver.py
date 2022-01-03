@@ -30,14 +30,16 @@ class bracketingMethodSolver:
         lower_List = []
         upper_List.append(upper)
         lower_List.append(lower)
-        while(f(xr) != 0 and i < max_iterations):
+        while(i < max_iterations):
             xrnew = sigfig.round(sigfig.round((upper+lower),sigfigs = n)/2.0,sigfigs = n)
             i += 1
-            #print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
+            if(f(xrnew) == 0):
+                break
+            print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
             if(abs(xr-xrnew) < tol):
                 xr = xrnew
                 break
-            value = f(a)*f(xrnew)
+            value = f(lower)*f(xrnew)
             xr = xrnew
             if(value < 0):
                 upper = xrnew
@@ -47,7 +49,7 @@ class bracketingMethodSolver:
                 break
             upper_List.append(upper)
             lower_List.append(lower)
-        #print(f'xr = {xr} and no. of iterations = {i}')
+        print(f'xr = {xr} and no. of iterations = {i}')
         end = time.perf_counter()
         return [lower_List,upper_List,i,xr,f,end - start]
     '''

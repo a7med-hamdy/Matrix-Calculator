@@ -198,13 +198,10 @@ zzz=[]
 pos=0
 ###########polting function ###########################
 def plotbisection(list1,list2,itr,intial,intial2,var):
-   print(f'itr : {itr}')
    global zzz
    global pos
    zzz=[]
    pos=0
-   print("asdasdsaasdasdasd")
-   print(list1,list2)
    for widget in frame.winfo_children():
     widget.destroy()
    x = Symbol('x')
@@ -223,7 +220,6 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
       a.axvline(x=list2[i-1])
       a.ticklabel_format(useOffset= False, style='plain')
       zzz.append(f)
-   print(zzz)
    canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
  
