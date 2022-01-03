@@ -128,7 +128,7 @@ txt1.place(x = 300, y = 260,width=150,height=20)
 #setting label
 #packing label
 #placing label
-lsS2=tkinter.Label(window,text="Error:(default=10^-6)",font=('Arial Bold',15))
+lsS2=tkinter.Label(window,text="Error:(default=10^-6)\n(10^-5 for nonlinear)",font=('Arial Bold',14))
 lsS2.pack()
 lsS2.place(x=300,y=290)
 
@@ -136,7 +136,7 @@ lsS2.place(x=300,y=290)
 #setting textarea
 #placing textarea
 txt2=tkinter.Entry(window,width=50)
-txt2.place(x = 300,y = 320,width=150,height=20)
+txt2.place(x = 300,y = 350,width=150,height=20)
 
 
 ############## for non linear ######################
@@ -202,27 +202,29 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
    global pos
    zzz=[]
    pos=0
+   print("asdasdsaasdasdasd")
+   print(list1,list2)
    for widget in frame.winfo_children():
     widget.destroy()
    x = Symbol('x')
    function = lambdify(x, var)
-   Xaxis = np.linspace(intial-1,-intial2+1,10*10)
+   Xaxis = np.linspace(intial-1,intial2+1,10*10)
    if intial>intial2:
-      Xaxis = np.linspace(intial2-1,-intial+1,10*10)
-      for i in range(1,itr+1):
-         f=Figure(figsize=(20,20),dpi=100)
-         a =f.add_subplot(1,1,1)
-         a.plot(Xaxis, function(Xaxis),'r')
-         a.axhline(color="black", linewidth=2)
-         a.axvline(color="black", linewidth=2)
-         a.grid()
-         a.axvline(x=list1[i-1])
-         a.axvline(x=list2[i-1])
-         a.ticklabel_format(useOffset= False, style='plain')
-         zzz.append(f)
- 
-      canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
-      canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
+      Xaxis = np.linspace(intial2-1,intial+1,10*10)
+   for i in range(1,itr+1):
+      f=Figure(figsize=(20,20),dpi=100)
+      a =f.add_subplot(1,1,1)
+      a.plot(Xaxis, function(Xaxis),'r')
+      a.axhline(color="black", linewidth=2)
+      a.axvline(color="black", linewidth=2)
+      a.grid()
+      a.axvline(x=list1[i-1])
+      a.axvline(x=list2[i-1])
+      a.ticklabel_format(useOffset= False, style='plain')
+      zzz.append(f)
+  
+   canvas=FigureCanvasTkAgg(zzz[pos],master=frame)
+   canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
  
 ###########Button and thier function ##################
 #########function for main logic of button
@@ -427,7 +429,7 @@ def solver():
    var = parse_expr(var,transformations=transformations)
   
    ans=[]
-   if(checkFirst==6):
+   if(checkFirst==6) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
       ans=og.bisect(intial,intial2,tol,var,rou,maxiter)
       if(not(isinstance(ans, str))):
@@ -437,7 +439,7 @@ def solver():
          con.config(text="convergance:"+str(ans[2])) 
         
     
-   elif(checkFirst==7):
+   elif(checkFirst==7) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
       ans=og.regula(intial,intial2,tol,var,rou,maxiter)
       if(not(isinstance(ans, str))):
@@ -445,8 +447,8 @@ def solver():
          screen.config(text="x = "+str(ans[3]))
          tm.config(text="Time:"+str( round(ans[5],8) )+" sec")
          con.config(text="convergance:"+str(ans[2]))
-    
-   elif(checkFirst==8):
+         
+   elif(checkFirst==8)  and intial!=None:
 
       sol=fixedPoint.fixedPoint(tol,maxiter,intial,var,intial,intial2)
       ans=sol.solve()
