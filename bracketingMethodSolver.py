@@ -1,4 +1,4 @@
-from sigfig import round
+import sigfig
 from sympy import *
 import time
 
@@ -31,7 +31,7 @@ class bracketingMethodSolver:
         upper_List.append(upper)
         lower_List.append(lower)
         while(f(xr) != 0 and i < max_iterations):
-            xrnew = round(round((a+b),n)/2.0,n)
+            xrnew = sigfig.round(sigfig.round((upper+lower),n)/2.0,n)
             i += 1
             print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
             if(abs(xr-xrnew) < tol):
@@ -81,9 +81,9 @@ class bracketingMethodSolver:
         upper_List.append(upper)
         lower_List.append(lower)
         MR1=((lower*f(upper))-(f(lower)*upper))/(f(upper)-f(lower))
-        MR1 = round(MR1, n)
+        MR1 = sigfig.round(MR1, n)
         FMR1 = f(MR1)
-        FMR1 = round(FMR1,n)
+        FMR1 = sigfig.round(FMR1,n)
         if f(lower)*FMR1 < 0:
             upper=MR1
         elif f(upper)*FMR1 < 0:
@@ -92,9 +92,9 @@ class bracketingMethodSolver:
         while(True):
             itr=itr+1
             MR2=((lower*f(upper))-(f(lower)*upper))/(f(upper)-f(lower))
-            MR2 = round(MR2, n)
+            MR2 = sigfig.round(MR2, n)
             FMR2 = f(MR2)
-            FMR2 = round(FMR2, n)
+            FMR2 = sigfig.round(FMR2, n)
             if f(lower)*FMR2 < 0:
                 upper=MR2
             elif f(upper)*FMR2 < 0:
