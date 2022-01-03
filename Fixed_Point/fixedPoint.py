@@ -128,9 +128,9 @@ class fixedPoint:
         print("Runtime = "+str(time)+" seconds")
         return [Xi,i,crit,G,time]
 
-x = Symbol('x',real = True,positive = True)
-f = x**2 - 2*x -3
+#x = Symbol('x',real = True,positive = True)
+#f = x**2 - 2*x -3
 
-fixed = fixedPoint(10**-2,100,0,f,5)
+#fixed = fixedPoint(10**-2,100,0,f,5)
 
-fixed.Solve()
+#fixed.Solve()
