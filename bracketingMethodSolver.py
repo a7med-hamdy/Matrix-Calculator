@@ -43,7 +43,7 @@ class bracketingMethodSolver:
             lower_List.append(lower)
         # print(f'xr = {xr} and no. of iterations = {i}')
         if(i == max_iterations):
-            return "maximum iterations reached"
+            return f'maximum iterations reached the last root reached is\n {xr}'
         end = time.perf_counter()
         return [lower_List,upper_List,i,xr,f,end - start]
     '''
@@ -102,7 +102,7 @@ class bracketingMethodSolver:
             if(abs(MR2-MR1)<tol or itr >= max_iterations):
                 end = time.perf_counter()
                 if(itr == max_iterations):
-                    return "maximum iterations reached"
+                    return f'maximum iterations reached the last root reached is\n {MR2}'
                 return [lower_List,upper_List,itr,MR2,f, end - start]
             else:
                 MR1=MR2
