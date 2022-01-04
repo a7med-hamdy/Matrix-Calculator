@@ -41,12 +41,19 @@ class NewtonRaphson:
         #Handling the division by zero
         if(not self.fun_prime(Xold)):
             time = timer() - begin_time
-            criteria = "The initial value caused division By Zero"
+            criteria = "The initial value caused \ndivision By Zero"
             return [Xold, iterations, criteria, time, self.f_prime]
         #The iterations
         while(iterations < self.max_iterations):
             Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), sigfigs = self.precision)
-            Ea = abs((Xnew - Xold) / Xnew) * 100
+            #if Xnew == zero (division by zero)
+            try:
+                Ea = abs((Xnew - Xold) / Xnew) * 100
+            except:
+                print("X = ", Xnew, ", Ea = ", Ea, "%")
+                Xold = Xnew
+                iterations += 1
+                continue
             print("X = ", Xnew, ", Ea = ", Ea, "%")
             Xold = Xnew
             iterations += 1

@@ -235,7 +235,7 @@ def plotnormal(intial,driv):
    y = Symbol('y',real = True,positive = True)
    function2 = lambdify(y,driv)
 
-   Xaxis = np.linspace(intial-7,intial+7,10*10)
+   Xaxis = np.linspace(intial-20,intial+20,10*10)
    ylist=[]
    for i in Xaxis:
       ylist.append(function2(i))
@@ -261,9 +261,9 @@ def plotmaker(intial,intial2,driv):
    x = Symbol('x')
    function2 = lambdify(x,driv)
 
-   Xaxis = np.linspace(intial-5,intial2+5,10*10)
+   Xaxis = np.linspace(intial-10,intial2+10,10*10)
    if intial>intial2:
-      Xaxis = np.linspace(intial2-5,intial+5,10*10)
+      Xaxis = np.linspace(intial2-10,intial+10,10*10)
    ylist=[]
    for i in Xaxis:
       ylist.append(function2(i))
@@ -505,7 +505,7 @@ def solver():
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
          tm.config(text="Time:"+str( round(ans[4],8) )+" sec")
          con.config(text="convergance:"+str( ans[1] ))
-
+   #
    elif(checkFirst==9)  and intial!=None:
       og=NewtonRaphson.NewtonRaphson(tol,maxiter,rou,intial,var)
       ans=og.solve()
@@ -516,7 +516,7 @@ def solver():
 
    else:
       if  intial!=None and intial2!=None:            
-         og=Secant.Secant(tol,maxiter,rou,intial,var)
+         og=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
          ans=og.solve()
          plotmaker(intial,intial,ans[4])
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
@@ -533,6 +533,12 @@ def solver():
          screen.config(text=ans)  
       tm.config(text="Time:")
       con.config(text="convergance:") 
+      global zzz
+      global pos
+      zzz=[]
+      pos=0
+      for widget in frame.winfo_children():
+         widget.destroy()
  except:
       traceback.print_exc()
       tkinter.messagebox.showinfo( "some Error","error in input")
