@@ -516,7 +516,7 @@ def solver():
 
    else:
       if  intial!=None and intial2!=None:            
-         og=Secant.Secant(tol,maxiter,rou,intial,var)
+         og=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
          ans=og.solve()
          plotmaker(intial,intial,ans[4])
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
