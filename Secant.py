@@ -43,12 +43,20 @@ class Secant:
         #Handling the division by zero
         if not (self.fun(X1) - self.fun(X2)) :
             time = timer() - begin_time
-            criteria = "The initial values caused division By Zero"
+            criteria = "The initial values caused \ndivision By Zero"
             return [X2, iterations, criteria, time, self.f_prime]
         #The iterations
         while(iterations < self.max_iterations):
             Xnew = round(X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2)), sigfigs = self.precision)
-            Ea = abs((Xnew - X2) / Xnew) * 100
+            #if Xnew == zero (division by zero)
+            try:
+                Ea = abs((Xnew - X2) / Xnew) * 100
+            except:
+                print("X = ", Xnew, ", Ea = ", Ea, "%")
+                X1 = X2
+                X2 = Xnew
+                iterations += 1
+                continue
             print("X = ", Xnew, ", Ea = ", Ea, "%")
             X1 = X2
             X2 = Xnew
@@ -65,7 +73,7 @@ class Secant:
 
 #debugging
 # x=symbols('x')
-# fx = cos(x) - sin(x)
+# fx = x**2-2
 # print(fx)
-# secant = Secant(10**-20, 4, 5, 0.5, 1, fx)
+# secant = Secant(10**-20, 50, None, 1, -2, fx)
 # print(secant.solve())
