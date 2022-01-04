@@ -31,7 +31,7 @@ class Secant:
         if not (self.fun(X1) - self.fun(X2)) :
             return "The initial values caused division By Zero"
         #The iterations
-        while(iterations <= self.max_iterations):
+        while(iterations < self.max_iterations):
             Xnew = round(X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2)), sigfigs = self.precision)
             Ea = abs((Xnew - X2) / Xnew) * 100
             print("X = ", Xnew, ", Ea = ", Ea, "%")
@@ -50,7 +50,7 @@ class Secant:
 
 #debugging
 # x=symbols('x')
-# fx = x**2 -2
+# fx = cos(x) - sin(x)
 # print(fx)
-# secant = Secant(10**-20, 5, 0, 0.5, 1, fx)
+# secant = Secant(10**-20, 4, 5, 0.5, 1, fx)
 # print(secant.solve())

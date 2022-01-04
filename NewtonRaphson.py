@@ -30,7 +30,7 @@ class NewtonRaphson:
         if(not self.fun_prime(Xold)):
             return "The initial value caused division By Zero"
         #The iterations
-        while(iterations <= self.max_iterations):
+        while(iterations < self.max_iterations):
             Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), sigfigs = self.precision)
             Ea = abs((Xnew - Xold) / Xnew) * 100
             print("X = ", Xnew, ", Ea = ", Ea, "%")
