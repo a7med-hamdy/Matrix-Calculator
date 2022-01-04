@@ -42,6 +42,8 @@ class bracketingMethodSolver:
             upper_List.append(upper)
             lower_List.append(lower)
         # print(f'xr = {xr} and no. of iterations = {i}')
+        if(i == max_iterations):
+            return "maximum iterations reached"
         end = time.perf_counter()
         return [lower_List,upper_List,i,xr,f,end - start]
     '''
@@ -82,7 +84,9 @@ class bracketingMethodSolver:
             upper=MR1
         elif f(upper)*FMR1 < 0:
             lower=MR1
-        
+        elif(FMR1 == 0) :
+            end = time.perf_counter()
+            return [lower_List,upper_List,itr,MR1,f, end - start]
         while(True):
             itr=itr+1
             MR2=((lower*f(upper))-(f(lower)*upper))/(f(upper)-f(lower))
@@ -95,8 +99,10 @@ class bracketingMethodSolver:
                 lower=MR2
             upper_List.append(upper)
             lower_List.append(lower)
-            if(abs(MR2-MR1)<tol or itr > max_iterations):
+            if(abs(MR2-MR1)<tol or itr >= max_iterations):
                 end = time.perf_counter()
+                if(itr == max_iterations):
+                    return "maximum iterations reached"
                 return [lower_List,upper_List,itr,MR2,f, end - start]
             else:
                 MR1=MR2

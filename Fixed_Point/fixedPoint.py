@@ -34,11 +34,10 @@ class fixedPoint:
 
 
     """
-        gets the appropriate G(x) by comparing the interval got from solving
-        |G`(x)| < 1 and checking whether the initial X belongs in this interval
-        for convergance
+        gets the all the iterations of G(x)
 
-        returns: appropriate G(x)
+        returns: 
+        Garray: array of all possible iterations of G(x)
 
     """
     def Get_G(self):
@@ -47,7 +46,6 @@ class fixedPoint:
         X = Symbol("X",real = True,positive = True) #orignial symbol
         farray = [] #all iterations of F(x) 
         Garray = [] #all possible G(x)
-        G_primeArray = [] # all possible G`(x)
         for i in range(len(self.f.args)):
             for j in range(len(self.f.args)):
                     expres = self.f.args[j].replace(x,X)
@@ -61,81 +59,80 @@ class fixedPoint:
                     expres = func.args[j].replace(X,y)
                     func = func.subs(func.args[j],expres)
             farray.append(func)
-        print(farray)
         # solve in x in terms of y in each of the iterations stored in farray
         # and store them in Garray and their derivatives in G_primeArray 
         for i in range(len(farray)):
             g = solve(farray[i],symbols=[X],exclude=[y],domain= S.Reals)
             for j in range(len(g)):
                 if "I" not in str(g[j]):
-                    g_prime = diff(g[j],y)
                     Garray.append(g[j])
-                    G_primeArray.append(g_prime)
-
-        print(Garray)
-        print(G_primeArray)
-        #get the appropriate G(x) and return it
-        for i in range(len(G_primeArray)):
-            try:
-                if(solve(abs(G_primeArray[i]) < 1).as_set().contains(self.initialX)):
-                    return Garray[i]
-                #if(not solve(abs(G_primeArray[i]) < 1).as_set().is_disjoint(Interval(self.intervala,self.intervalb))):
-                 #   return Garray[i]
-            except:
-                print(G_primeArray[i])
-                return Garray[i]
-
+        return Garray
 
     """
-        solving function that gets G(x) then iterates using the fixed point
-        algorithm and return the result & criteria of convergence
+        solving function that iterates on all possible G(x)s using the fixed point
+        algorithm and returns the one that converged, the result & criteria of convergence
 
         returns:
-        G: G(x)
+        G: G(x) that converged | if none converged then returns the last one used
         Xi: last iteration of X
         time : runtime of the code
-        crit : criteria of convergence "Converged" | "Diverged"
+        crit : criteria of convergence "Converged" | "all G(x)s found Diverged"
         i : number of iterations
     """
     def Solve(self):
         Xi = self.initialX
         preXi = self.initialX
         crit = ""
-        i = 1
+        i = 0
         begin_time = timer()
         G = self.Get_G()
         print("G(X) =", G)
         print("Xi = ",Xi)
         #get the function G(x)
-        Gx = lambdify(self.X,G)
-        print(Gx(Xi))
+        
+        #print(Gx(Xi))
+        for j in range(len(G)):
+            Xi = self.initialX
+            preXi = self.initialX
+            y = Symbol("y",real = True,positive = True) #symbol to replace it with
+            Gx = (lambdify(y,G[j]))
+            print(Gx(Xi))
+            i = 0
         #begin loop
-        while i <= self.iterMax:
-            #store previous Xi
-            preXi = copy.deepcopy(Xi)
-            #substitute in G(x)
-            Xi = copy.deepcopy(sigfig.round(Gx(Xi), sigfigs = self.significantFigs))
-            print("iteration no:"+str(i),Xi)
-            #calculate the error
-            error = abs((Xi-preXi)/Xi)
+            try:
+                while i < self.iterMax:
+                    #store previous Xi
+                    preXi = copy.deepcopy(Xi)
+                    #substitute in G(x)
+                    Xi = copy.deepcopy(sigfig.round(Gx(Xi), sigfigs = self.significantFigs))
+                    print("iteration no:"+str(i+1),Xi)
+                    #calculate the error
+                    error = abs((Xi-preXi)/Xi)
 
-            #check if the error < Es to break and return results
-            if error < self.errorStop:
-                crit = "Converged"
-                time = timer()- begin_time 
-                print("Runtime : "+str(time)+" seconds")
-                return [Xi,i,crit,G,time]
-            i+= 1
-        #if the loop is done then the value diverged
-        #return the results
-        crit = "Diverged"
-        time = timer() - begin_time
-        print("Runtime = "+str(time)+" seconds")
-        return [Xi,i,crit,G,time]
+                    #check if the error < Es to break and return results
+                    if error < self.errorStop:
+                        crit = "Converged"
+                        time = timer()- begin_time 
+                        print("Runtime : "+str(time)+" seconds")
+                        return [Xi,i+1,crit,G[j],time]
+                    i+= 1
+            except:
+                if j != len(G)-1:
+                    continue
+                else:
+                    #if the loop is done then the value diverged
+                    #return the results
+                    crit = "All G(x)s found Diverged"
+                    time = timer() - begin_time
+                    print("Runtime = "+str(time)+" seconds")
+                    return [Xi,i+1,crit,G[j],time]
+
+
+      
 
 #x = Symbol('x',real = True,positive = True)
-#f = x**2 - 2*x -3
+f = cos(x**2)-x+1
 
-#fixed = fixedPoint(10**-2,100,0,f,5)
+fixed = fixedPoint(10**-8,50,1,f,5)
 
-#fixed.Solve()
+fixed.Solve()

@@ -6,6 +6,11 @@ class NewtonRaphson:
 
     """
     constructor
+    @param: (eps) the stopping approximate absolute error
+    @param: (max_iterations)
+    @param: (precision)
+    @param: (initValue) the initial value
+    @param: (fun) the equation 'f(x)'
     """
     def __init__(self, eps, max_iterations, precision, initValue, fun):
         self.eps = eps
@@ -19,6 +24,13 @@ class NewtonRaphson:
 
     """
     solve function 
+    @return: array that consists of:
+            1. (Xnew) the root found.
+            2. (iterations) the number of iterations taken.
+            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!"
+                              or "The initial value caused division By Zero".
+            4. (time) the time that the algorithm takes to slove.
+            5. (f_prime) the derivative of f(x) -> "f'(x)"
     """
     def solve(self):
         begin_time = timer() #measure the execution time
@@ -28,11 +40,20 @@ class NewtonRaphson:
         Xold = self.initValue
         #Handling the division by zero
         if(not self.fun_prime(Xold)):
-            return "The initial value caused division By Zero"
+            time = timer() - begin_time
+            criteria = "The initial value caused \ndivision By Zero"
+            return [Xold, iterations, criteria, time, self.f_prime]
         #The iterations
-        while(iterations <= self.max_iterations):
+        while(iterations < self.max_iterations):
             Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), sigfigs = self.precision)
-            Ea = abs((Xnew - Xold) / Xnew) * 100
+            #if Xnew == zero (division by zero)
+            try:
+                Ea = abs((Xnew - Xold) / Xnew) * 100
+            except:
+                print("X = ", Xnew, ", Ea = ", Ea, "%")
+                Xold = Xnew
+                iterations += 1
+                continue
             print("X = ", Xnew, ", Ea = ", Ea, "%")
             Xold = Xnew
             iterations += 1
@@ -50,5 +71,5 @@ class NewtonRaphson:
 # x=symbols('x')
 # fx =  x**3 - 0.165*x**2 + 3.993*10**-4
 # print(fx)
-# newton = NewtonRaphson(10**-8, 8, None, 0.05, fx)
+# newton = NewtonRaphson(10**-8, 8, None, .05, fx)
 # print(newton.solve())
