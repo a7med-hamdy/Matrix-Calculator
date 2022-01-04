@@ -533,6 +533,12 @@ def solver():
          screen.config(text=ans)  
       tm.config(text="Time:")
       con.config(text="convergance:") 
+      global zzz
+      global pos
+      zzz=[]
+      pos=0
+      for widget in frame.winfo_children():
+         widget.destroy()
  except:
       traceback.print_exc()
       tkinter.messagebox.showinfo( "some Error","error in input")
