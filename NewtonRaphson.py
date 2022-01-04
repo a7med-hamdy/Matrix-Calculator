@@ -27,7 +27,8 @@ class NewtonRaphson:
     @return: array that consists of:
             1. (Xnew) the root found.
             2. (iterations) the number of iterations taken.
-            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!".
+            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!"
+                              or "The initial value caused division By Zero".
             4. (time) the time that the algorithm takes to slove.
             5. (f_prime) the derivative of f(x) -> "f'(x)"
     """
@@ -39,7 +40,9 @@ class NewtonRaphson:
         Xold = self.initValue
         #Handling the division by zero
         if(not self.fun_prime(Xold)):
-            return "The initial value caused division By Zero"
+            time = timer() - begin_time
+            criteria = "The initial value caused division By Zero"
+            return [Xold, iterations, criteria, time, self.f_prime]
         #The iterations
         while(iterations < self.max_iterations):
             Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), sigfigs = self.precision)
@@ -61,5 +64,5 @@ class NewtonRaphson:
 # x=symbols('x')
 # fx =  x**3 - 0.165*x**2 + 3.993*10**-4
 # print(fx)
-# newton = NewtonRaphson(10**-8, 8, None, 0.05, fx)
+# newton = NewtonRaphson(10**-8, 8, None, .05, fx)
 # print(newton.solve())

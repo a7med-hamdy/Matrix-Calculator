@@ -28,7 +28,8 @@ class Secant:
     @return: array that consists of:
             1. (Xnew) the root found.
             2. (iterations) the number of iterations taken.
-            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!".
+            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!"
+                              or "The initial value caused division By Zero".
             4. (time) the time that the algorithm takes to slove.
             5. (f_prime) the derivative of f(x) -> "f'(x)"
     """
@@ -41,7 +42,9 @@ class Secant:
         X2 = self.init_2
         #Handling the division by zero
         if not (self.fun(X1) - self.fun(X2)) :
-            return "The initial values caused division By Zero"
+            time = timer() - begin_time
+            criteria = "The initial values caused division By Zero"
+            return [X2, iterations, criteria, time, self.f_prime]
         #The iterations
         while(iterations < self.max_iterations):
             Xnew = round(X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2)), sigfigs = self.precision)
