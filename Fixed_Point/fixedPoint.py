@@ -84,20 +84,24 @@ class fixedPoint:
         preXi = self.initialX
         crit = ""
         i = 0
+        c = 0
         begin_time = timer()
         G = self.Get_G()
         print("G(X) =", G)
         print("Xi = ",Xi)
         #get the function G(x)
-        
         #print(Gx(Xi))
+        if len(G) == 0:
+            return "No G(x)s found"
         for j in range(len(G)):
             Xi = self.initialX
             preXi = self.initialX
             y = Symbol("y",real = True,positive = True) #symbol to replace it with
+            Ga = G[j]
             Gx = (lambdify(y,G[j]))
             print(Gx(Xi))
             i = 0
+            c = j
         #begin loop
             try:
                 while i < self.iterMax:
@@ -126,13 +130,18 @@ class fixedPoint:
                     time = timer() - begin_time
                     print("Runtime = "+str(time)+" seconds")
                     return [Xi,i+1,crit,G[j],time]
-
+        #if the loop is done then the value diverged
+        #return the results
+        #crit = "All G(x)s found Diverged"
+        #time = timer() - begin_time
+        #print("Runtime = "+str(time)+" seconds")
+        #return [Xi,i+1,crit,G[c],time]
 
       
 
 #x = Symbol('x',real = True,positive = True)
-f = cos(x**2)-x+1
+#f = cos(x**2)-x+1
 
-fixed = fixedPoint(10**-8,50,1,f,5)
+#fixed = fixedPoint(10**-8,50,1,f,5)
 
-fixed.Solve()
+#fixed.Solve()

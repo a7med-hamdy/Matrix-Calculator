@@ -235,7 +235,7 @@ def plotnormal(intial,driv):
    y = Symbol('y',real = True,positive = True)
    function2 = lambdify(y,driv)
 
-   Xaxis = np.linspace(intial-7,intial+7,10*10)
+   Xaxis = np.linspace(intial-20,intial+20,10*10)
    ylist=[]
    for i in Xaxis:
       ylist.append(function2(i))
