@@ -6,6 +6,12 @@ class Secant:
 
     """
     constructor
+    @param: (eps) the stopping approximate absolute error
+    @param: (max_iterations)
+    @param: (precision)
+    @param: (init_1) the 1st initial value
+    @param: (init_2) the 2nd initial value
+    @param: (fun) the equation 'f(x)'
     """
     def __init__(self, eps, max_iterations, precision, init_1, init_2, fun):
         self.eps = eps
@@ -18,7 +24,13 @@ class Secant:
         self.fun = lambdify(self.x, fun)
 
     """
-    solve function 
+    solve function
+    @return: array that consists of:
+            1. (Xnew) the root found.
+            2. (iterations) the number of iterations taken.
+            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!".
+            4. (time) the time that the algorithm takes to slove.
+            5. (f_prime) the derivative of f(x) -> "f'(x)"
     """
     def solve(self):
         begin_time = timer() #measure the execution time

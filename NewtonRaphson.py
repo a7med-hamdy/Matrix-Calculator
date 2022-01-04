@@ -6,6 +6,11 @@ class NewtonRaphson:
 
     """
     constructor
+    @param: (eps) the stopping approximate absolute error
+    @param: (max_iterations)
+    @param: (precision)
+    @param: (initValue) the initial value
+    @param: (fun) the equation 'f(x)'
     """
     def __init__(self, eps, max_iterations, precision, initValue, fun):
         self.eps = eps
@@ -19,6 +24,12 @@ class NewtonRaphson:
 
     """
     solve function 
+    @return: array that consists of:
+            1. (Xnew) the root found.
+            2. (iterations) the number of iterations taken.
+            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!".
+            4. (time) the time that the algorithm takes to slove.
+            5. (f_prime) the derivative of f(x) -> "f'(x)"
     """
     def solve(self):
         begin_time = timer() #measure the execution time
