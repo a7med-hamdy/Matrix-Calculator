@@ -261,9 +261,9 @@ def plotmaker(intial,intial2,driv):
    x = Symbol('x')
    function2 = lambdify(x,driv)
 
-   Xaxis = np.linspace(intial-5,intial2+5,10*10)
+   Xaxis = np.linspace(intial-10,intial2+10,10*10)
    if intial>intial2:
-      Xaxis = np.linspace(intial2-5,intial+5,10*10)
+      Xaxis = np.linspace(intial2-10,intial+10,10*10)
    ylist=[]
    for i in Xaxis:
       ylist.append(function2(i))
@@ -505,7 +505,7 @@ def solver():
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
          tm.config(text="Time:"+str( round(ans[4],8) )+" sec")
          con.config(text="convergance:"+str( ans[1] ))
-
+   #
    elif(checkFirst==9)  and intial!=None:
       og=NewtonRaphson.NewtonRaphson(tol,maxiter,rou,intial,var)
       ans=og.solve()
