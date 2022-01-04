@@ -39,7 +39,7 @@ class NewtonRaphson:
         iterations = 0
         Xold = self.initValue
         #Handling the division by zero
-        if(not self.fun_prime(Xold)):
+        if(self.fun_prime(Xold) == 0):
             time = timer() - begin_time
             criteria = "The initial value caused \ndivision By Zero"
             return [Xold, iterations, criteria, time, self.f_prime]

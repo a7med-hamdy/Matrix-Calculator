@@ -41,7 +41,7 @@ class Secant:
         X1 = self.init_1
         X2 = self.init_2
         #Handling the division by zero
-        if not (self.fun(X1) - self.fun(X2)) :
+        if(self.fun(X1) == self.fun(X2)):
             time = timer() - begin_time
             criteria = "The initial values caused \ndivision By Zero"
             return [X2, iterations, criteria, time, self.f_prime]
