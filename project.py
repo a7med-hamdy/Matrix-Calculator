@@ -195,9 +195,7 @@ frame.pack(expand=True, fill=BOTH)
 frame.place(x=785,y=10,width=610,height=585)
 ############control variavles################
 zzz=[]
-pos=0
-
-                
+pos=0            
 ###########polting function ###########################
 
  ### funtion for plot the steps of Brackting function
@@ -299,7 +297,8 @@ def plotmaker(intial,intial2,driv):
 #########function for main logic of button
 def solver():
  try:
-  
+  global zzz
+  global pos
   #reading input
   es=txt.get("1.0","end-1c")
   es = es.replace(" ", "")
@@ -317,8 +316,6 @@ def solver():
   #linrat systenm
   if (checkFirst==1 or checkFirst==2 or checkFirst==3 or checkFirst==4 or checkFirst==5) and systems.get()[1]==".":
    ## remove all the graphs
-   global zzz
-   global pos
    zzz=[]
    pos=0
    for widget in frame.winfo_children():
@@ -567,8 +564,6 @@ def solver():
          screen.config(text=ans)  
       tm.config(text="Time:")
       con.config(text="convergance:") 
-      global zzz
-      global pos
       zzz=[]
       pos=0
       for widget in frame.winfo_children():
@@ -577,6 +572,8 @@ def solver():
       traceback.print_exc()
       tkinter.messagebox.showinfo( "some Error","error in input")
       screen.config(text="error in input") 
+      zzz=[]
+      pos=0
 
 B = tkinter.Button(window, text ="solve", command = solver)
 B.pack()
