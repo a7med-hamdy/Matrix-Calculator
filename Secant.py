@@ -52,7 +52,7 @@ class Secant:
             if math.isnan(Xnew):
                 break
             Xnew = round(Xnew, sigfigs = self.precision)
-            #if Xnew == zero (division by zero)
+            #if Xnew == zero Then do NOT calculate the error
             if(Xnew != 0):
                 Ea = abs((Xnew - X2) / Xnew) * 100
             else:

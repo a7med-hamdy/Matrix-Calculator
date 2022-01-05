@@ -51,7 +51,7 @@ class NewtonRaphson:
             if math.isnan(Xnew):
                 break
             Xnew = round(Xnew, sigfigs = self.precision)
-            #if Xnew == zero (do NOT calculate the error)
+            #if Xnew == zero Then do NOT calculate the error
             if(Xnew != 0):
                 Ea = abs((Xnew - Xold) / Xnew) * 100
             else:
