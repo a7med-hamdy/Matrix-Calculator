@@ -29,7 +29,7 @@ class NewtonRaphson:
     @return: array that consists of:
             1. (Xnew) the root found.
             2. (iterations) the number of iterations taken.
-            3. (criteria) either "Converged" or "Diverged"
+            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!"
                               or "The initial value caused division By Zero".
             4. (time) the time that the algorithm takes to slove.
             5. (f_prime) the derivative of f(x) -> "f'(x)"
@@ -51,7 +51,7 @@ class NewtonRaphson:
             if math.isnan(Xnew):
                 break
             Xnew = round(Xnew, sigfigs = self.precision)
-            #if Xnew == zero (do NOT calculate the error)
+            #if Xnew == zero Then do NOT calculate the error
             if(Xnew != 0):
                 Ea = abs((Xnew - Xold) / Xnew) * 100
             else:
@@ -69,7 +69,7 @@ class NewtonRaphson:
                 return [Xnew, iterations, criteria, time, self.f_prime]
         #the method diverged
         time = timer() - begin_time
-        criteria = "Diverged"
+        criteria = "MAXIMUM ITERATIONS \nREACHED!!"
         return [Xnew, iterations, criteria, time, self.f_prime]
 
 #debugging
