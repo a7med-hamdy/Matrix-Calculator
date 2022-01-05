@@ -196,7 +196,18 @@ frame.place(x=785,y=10,width=610,height=585)
 ############control variavles################
 zzz=[]
 pos=0
+
+                
 ###########polting function ###########################
+
+ ### funtion for plot the steps of Brackting function
+  # @ parameter list1 : a steps array of side of Brackting
+  # @ parameter list2 : a steps array of side of Brackting
+  # @ parameter itr : number of iteraction
+  # @ parameter intial : the first iniital user entered 
+  # @ parameter intial2 :the second iniital user entered 
+  # @ parameter var : the function 
+
 def plotbisection(list1,list2,itr,intial,intial2,var):
    global zzz
    global pos
@@ -224,6 +235,9 @@ def plotbisection(list1,list2,itr,intial,intial2,var):
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
 
 ##################################################################
+ ### funtion for plot the fixed piont functions
+  # @ parameter intial : the ff(x) functions
+  # @ parameter driv : the g(x) function
 def plotnormal(intial,driv):
    global zzz
    global pos
@@ -251,6 +265,11 @@ def plotnormal(intial,driv):
    canvas.get_tk_widget().pack(side=LEFT,expand=False,fill=None)
 
 #####################################################################
+ ### funtion for plot the drivative of the function
+  # @ parameter intial : the first iniital user entered 
+  # @ parameter intial2 :the second iniital user entered 
+  # @ parameter driv : the drivatev function  
+
 def plotmaker(intial,intial2,driv):
    global zzz
    global pos
@@ -295,7 +314,15 @@ def solver():
      
    #check HOWTO SOLVE LINAEAR  OR NON-LINEAR
   checkFirst=int(systems.get()[0])  
+  #linrat systenm
   if (checkFirst==1 or checkFirst==2 or checkFirst==3 or checkFirst==4 or checkFirst==5) and systems.get()[1]==".":
+   ## remove all the graphs
+   global zzz
+   global pos
+   zzz=[]
+   pos=0
+   for widget in frame.winfo_children():
+    widget.destroy()  
    ###defult values
    rou=5
    iterations=500
@@ -476,8 +503,10 @@ def solver():
 
 
    var = parse_expr(var,transformations=transformations)
-   print(var)
+
+
    ans=[]
+   # check if the initial is entered and make the bisection
    if(checkFirst==6) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
       ans=og.bisect(intial,intial2,tol,var,rou,maxiter)
@@ -487,7 +516,7 @@ def solver():
          tm.config(text="Time:"+str( round(ans[5],8) )+" sec")
          con.config(text="convergance:"+str(ans[2])) 
         
-    
+   # check if the initial is entered and make the false postion 
    elif(checkFirst==7) and intial!=None and  intial2!=None:
       og=bracketingMethodSolver.bracketingMethodSolver()
       ans=og.regula(intial,intial2,tol,var,rou,maxiter)
@@ -497,6 +526,7 @@ def solver():
          tm.config(text="Time:"+str( round(ans[5],8) )+" sec")
          con.config(text="convergance:"+str(ans[2]))
          
+   # check if the initial is entered and make the fixed point function 
    elif(checkFirst==8)  and intial!=None:
       og=fixedPoint.fixedPoint(tol,maxiter,intial,var,rou)
       ans=og.Solve()
@@ -505,7 +535,8 @@ def solver():
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
          tm.config(text="Time:"+str( round(ans[4],8) )+" sec")
          con.config(text="convergance:"+str( ans[1] ))
-   #
+
+   # check if the initial is entered and make the nrwton rasphorad
    elif(checkFirst==9)  and intial!=None:
       og=NewtonRaphson.NewtonRaphson(tol,maxiter,rou,intial,var)
       ans=og.solve()
@@ -514,7 +545,9 @@ def solver():
       tm.config(text="Time:"+str( round(ans[3],8) )+" sec")
       con.config(text="convergance:"+str( ans[1] ))
 
+
    else:
+      # check if the initial is entered and make the secant
       if  intial!=None and intial2!=None:            
          og=Secant.Secant(tol,maxiter,rou,intial,intial2,var)
          ans=og.solve()
@@ -522,6 +555,7 @@ def solver():
          screen.config(text="x = "+str(ans[0])+"\n"+ans[2] )
          tm.config(text="Time:"+str( round(ans[3],8) )+" sec")
          con.config(text="convergance:"+str( ans[1] ))
+      # check mae this message if the initials is not entred in any of this one
       else:
          ans="enter initals"
 

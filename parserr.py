@@ -201,7 +201,7 @@ class pars:
 
 
 
-  ### coeffficent matrix
+  ### funtion for parsing non linear
   # @ parameter string : the non linaer equation equatians  
   # returns string of equation to be simpfiy
   
