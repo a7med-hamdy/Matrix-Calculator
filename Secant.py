@@ -1,3 +1,4 @@
+import math
 from sympy import *
 from sigfig import round
 from timeit import default_timer as timer
@@ -28,8 +29,8 @@ class Secant:
     @return: array that consists of:
             1. (Xnew) the root found.
             2. (iterations) the number of iterations taken.
-            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!"
-                              or "The initial value caused division By Zero".
+            3. (criteria) either "Converged" or "Diverged"
+                              or "The initial values caused division By Zero".
             4. (time) the time that the algorithm takes to slove.
             5. (f_prime) the derivative of f(x) -> "f'(x)"
     """
@@ -40,18 +41,21 @@ class Secant:
         iterations = 0
         X1 = self.init_1
         X2 = self.init_2
-        #Handling the division by zero
-        if(self.fun(X1) == self.fun(X2)):
-            time = timer() - begin_time
-            criteria = "The initial values caused \ndivision By Zero"
-            return [X2, iterations, criteria, time, self.f_prime]
         #The iterations
         while(iterations < self.max_iterations):
-            Xnew = round(X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2)), sigfigs = self.precision)
+            #Handling the division by zero
+            if(self.fun(X1) == self.fun(X2)):
+                time = timer() - begin_time
+                criteria = "The initial values caused \ndivision By Zero"
+                return [X2, iterations, criteria, time, self.f_prime]
+            Xnew = X2 - self.fun(X2) * (X1 - X2) / (self.fun(X1) - self.fun(X2))
+            if math.isnan(Xnew):
+                break
+            Xnew = round(Xnew, sigfigs = self.precision)
             #if Xnew == zero (division by zero)
-            try:
+            if(Xnew != 0):
                 Ea = abs((Xnew - X2) / Xnew) * 100
-            except:
+            else:
                 print("X = ", Xnew, ", Ea = ", Ea, "%")
                 X1 = X2
                 X2 = Xnew
@@ -68,12 +72,12 @@ class Secant:
                 return [Xnew, iterations, criteria, time, self.f_prime]
         #the method diverged
         time = timer() - begin_time
-        criteria = "MAXIMUM ITERATIONS REACHED!!"
+        criteria = "Diverged"
         return [Xnew, iterations, criteria, time, self.f_prime]
 
 #debugging
 # x=symbols('x')
-# fx = x**2-2
+# fx = exp(x)+x
 # print(fx)
-# secant = Secant(10**-20, 50, None, 1, -2, fx)
+# secant = Secant(10**-20, 50, None, -9, 2, fx)
 # print(secant.solve())

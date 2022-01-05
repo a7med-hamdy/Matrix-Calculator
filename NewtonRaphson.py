@@ -1,3 +1,5 @@
+import math
+from tkinter.constants import X
 from sympy import *
 from sigfig import round
 from timeit import default_timer as timer
@@ -27,7 +29,7 @@ class NewtonRaphson:
     @return: array that consists of:
             1. (Xnew) the root found.
             2. (iterations) the number of iterations taken.
-            3. (criteria) either "Converged" or "MAXIMUM ITERATIONS REACHED!!"
+            3. (criteria) either "Converged" or "Diverged"
                               or "The initial value caused division By Zero".
             4. (time) the time that the algorithm takes to slove.
             5. (f_prime) the derivative of f(x) -> "f'(x)"
@@ -38,18 +40,21 @@ class NewtonRaphson:
         Ea = 100
         iterations = 0
         Xold = self.initValue
-        #Handling the division by zero
-        if(self.fun_prime(Xold) == 0):
-            time = timer() - begin_time
-            criteria = "The initial value caused \ndivision By Zero"
-            return [Xold, iterations, criteria, time, self.f_prime]
         #The iterations
         while(iterations < self.max_iterations):
-            Xnew = round(Xold - self.fun(Xold) / self.fun_prime(Xold), sigfigs = self.precision)
-            #if Xnew == zero (division by zero)
-            try:
+            #Handling the division by zero
+            if(self.fun_prime(Xold) == 0):
+                time = timer() - begin_time
+                criteria = "The initial value caused \ndivision By Zero"
+                return [Xold, iterations, criteria, time, self.f_prime]
+            Xnew = Xold - self.fun(Xold) / self.fun_prime(Xold)
+            if math.isnan(Xnew):
+                break
+            Xnew = round(Xnew, sigfigs = self.precision)
+            #if Xnew == zero (do NOT calculate the error)
+            if(Xnew != 0):
                 Ea = abs((Xnew - Xold) / Xnew) * 100
-            except:
+            else:
                 print("X = ", Xnew, ", Ea = ", Ea, "%")
                 Xold = Xnew
                 iterations += 1
@@ -64,12 +69,12 @@ class NewtonRaphson:
                 return [Xnew, iterations, criteria, time, self.f_prime]
         #the method diverged
         time = timer() - begin_time
-        criteria = "MAXIMUM ITERATIONS REACHED!!"
+        criteria = "Diverged"
         return [Xnew, iterations, criteria, time, self.f_prime]
 
 #debugging
 # x=symbols('x')
-# fx =  x**3 - 0.165*x**2 + 3.993*10**-4
+# fx =  ln(x)+1
 # print(fx)
-# newton = NewtonRaphson(10**-8, 8, None, .05, fx)
+# newton = NewtonRaphson(10**-8, 50, 5, 1, fx)
 # print(newton.solve())
