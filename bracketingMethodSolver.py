@@ -27,7 +27,6 @@ class bracketingMethodSolver:
         while(i < max_iterations):
             xrnew = sigfig.round(sigfig.round((upper+lower),sigfigs = n)/2.0,sigfigs = n)
             i += 1
-            # print(f'lower limit : {lower} | upper limit : {upper} | root: {xrnew} | f(lower) = {f(lower)} | f(upper) = {f(upper)} | f(xr) = {f(xrnew)} | error = {abs(xrnew-xr)}')
             if(abs(xr-xrnew) < tol):
                 xr = xrnew
                 break
@@ -41,10 +40,9 @@ class bracketingMethodSolver:
                 break
             upper_List.append(upper)
             lower_List.append(lower)
-        # print(f'xr = {xr} and no. of iterations = {i}')
-        if(i == max_iterations):
-            return f'maximum iterations reached the last root reached is\n {xr}'
         end = time.perf_counter()
+        if(i == max_iterations):
+            return [lower_List,upper_List,f'maximum iterations reached the last root reached is\n {xr}',f, end-start]
         return [lower_List,upper_List,i,xr,f,end - start]
     '''
     params: lower bound / upper bound / tolerance(Es) / function / number of significant figures / no. of iterations
@@ -102,7 +100,7 @@ class bracketingMethodSolver:
             if(abs(MR2-MR1)<tol or itr >= max_iterations):
                 end = time.perf_counter()
                 if(itr == max_iterations):
-                    return f'maximum iterations reached the last root reached is\n {MR2}'
+                    return [lower_List,upper_List,f'maximum iterations reached the last root reached is\n {MR2}',f, end-start]
                 return [lower_List,upper_List,itr,MR2,f, end - start]
             else:
                 MR1=MR2
