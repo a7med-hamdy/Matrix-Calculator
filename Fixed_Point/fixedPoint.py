@@ -21,15 +21,13 @@ class fixedPoint:
         significantFigs : significant figures 
 
     """
-    def __init__(self, errorStop, iterMax, initialX, f,significantFigs): #intervala, intervalb, 
+    def __init__(self, errorStop, iterMax, initialX, f,significantFigs): 
                     
         self.errorStop = errorStop
         self.iterMax = iterMax
         self.f = f
         self.initialX = initialX
         self.X = Symbol("y",real = True,positive = True)
-        #self.intervala = intervala
-        #self.intervalb = intervalb
         self.significantFigs = significantFigs
 
 
@@ -86,11 +84,9 @@ class fixedPoint:
         i = 0
         c = 0
         begin_time = timer()
-        G = self.Get_G()
+        G = self.Get_G()  #get the G(x)s
         print("G(X) =", G)
         print("Xi = ",Xi)
-        #get the function G(x)
-        #print(Gx(Xi))
         if len(G) == 0:
             return "No G(x)s found"
         for j in range(len(G)):
@@ -130,18 +126,4 @@ class fixedPoint:
                     time = timer() - begin_time
                     print("Runtime = "+str(time)+" seconds")
                     return [Xi,i+1,crit,G[j],time]
-        #if the loop is done then the value diverged
-        #return the results
-        #crit = "All G(x)s found Diverged"
-        #time = timer() - begin_time
-        #print("Runtime = "+str(time)+" seconds")
-        #return [Xi,i+1,crit,G[c],time]
 
-      
-
-#x = Symbol('x',real = True,positive = True)
-#f = cos(x**2)-x+1
-
-#fixed = fixedPoint(10**-8,50,1,f,5)
-
-#fixed.Solve()
